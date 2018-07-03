@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="data\**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="4.0.1" />
+    <PackageReference Include="DotNet.Xdt" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.1.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.1.0-preview1-final" />
+    <DotNetCliToolReference Include="Microsoft.DotNet.Xdt.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\model\model.csproj" />
+    <ProjectReference Include="..\model.sqlite\model.sqlite.csproj" />
+    <ProjectReference Include="..\services\services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.*json" CopyToPublishDirectory="Always" CopyToOutputDirectory="Always" />
+  </ItemGroup>
+
+  <Target Name="ApplyXdtConfigTransform" BeforeTargets="_TransformWebConfig">
+    <PropertyGroup>
+      <_SourceWebConfig>$(MSBuildThisFileDirectory)web.config</_SourceWebConfig>
+      <_XdtTransform>$(MSBuildThisFileDirectory)web.$(Configuration).config</_XdtTransform>
+      <_TargetWebConfig>$(PublishDir)web.config</_TargetWebConfig>
+    </PropertyGroup>
+    <Exec
+        Command="dotnet transform-xdt --xml &quot;$(_SourceWebConfig)&quot; --transform &quot;$(_XdtTransform)&quot; --output &quot;$(_TargetWebConfig)&quot;"
+        Condition="Exists('$(_XdtTransform)')" />
+  </Target>
+</Project>

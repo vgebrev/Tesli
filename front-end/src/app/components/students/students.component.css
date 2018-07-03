@@ -1,0 +1,29 @@
+table {
+    width: 100%;
+    margin: 16px;
+}
+
+.table-container {
+    display:flex;
+    width: 100%;
+}
+
+.students-container {
+    display:flex;
+    justify-content: stretch;
+    flex-direction: column;
+}
+
+.mat-column-action {
+    width: 24px;
+}
+
+.mat-row {
+    cursor: pointer;
+}
+
+.mat-row:hover {
+    transition: background-color 0.2s ease-in;
+    background:rgba(0,0,0,.04)
+}
+

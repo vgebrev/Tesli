@@ -1,0 +1,29 @@
+<h3 mat-subheader>Student Details</h3>
+<mat-divider></mat-divider>
+<div class="student-detail-container">
+  <loading-indicator [isLoading]="isLoading"></loading-indicator>
+  <form class="student-detail-form" [formGroup]="studentForm" (ngSubmit)="save()">
+
+    <mat-form-field class="full-width">
+      <input matInput placeholder="First Name" formControlName="firstName" required>
+      <mat-error>First Name is required</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field class="full-width">      
+      <input matInput placeholder="Surame" formControlName="surname" required>
+      <mat-error>Surname is required</mat-error>
+    </mat-form-field>
+    
+    <div class="action-container">
+    
+      <button mat-button type="button" (click)="goBack()">Cancel</button>
+    
+      <button mat-raised-button color="primary" type="submit" 
+        [disabled]="studentForm.pristine || studentForm.invalid"
+        class="icon-button--shake">
+        <mat-icon>save</mat-icon><span>Save</span>
+      </button>
+    
+    </div>
+  </form>
+</div>

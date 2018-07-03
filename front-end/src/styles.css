@@ -1,0 +1,35 @@
+@import "~@angular/material/prebuilt-themes/purple-green.css";
+body { 
+    margin: 0; 
+    font-family: Roboto,"Helvetica Neue",sans-serif; 
+}
+
+.action-container {
+    display:flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.pad-right-1 { padding-right:8px; }
+.pad-right-2 { padding-right:16px; }
+.pad-right-3 { padding-right:24px; }
+.pad-right-4 { padding-right:32px; }
+
+@keyframes shake-animation {
+    10% { transform: rotate(4deg) translateX(3px); }
+    20% { transform: rotate(-4deg) translateX(-3px); }
+    30% { transform: rotate(4deg) translateX(3px); }
+    40% { transform: rotate(-4deg) translateX(-3px); }
+    50% { transform: rotate(2deg) translateX(2px); }
+    60% { transform: rotate(-2deg) translateX(-2px); }
+    70% { transform: rotate(2deg) translateX(2px); }
+    80% { transform: rotate(-2deg) translateX(-2px); }
+    90% { transform: translateX(1px); }
+    100% { transform: translateX(-1px); }
+  }
+  
+.icon-button--shake:hover .material-icons, 
+.icon-button--shake:focus .material-icons, 
+.icon-button--shake:active .material-icons {
+    animation: shake-animation 0.5s;
+}

@@ -1,0 +1,20 @@
+.student-detail-container {
+    display:flex;
+    justify-content: stretch;
+    flex-direction: column;
+}
+
+.student-detail-form {
+    margin: 24px;
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.full-width {
+    width: 100%;
+}
+
+button span {
+    padding-left: 12px;
+}
