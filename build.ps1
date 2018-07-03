@@ -1,13 +1,13 @@
-param (
-    [string]$config = "staging",
-    [string]$deployRoot = "E:\TesliDeployments\$config"
-)
+#FIXME: IIS currently needs manual configuration, which could be automated in this script.
 
+param (
+    [string]$config = "staging", #staging | production
+    [string]$deployRoot = "E:\TesliDeployments\$config" #\front-end and \back-end\api are copied\published under the deployRoot. 
+)
 
 Write-Output "Building $config";
 
 dotnet test .\back-end\tests\tests.csproj;
-
 Write-Output "dotnet test exited with code: $LastExitCode";
 if ($LastExitCode -ne 0) { exit $LastExitCode; }
 
@@ -18,7 +18,6 @@ if ($LastExitCode -ne 0) { Pop-Location; exit $LastExitCode; }
 Pop-Location;
 
 dotnet publish .\back-end\api --configuration $config --output $deployRoot\back-end\api;
-
 Write-Output "dotnet publish exited with code: $LastExitCode";
 if ($LastExitCode -ne 0) { exit $LastExitCode; }
 
