@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using Tesli.Model.Entities;
 
 namespace Tesli.Tests.Infrastructure.Model
@@ -8,9 +9,7 @@ namespace Tesli.Tests.Infrastructure.Model
     {
         public bool Equals(Student x, Student y)
         {
-            return x.Id == y.Id 
-                && x.FirstName == y.FirstName 
-                && x.Surname == y.Surname;
+            return JsonConvert.SerializeObject(x) == JsonConvert.SerializeObject(y);
         }
 
         public int GetHashCode(Student obj)

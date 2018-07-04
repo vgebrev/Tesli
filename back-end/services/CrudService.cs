@@ -29,7 +29,7 @@ namespace Tesli.Services
             var existingEntity = this.GetById(entity.Id);
             if (existingEntity != null)
             {
-                throw new ArgumentException($"Entity with Id {entity.Id} already exists", nameof(entity));
+                throw new ArgumentException($"{EntityName} with Id {entity.Id} already exists", nameof(entity));
             }
             this.unitOfWork.Start();
             this.repository.Insert(entity);
@@ -42,7 +42,7 @@ namespace Tesli.Services
             var entityToUpdate = this.GetById(id);
             if (entityToUpdate == null) 
             {
-                throw new ArgumentException($"Entity with Id {id} not found", nameof(id));
+                throw new ArgumentException($"{EntityName} with Id {id} not found", nameof(id));
             }
             this.unitOfWork.Start();
             mapper.Map(entity, entityToUpdate);
@@ -55,12 +55,14 @@ namespace Tesli.Services
             var entityToDelete = this.GetById(id);
             if (entityToDelete == null) 
             {
-                throw new ArgumentException($"Entity with Id {id} not found", nameof(id));
+                throw new ArgumentException($"{EntityName} with Id {id} not found", nameof(id));
             }
 
             this.unitOfWork.Start();
             this.repository.Delete(entityToDelete);
             this.unitOfWork.End();
         }
+
+        private string EntityName => typeof(TEntity).Name;
     }
 }

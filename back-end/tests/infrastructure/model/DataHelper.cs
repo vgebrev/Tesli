@@ -23,8 +23,10 @@ namespace Tesli.Tests.Infrastructure.Model
             {
                 var student = new Student
                 {
-                    FirstName = this.GetRandomString(minLength: 3, maxLength: 12),
-                    Surname = this.GetRandomString(minLength: 4, maxLength: 12),
+                    Name = this.GetRandomString(minLength: 4, maxLength: 15),
+                    Grade = (byte)new Random().Next(1, 13),
+                    School = this.GetRandomString(minLength: 4, maxLength: 12),
+                    ContactNumber = this.GetRandomString(minLength: 10, maxLength: 12)
                 };
                 this.dataContext.Students.Add(student);
             }

@@ -105,7 +105,7 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
             {
                 var repository = serviceProvider.GetService<IRepository<Student>>();
 
-                Assert.Throws<InvalidOperationException>(() => repository.Delete(new Student { FirstName = "Tom", Surname = "Jones"}));
+                Assert.Throws<InvalidOperationException>(() => repository.Delete(new Student { Name = "Tom Jones"}));
             });
         }
 
@@ -116,7 +116,7 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
             {
                 var repository = serviceProvider.GetService<IRepository<Student>>();
 
-                repository.Delete(new Student { Id = 1, FirstName = "Tom", Surname = "Jones"});
+                repository.Delete(new Student { Id = 1, Name = "Tom Jones"});
 
                 Assert.Throws<DbUpdateConcurrencyException>(() => dataContext.SaveChanges());
             });
@@ -150,8 +150,8 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
             {
                 var student = DataHelper.SeedStudents(serviceProvider, 1).Single();
                 var repository = serviceProvider.GetService<IRepository<Student>>();
-                student.FirstName = "Updated";
-                student.Surname = "Values";
+                student.Name = "Updated Values";
+                student.Grade = null;
 
                 repository.Update(student);
 
@@ -183,7 +183,7 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
         {
             this.fixture.DatabaseTest((dataContext, serviceProvider) => 
             {
-                var detachedStudent = new Student { Id = entityId, FirstName = "Dave", Surname = "Detachson" };
+                var detachedStudent = new Student { Id = entityId, Name = "Dave Detachson" };
                 var repository = serviceProvider.GetService<IRepository<Student>>();
 
                 repository.Update(detachedStudent);
@@ -198,7 +198,7 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
             this.fixture.DatabaseTest((dataContext, serviceProvider) => 
             {
                 DataHelper.SeedStudents(serviceProvider, 1);
-                var detachedStudent = new Student { Id = 1, FirstName = "Dave", Surname = "Detachson" };
+                var detachedStudent = new Student { Id = 1, Name = "Dave Detachson" };
                 var repository = serviceProvider.GetService<IRepository<Student>>();
                 
                 Assert.Throws<InvalidOperationException>(() => repository.Update(detachedStudent));
@@ -212,7 +212,7 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
         {
             this.fixture.DatabaseTest((dataContext, serviceProvider) => 
             {
-                var studentToInsert = new Student { Id = entityId, FirstName = "Dave", Surname = "Detachson" };
+                var studentToInsert = new Student { Id = entityId, Name = "Dave Detachson" };
                 var repository = serviceProvider.GetService<IRepository<Student>>();
                 
                 repository.Insert(studentToInsert);
@@ -230,7 +230,7 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
             this.fixture.DatabaseTest((dataContext, serviceProvider) => 
             {
                 DataHelper.SeedStudents(serviceProvider, 1);
-                var studentToInsert = new Student { Id = 1, FirstName = "Dave", Surname = "Detachson" };
+                var studentToInsert = new Student { Id = 1, Name = "Dave Detachson" };
                 var repository = serviceProvider.GetService<IRepository<Student>>();
                 
                 Assert.Throws<InvalidOperationException>(() => repository.Insert(studentToInsert));

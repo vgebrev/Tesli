@@ -12,8 +12,16 @@ namespace model.sqlite.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(nullable: true),
-                    Surname = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true),
+                    Grade = table.Column<byte>(nullable: true),
+                    School = table.Column<string>(nullable: true),
+                    ContactNumber = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(nullable: true),
+                    Goals = table.Column<string>(nullable: true),
+                    ParentName = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    ParentContactNumber = table.Column<string>(nullable: true),
+                    ParentEmail = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {

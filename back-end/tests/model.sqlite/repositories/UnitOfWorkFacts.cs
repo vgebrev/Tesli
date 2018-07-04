@@ -59,7 +59,7 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
         {
             this.fixture.DatabaseTest((dataContext, serviceProvider) => 
             {
-                var student = new Student { FirstName = "Some", Surname = "Student" };
+                var student = new Student { Name = "Some Student", Grade = 10 };
                 var unitOfWork = serviceProvider.GetService<IUnitOfWork>();
                 try 
                 {
@@ -83,7 +83,7 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
             this.fixture.DatabaseTest((dataContext, serviceProvider) => 
             {
                 var unitOfWork = serviceProvider.GetService<IUnitOfWork>();
-                var student = new Student { FirstName = "Preppy", Surname = "Pupil" };
+                var student = new Student { Name = "Preppy Pupil" };
                 dataContext.Students.Add(student);
                 dataContext.SaveChanges();
 
