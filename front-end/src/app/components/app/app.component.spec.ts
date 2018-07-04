@@ -13,7 +13,7 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let app: AppComponent;
   let compiled: HTMLElement;
-  const expectedRouterLinks = [{ link: "/students", icon: 'people', text: 'Students' }];
+  const expectedRouterLinks = [{ link: "/students", icon: 'people', text: 'Student Profiles' }];
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

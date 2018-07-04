@@ -26,9 +26,9 @@ describe('StudentsComponent', () => {
   let location: Location;
 
   const students: Student[] = [
-    { id: 1, firstName: 'First', surname: 'Student' },
-    { id: 2, firstName: 'Second', surname: 'Learner' },
-    { id: 3, firstName: 'Third', surname: 'Pupil' }
+    { id: 1, name: 'First Student' },
+    { id: 2, name: 'Second Learner' },
+    { id: 3, name: 'Third Pupil' }
   ];
 
   const routes: Routes = [

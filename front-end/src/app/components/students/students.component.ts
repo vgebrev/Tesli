@@ -12,7 +12,7 @@ import { of } from 'rxjs';
   styleUrls: ['./students.component.css']
 })
 export class StudentsComponent implements OnInit {
-  displayedColumns: string[] = ['firstName', 'surname', 'action'];
+  displayedColumns: string[] = ['name', 'email', 'contactNumber', 'school', 'grade', 'action'];
   students: Student[] = [];
   isLoading = true;
 

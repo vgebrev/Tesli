@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NoopAnimationsModule }  from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../modules/app-material.module';
 import { ActivatedRouteStub } from '../../../testing/activated-route-stub';
@@ -19,7 +19,19 @@ describe('StudentDetailComponent', () => {
   let fixture: ComponentFixture<StudentDetailComponent>;
   let debugElement: DebugElement;
   let activatedRoute: ActivatedRouteStub;
-  const testStudent = {id: 1, firstName: 'Test', surname: 'Student'};
+  const testStudent = {
+    id: 1, 
+    name: 'Test Student',
+    grade: 10,
+    school: 'Some school',
+    contactNumber: null,
+    email: 'test@domain.com',
+    goals: null,
+    parentName: 'Heli Copter',
+    address: null,
+    parentContactNumber: '1234567890',
+    parentEmail: null
+  };
 
   beforeEach(async(() => {
     const studentServiceSpy = createHeroServiceSpy();
@@ -62,7 +74,19 @@ describe('StudentDetailComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.studentForm.value).toEqual({id: 0, firstName: '', surname: ''});
+    expect(component.studentForm.value).toEqual({
+      id: 0, 
+      name: '', 
+      grade: null, 
+      school: null, 
+      contactNumber: null,
+      email: null, 
+      goals: null, 
+      parentName: null, 
+      address: null, 
+      parentContactNumber: null, 
+      parentEmail: null
+    });
     expect(component.studentForm.pristine).toBeTruthy();
   });
 
@@ -82,11 +106,12 @@ describe('StudentDetailComponent', () => {
     expect(service.getStudent).not.toHaveBeenCalled();
   }));
 
-  it('should get a student when routed to with an id', inject([StudentService], (service:StudentService) => {
+  it('should get a student when routed to with an id', fakeAsync(inject([StudentService], (service:StudentService) => {
       activatedRoute.setParamMap({id: 1});
+      tick();
       expect(service.getStudent).toHaveBeenCalledWith(1);
       expect(component.studentForm.value).toEqual(testStudent);
-  }));
+  })));
 
   it('should not save when form is invalid', () => {
     expect(component.studentForm.valid).toBeFalsy();
@@ -103,16 +128,19 @@ describe('StudentDetailComponent', () => {
   }); 
 
   it('should call save when the form is submitted', inject([StudentService, Location], (service:StudentService, location:Location) => {
+    const updatedStudent = Object.assign({}, testStudent);
+    updatedStudent.name = 'Updated Student';
     const formElement = debugElement.query(By.css('.student-detail-form'));
     activatedRoute.setParamMap({id: 1});
-    component.studentForm.controls['firstName'].setValue('Updated');
+    component.studentForm.controls['name'].setValue('Updated Student');
     formElement.triggerEventHandler('ngSubmit', null);  
-    expect(service.updateStudent).toHaveBeenCalledWith({ id: 1, firstName: 'Updated', surname: 'Student'});
+    expect(service.updateStudent).toHaveBeenCalledWith(updatedStudent);
     expect(location.back).toHaveBeenCalled();  
   }));
 
   it('should add a student when id is not set', inject([StudentService, Location], (service:StudentService, location:Location) => {
-      const newStudent = {id: null, firstName: 'Joe', surname: 'Soap'};
+      const newStudent = Object.assign({}, testStudent);
+      newStudent.id = null;
       component.studentForm.setValue(newStudent);
       expect(component.save()).toBeTruthy();
       expect(service.addStudent).toHaveBeenCalledWith(newStudent);
@@ -120,7 +148,7 @@ describe('StudentDetailComponent', () => {
   }));
 
   it('should update a student when id is set', inject([StudentService, Location], (service:StudentService, location:Location) => {
-    const updatedStudent = { id: 1, firstName: 'Joe', surname: 'Soap' };
+    const updatedStudent = Object.assign({}, testStudent);
     activatedRoute.setParamMap({id: 1});
     fixture.detectChanges();
     component.studentForm.setValue(updatedStudent);

@@ -28,15 +28,24 @@ export class StudentDetailComponent implements OnInit {
     this.route.paramMap.subscribe(
       params => { 
         this.id = +params.get('id');
-        this.getStudent(); }
+        this.getStudent(); 
+      }
     );
   }
 
   createForm() {
     this.studentForm = this.formBuilder.group({
       id: 0,
-      firstName: ['', Validators.required],
-      surname: ['', Validators.required]
+      name: ['', Validators.required],
+      grade: null,
+      school: null,
+      contactNumber: null,
+      email: null,
+      goals: null,
+      parentName: null,
+      address: null,
+      parentContactNumber: null,
+      parentEmail: null
     })
   }
 

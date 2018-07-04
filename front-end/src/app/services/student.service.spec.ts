@@ -6,8 +6,8 @@ import { environment } from '../../environments/environment';
 
 describe('StudentService', () => {
   const mockStudents = [
-    { id: 1, firstName: 'Alice', surname: 'Cooper' },
-    { id: 2, firstName: 'Bob', surname: 'Marley'} 
+    { id: 1, name: 'Alice Cooper' },
+    { id: 2, name: 'Bob Marley'} 
   ];
   const studentsUrl = `${environment.apiUrl}/student`;
 
@@ -76,7 +76,7 @@ describe('StudentService', () => {
   it('should PUT student data when updateStudent is called',
     async(
       inject([StudentService, HttpTestingController], (service: StudentService, api: HttpTestingController) => {
-        const student = { id: 1, firstName: 'Updated', surname: 'Student' };
+        const student = { id: 1, name: 'Updated Student' };
         service.updateStudent(student).subscribe();
         api.expectOne((request: HttpRequest<any>) => {
           return request.url === `${studentsUrl}/${student.id}` 
@@ -91,7 +91,7 @@ describe('StudentService', () => {
     async(
       inject([StudentService, HttpTestingController], (service: StudentService, api: HttpTestingController) => {
         const id = 0;
-        const student = { id: 0, firstName: 'New', surname: 'Student' };
+        const student = { id: 0, name: 'New Student' };
         service.addStudent(student).subscribe();
         api.expectOne((request: HttpRequest<any>) => {
           return request.url === `${studentsUrl}` 
@@ -118,7 +118,7 @@ describe('StudentService', () => {
   it('should DELETE a student when deleteStudent is called with a student object',
     async(
       inject([StudentService, HttpTestingController], (service: StudentService, api: HttpTestingController) => {
-        const student = { id: 1, firstName: 'New', surname: 'Student' };
+        const student = { id: 1, name: 'New Student' };
         service.deleteStudent(student).subscribe();
         api.expectOne((request: HttpRequest<any>) => {
           return request.url === `${studentsUrl}/${student.id}` 
