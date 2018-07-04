@@ -40,12 +40,12 @@ export class StudentDetailComponent implements OnInit {
       grade: null,
       school: null,
       contactNumber: null,
-      email: null,
+      email: [null, Validators.email],
       goals: null,
       parentName: null,
       address: null,
       parentContactNumber: null,
-      parentEmail: null
+      parentEmail: [null, Validators.email]
     })
   }
 
