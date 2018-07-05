@@ -1,5 +1,31 @@
 @import "~@angular/material/prebuilt-themes/purple-green.css";
 @import "~angular-calendar/scss/angular-calendar.scss";
+@import '~@angular/material/theming';
+@include mat-core();
+
+/*FIXME: Move this to its own theme file*/
+$app-primary: mat-palette($mat-purple, 700);
+$app-accent:  mat-palette($mat-green, A200, A100, A400);
+
+$app-theme: mat-light-theme($app-primary, $app-accent);
+
+@mixin button-toggle-theme($app-theme) {
+    $primary: map-get($app-theme, primary);
+    $accent: map-get($app-theme, accent);
+  
+    .mat-button-toggle {
+        background-color: mat-color($primary);
+        color: mat-color($primary, default-contrast);
+    }
+    
+    .mat-button-toggle-checked {
+        background-color: mat-color($accent);
+        color: mat-color($accent, default-contrast);
+    }
+}
+
+@include button-toggle-theme($app-theme);
+
 body { 
     margin: 0; 
     font-family: Roboto,"Helvetica Neue",sans-serif; 
