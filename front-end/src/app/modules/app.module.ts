@@ -3,6 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CalendarModule } from 'angular-calendar';
 
 import { AppComponent } from '../components/app/app.component';
 import { StudentsComponent } from '../components/students/students.component';
@@ -10,6 +11,8 @@ import { StudentDetailComponent } from '../components/student-detail/student-det
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './app-material.module';
 import { LoadingIndicatorComponent } from '../components/loading-indicator/loading-indicator.component';
+import { CalendarComponent } from '../components/calendar/calendar/calendar.component';
+import { CalendarHeaderComponent } from '../components/calendar/calendar-header/calendar-header.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +20,8 @@ import { LoadingIndicatorComponent } from '../components/loading-indicator/loadi
     StudentsComponent,
     StudentDetailComponent,
     LoadingIndicatorComponent,
+    CalendarComponent,
+    CalendarHeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,8 @@ import { LoadingIndicatorComponent } from '../components/loading-indicator/loadi
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    AppMaterialModule
+    AppMaterialModule,
+    CalendarModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

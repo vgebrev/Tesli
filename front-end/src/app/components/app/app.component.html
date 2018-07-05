@@ -1,6 +1,7 @@
 <mat-sidenav-container fullscreen>
     <mat-sidenav #start>
         <mat-nav-list>
+            <a mat-list-item (click)="start.close()" routerLink="/calendar" class="icon-button--shake"><mat-icon>today</mat-icon><span>Calendar</span></a>
             <a mat-list-item (click)="start.close()" routerLink="/students" class="icon-button--shake"><mat-icon>people</mat-icon><span>Student Profiles</span></a>
         </mat-nav-list>
     </mat-sidenav>

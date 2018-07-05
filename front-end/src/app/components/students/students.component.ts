@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
-  styleUrls: ['./students.component.css']
+  styleUrls: ['./students.component.scss']
 })
 export class StudentsComponent implements OnInit {
   displayedColumns: string[] = ['name', 'email', 'contactNumber', 'school', 'grade', 'action'];
