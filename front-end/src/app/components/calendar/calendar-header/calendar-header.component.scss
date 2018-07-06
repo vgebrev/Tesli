@@ -1,0 +1,20 @@
+.calendar-header-container {
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 16px;
+}
+
+button, mat-button-toggle { 
+    width: 120px;
+}
+
+mat-button-toggle
+{
+    text-align: center;
+}
+
+.calendar-date 
+{
+    font-weight: 700;
+    padding-top: 8px;
+}

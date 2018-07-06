@@ -1,7 +1,26 @@
-<div>
-  <mat-button-toggle-group #group="matButtonToggleGroup">
-    <mat-button-toggle color="primary" value="month">Month</mat-button-toggle>
-    <mat-button-toggle value="month">Week</mat-button-toggle>
-    <mat-button-toggle value="month">Day</mat-button-toggle>
-  </mat-button-toggle-group>
+<div class="calendar-header-container">
+  <div>
+    <button  mat-raised-button color="primary" class="icon-button--shake">
+      <mat-icon>navigate_before</mat-icon>
+      Previous
+    </button>
+    <button  mat-raised-button color="secondary" class="icon-button--shake">
+      <mat-icon>today</mat-icon>
+        Today
+      </button>
+    <button  mat-raised-button color="primary" class="icon-button--shake">
+      Next
+      <mat-icon>navigate_next</mat-icon>
+    </button>
+  </div>
+  <div>
+    <div class="calendar-date">{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</div>
+  </div>
+  <div>
+    <mat-button-toggle-group>
+      <mat-button-toggle value="month">Month</mat-button-toggle>
+      <mat-button-toggle value="week">Week</mat-button-toggle>
+      <mat-button-toggle value="day">Day</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
 </div>
