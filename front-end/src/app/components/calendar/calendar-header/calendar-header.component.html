@@ -1,14 +1,25 @@
 <div class="calendar-header-container">
   <div>
-    <button  mat-raised-button color="primary" class="icon-button--shake">
+    <button  mat-raised-button color="primary" class="icon-button--shake"
+      mwlCalendarPreviousView
+      [view]="view"
+      [(viewDate)]="viewDate"
+      (viewDateChange)="viewDateChange.next(viewDate)">
       <mat-icon>navigate_before</mat-icon>
       Previous
     </button>
-    <button  mat-raised-button color="secondary" class="icon-button--shake">
+    <button  mat-raised-button color="secondary" class="icon-button--shake" 
+      mwlCalendarToday
+      [(viewDate)]="viewDate"
+      (viewDateChange)="viewDateChange.next(viewDate)">
       <mat-icon>today</mat-icon>
         Today
       </button>
-    <button  mat-raised-button color="primary" class="icon-button--shake">
+    <button  mat-raised-button color="primary" class="icon-button--shake"
+      mwlCalendarNextView
+      [view]="view"
+      [(viewDate)]="viewDate"
+      (viewDateChange)="viewDateChange.next(viewDate)">
       Next
       <mat-icon>navigate_next</mat-icon>
     </button>
@@ -18,9 +29,9 @@
   </div>
   <div>
     <mat-button-toggle-group>
-      <mat-button-toggle value="month">Month</mat-button-toggle>
-      <mat-button-toggle value="week">Week</mat-button-toggle>
-      <mat-button-toggle value="day">Day</mat-button-toggle>
+      <mat-button-toggle value="month" checked (click)="viewChange.emit('month')">Month</mat-button-toggle>
+      <mat-button-toggle value="week" (click)="viewChange.emit('week')">Week</mat-button-toggle>
+      <mat-button-toggle value="day" (click)="viewChange.emit('day')">Day</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
 </div>
