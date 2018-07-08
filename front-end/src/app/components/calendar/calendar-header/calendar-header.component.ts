@@ -21,5 +21,5 @@ export class CalendarHeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  
 }
