@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CalendarHeaderComponent } from './calendar-header.component';
 import { Directive, Input, Output, HostListener, EventEmitter, Pipe, PipeTransform } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AppMaterialModule } from 'src/app/modules/app-material.module';
+import { AppMaterialModule } from '../../../modules/app-material.module';
 
 @Directive({
   selector: '[mwlCalendarPreviousView]'
