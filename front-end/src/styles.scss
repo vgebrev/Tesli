@@ -112,6 +112,10 @@ body {
             color: mat-color($primary, A100);
         }
         
+        .cal-cell.cal-event-highlight {
+            background-color: mat-color($primary, 600) !important;
+        }
+
         .cal-day-cell.cal-today.cal-open, 
         .cal-day-cell.cal-today {
             background-color:mat-color($primary);
@@ -162,6 +166,7 @@ body {
         }
 
         .cal-event {
+            background-color: mat-color($primary, 600);
             color: mat-color($primary, default-contrast);
             border: 1px solid mat-color($primary, lighter);
         }
@@ -197,6 +202,7 @@ body {
         }
 
         .cal-event {
+            background-color: mat-color($primary, 600);
             color: mat-color($primary, default-contrast);
             border: 1px solid mat-color($primary, lighter);
         }

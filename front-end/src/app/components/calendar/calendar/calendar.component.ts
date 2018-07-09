@@ -13,11 +13,7 @@ export class CalendarComponent implements OnInit {
   events: CalendarEvent[] = [
     {
       title: 'An event',
-      start: new Date(2018, 6, 9, 0, 0), 
-      color: {
-        primary: '',
-        secondary: '#8e24aa' //This would create work if the theme needs to be changed, but the calendar component doesn't allow pure-css event styling
-      },
+      start: new Date(2018, 6, 8, 0, 0), 
       draggable: true,
       resizable: {
         beforeStart: true,
@@ -27,10 +23,6 @@ export class CalendarComponent implements OnInit {
     {
       title: 'Today event',
       start: new Date(), 
-      color: {
-        primary: '',
-        secondary: '#8e24aa' //This would create work if the theme needs to be changed, but the calendar component doesn't allow pure-css event styling
-      },
       draggable: true,
       resizable: {
         beforeStart: true,
