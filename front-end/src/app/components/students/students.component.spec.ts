@@ -120,7 +120,6 @@ describe('StudentsComponent', () => {
   it('should handle service deleteStudent errors', inject([StudentService], (service: StudentService) => {
     var erroringService = service as any;
     erroringService.deleteStudent.and.callFake(() => throwError("service error"));
-    component.students = students;
 
     component.delete(component.students[0]);
     expect(component.students).toEqual(students);
