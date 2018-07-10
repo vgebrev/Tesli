@@ -32,12 +32,25 @@ export class StudentsComponent implements OnInit {
   }
 
   delete(student: Student): void {
+    let isInErrorState = false;
     this.isLoading = true;
     this.studentService.deleteStudent(student)
       .pipe(
         tap(() => this.isLoading = false),
-        catchError(() => { this.isLoading = false; return of([]) }),
-      ).subscribe(() => this.students = this.students.filter(s => s !== student));
+        catchError(() => { 
+          this.isLoading = false; 
+          isInErrorState = true; 
+          return of({}) 
+        }),
+      ).subscribe(() => {
+        //TODO: I don't think this is the correct way to prevent student removal on error. 
+        //I feel the deleted student (or null if error'd) should be passed to subscribe
+        if (!isInErrorState) {
+          this.students = this.students.filter(s => s !== student)
+        }
+      }); 
+
+      
   }
 
   showStudentDetail(student: Student) {

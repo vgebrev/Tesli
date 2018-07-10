@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angu
 
 import { StudentsComponent } from './students.component';
 import { Component, Input, DebugElement } from '@angular/core';
-import { of } from 'rxjs';
+import { of, throwError, Observable } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../modules/app-material.module';
 import { StudentService } from '../../services/student.service';
@@ -99,6 +99,15 @@ describe('StudentsComponent', () => {
     expect(component.students).toEqual(students);
   }));
 
+  it('should handle service getStudents errors', inject([StudentService], (service: StudentService) => {
+    var erroringService = service as any;
+    erroringService.getStudents.and.callFake(() => throwError("service error"));
+    component.students = students;
+
+    component.getStudents();
+    expect(component.students).toEqual([]);
+  }));
+
   it('should remove a student when deleteStudent is called', inject([StudentService], (service: StudentService) => {
     const student = students[1];
     component.delete(student);
@@ -106,6 +115,15 @@ describe('StudentsComponent', () => {
     expect(service.deleteStudent).toHaveBeenCalledWith(student);
     expect(component.students.length).toBe(2);
     expect(component.students.filter(s => s.id === student.id).length).toBe(0);
+  }));
+
+  it('should handle service deleteStudent errors', inject([StudentService], (service: StudentService) => {
+    var erroringService = service as any;
+    erroringService.deleteStudent.and.callFake(() => throwError("service error"));
+    component.students = students;
+
+    component.delete(component.students[0]);
+    expect(component.students).toEqual(students);
   }));
 
   it('should navigate to student-detail with no id when Add New Student is clicked', fakeAsync(() => {
