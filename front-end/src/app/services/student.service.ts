@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Student } from '../models/student';
@@ -19,7 +19,7 @@ export class StudentService {
 
   getStudents(): Observable<Student[]> {
     return this.http.get<Student[]>(this.studentsUrl).pipe(
-      catchError(this.handleError('getStudents', [])));
+      catchError(this.handleError<Student[]>('getStudents')));
   }
 
   getStudent(id: number): Observable<Student> {
@@ -50,10 +50,11 @@ export class StudentService {
     );
   }
 
-  private handleError<T> (operation: string, result?: T) {
+  private handleError<T> (operation: string) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} error: ${error}`);
-      return of(result as T);
+      console.log(`${operation} error:`);
+      console.error(error);
+      return throwError(error);
     };
   }
 }

@@ -5,6 +5,7 @@ import { Student } from '../../models/student';
 import { StudentService } from '../../services/student.service';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-students',
@@ -16,7 +17,7 @@ export class StudentsComponent implements OnInit {
   students: Student[] = [];
   isLoading = true;
 
-  constructor(private studentService: StudentService, private router: Router) { }
+  constructor(private studentService: StudentService, private router: Router, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.getStudents();
@@ -27,7 +28,16 @@ export class StudentsComponent implements OnInit {
     this.studentService.getStudents()
       .pipe(
         tap(() => this.isLoading = false),
-        catchError(() => { this.isLoading = false; return of([]) }),
+        catchError(() => { 
+          this.isLoading = false; 
+          this.notificationService.notification$.next({
+            message: 'Unable to load students', 
+            action: 'Retry',
+            config: { duration: 5000 },
+            callback: () => this.getStudents()
+          });
+          return of([]) 
+        })
       ).subscribe(students => this.students = students);
   }
 
@@ -40,11 +50,16 @@ export class StudentsComponent implements OnInit {
         catchError(() => { 
           this.isLoading = false; 
           isInErrorState = true; 
+          this.notificationService.notification$.next({
+            message: 'Unable to delete student', 
+            action: 'Retry',
+            config: { duration: 5000 },
+            callback: () => this.delete(student)
+          });
           return of({}) 
         }),
       ).subscribe(() => {
-        //TODO: I don't think this is the correct way to prevent student removal on error. 
-        //I feel the deleted student (or null if error'd) should be passed to subscribe
+        //TODO: I don't think this is the correct way to prevent student removal on error. Learn some RxJS
         if (!isInErrorState) {
           this.students = this.students.filter(s => s !== student)
         }

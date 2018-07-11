@@ -3,6 +3,8 @@ import { HttpClientModule, HttpRequest, HttpParams, HttpClient } from '@angular/
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { StudentService } from './student.service';
 import { environment } from '../../environments/environment';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 describe('StudentService', () => {
   const mockStudents = [
@@ -62,13 +64,21 @@ describe('StudentService', () => {
       inject([StudentService, HttpTestingController], (service: StudentService, api: HttpTestingController) => {
         const id = 999;
         service.getStudent(id)
-          .subscribe((student) => {
+          .pipe(
+            catchError((error) => 
+            {
+              expect(error.name).toEqual('HttpErrorResponse');
+              expect(error.status).toEqual(404);
+              expect(error.statusText).toEqual('Not found');
+              return of(null);
+            })
+          ).subscribe((student) => {
             expect(student).toBeFalsy();
           });
 
-        api.expectOne((request: HttpRequest<any>) => {
-            return request.url === `${studentsUrl}/${id}` && request.method === 'GET';
-        }).flush(null, { status: 404, statusText: 'Not found' });
+         api.expectOne((request: HttpRequest<any>) => {
+             return request.url === `${studentsUrl}/${id}` && request.method === 'GET';
+         }).flush(null, { status: 404, statusText: 'Not found' });
       })
     )
   );
