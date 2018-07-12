@@ -23,6 +23,11 @@ $theme: mat-dark-theme($primary, $accent);
         font-size: 14px;
         font-weight: 500;
     }
+
+    .mat-button-toggle-label-content {
+        width: 100%;
+        padding: 0;
+    }
 }
 
 @include button-toggle-theme($theme);
