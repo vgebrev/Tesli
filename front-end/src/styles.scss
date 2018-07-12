@@ -36,3 +36,8 @@ body {
 .icon-button--shake:active .material-icons {
     animation: shake-animation 0.5s;
 }
+
+mat-button-toggle .mat-button-toggle-label-content {
+    width: 100%;
+    padding: 0;
+}

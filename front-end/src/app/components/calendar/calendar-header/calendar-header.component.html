@@ -28,7 +28,7 @@
     <div class="calendar-date">{{ viewDate | calendarDate:(view + 'ViewTitle'):locale }}</div>
   </div>
   <div>
-    <mat-button-toggle-group (change)="viewChange.emit(value)">
+    <mat-button-toggle-group (change)="onViewToggleChanged($event)">
       <mat-button-toggle value="month" checked>Month</mat-button-toggle>
       <mat-button-toggle value="week">Week</mat-button-toggle>
       <mat-button-toggle value="day">Day</mat-button-toggle>
