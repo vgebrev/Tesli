@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Student } from '../../models/student';
 import { StudentService } from '../../services/student.service';
 import { tap, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({
@@ -24,6 +24,7 @@ export class StudentsComponent implements OnInit {
   }
 
   getStudents(): void {
+    let order = 0;
     this.isLoading = true;
     this.studentService.getStudents()
       .pipe(
@@ -42,30 +43,23 @@ export class StudentsComponent implements OnInit {
   }
 
   delete(student: Student): void {
-    let isInErrorState = false;
     this.isLoading = true;
     this.studentService.deleteStudent(student)
       .pipe(
         tap(() => this.isLoading = false),
-        catchError(() => { 
+        catchError((error) => { 
           this.isLoading = false; 
-          isInErrorState = true; 
           this.notificationService.notification$.next({
             message: 'Unable to delete student', 
             action: 'Retry',
             config: { duration: 5000 },
             callback: () => this.delete(student)
           });
-          return of({}) 
+          return throwError(error);
         }),
       ).subscribe(() => {
-        //TODO: I don't think this is the correct way to prevent student removal on error. Learn some RxJS
-        if (!isInErrorState) {
-          this.students = this.students.filter(s => s !== student)
-        }
-      }); 
-
-      
+        this.students = this.students.filter(s => s !== student)
+      }, (error) => {});
   }
 
   showStudentDetail(student: Student) {

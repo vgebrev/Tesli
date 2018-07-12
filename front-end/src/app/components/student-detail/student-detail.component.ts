@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { catchError, tap } from 'rxjs/operators';
+import { of, throwError } from 'rxjs';
 
 import { StudentService }  from '../../services/student.service';
-import { catchError, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-student-detail',
@@ -20,6 +21,7 @@ export class StudentDetailComponent implements OnInit {
   constructor( 
     private route: ActivatedRoute,
     private studentService: StudentService,
+    private notificationService: NotificationService,
     private location: Location,
     private formBuilder: FormBuilder) { }
 
@@ -55,8 +57,17 @@ export class StudentDetailComponent implements OnInit {
     this.studentService.getStudent(this.id)
       .pipe(
         tap(() => this.isLoading = false),
-        catchError(() => { this.isLoading = false; return of([]) }),
-      ).subscribe(student => this.studentForm.setValue(student));
+        catchError((error) => { 
+          this.isLoading = false; 
+          this.notificationService.notification$.next({
+            message: 'Unable to load student',
+            action: 'Retry',
+            config: { duration : 5000 },
+            callback: () => this.getStudent()
+          });
+          return throwError(error);
+        }),
+      ).subscribe(student => this.studentForm.setValue(student), () => {});
   }
 
   goBack() {
@@ -72,8 +83,17 @@ export class StudentDetailComponent implements OnInit {
     serviceAction
       .pipe(
         tap(() => this.isLoading = false),
-        catchError(() => { this.isLoading = false; return of([]) }),
-      ).subscribe(() => this.goBack());
+        catchError((error) => { 
+          this.isLoading = false; 
+          this.notificationService.notification$.next({
+            message: 'Unable to save student',
+            action: 'Retry',
+            config: { duration : 5000 },
+            callback: () => this.save()
+          });
+          return throwError(error); 
+        }),
+      ).subscribe(() => this.goBack(), () => {});
     return true;
   }
 }

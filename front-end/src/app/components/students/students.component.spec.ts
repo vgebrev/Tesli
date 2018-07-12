@@ -11,6 +11,7 @@ import { Router, Routes } from '@angular/router';
 import { Location } from '@angular/common';
 import { Student } from '../../models/student';
 import { By } from '@angular/platform-browser';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({selector: 'loading-indicator', template: ''})
 class LoadingIndicatorStubComponent { @Input() isLoading : boolean; }
@@ -99,14 +100,27 @@ describe('StudentsComponent', () => {
     expect(component.students).toEqual(students);
   }));
 
-  it('should handle service getStudents errors', inject([StudentService], (service: StudentService) => {
+  it('should handle service getStudents errors', inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
     var erroringService = service as any;
     erroringService.getStudents.and.callFake(() => throwError("service error"));
     component.students = students;
-
     component.getStudents();
     expect(component.students).toEqual([]);
   }));
+
+  it('should send getStudents error notification and retry when the notification callback is invoked', async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+    const erroringService = service as any;
+    erroringService.getStudents.and.callFake(() => throwError("service error"));
+    notificationService.notification$.subscribe((notification) => {
+      expect(notification.message).toBe('Unable to load students');
+      expect(notification.action).toBe('Retry');
+      expect(notification.config).toEqual({ duration: 5000});
+      const retryGetStudents = spyOn(component, 'getStudents');
+      notification.callback();
+      expect(retryGetStudents).toHaveBeenCalledTimes(1);
+    });
+    component.getStudents();
+  })));
 
   it('should remove a student when deleteStudent is called', inject([StudentService], (service: StudentService) => {
     const student = students[1];
@@ -124,6 +138,21 @@ describe('StudentsComponent', () => {
     component.delete(component.students[0]);
     expect(component.students).toEqual(students);
   }));
+
+  it('should send delete error notification and retry when the notification callback is invoked', async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+    const studentToDelete = component.students[0];
+    const erroringService = service as any;
+    erroringService.deleteStudent.and.callFake(() => throwError("service error"));
+    notificationService.notification$.subscribe((notification) => {
+      expect(notification.message).toBe('Unable to delete student');
+      expect(notification.action).toBe('Retry');
+      expect(notification.config).toEqual({ duration: 5000});
+      const retryDelete = spyOn(component, 'delete');
+      notification.callback();
+      expect(retryDelete).toHaveBeenCalledWith(studentToDelete);
+    });
+    component.delete(studentToDelete);
+  })));
 
   it('should navigate to student-detail with no id when Add New Student is clicked', fakeAsync(() => {
     const addNewStudentLink = debugElement.queryAll(By.css('.action-container a'))[0];

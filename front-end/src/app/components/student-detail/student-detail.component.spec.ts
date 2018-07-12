@@ -8,8 +8,9 @@ import { Location } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { StudentService } from '../../services/student.service';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({selector: 'loading-indicator', template: ''})
 class LoadingIndicatorStubComponent { @Input() isLoading : boolean; }
@@ -156,4 +157,40 @@ describe('StudentDetailComponent', () => {
     expect(service.updateStudent).toHaveBeenCalledWith(updatedStudent);
     expect(location.back).toHaveBeenCalled();
   }));
+
+  it('should send getStudent error notification and retry when the notification callback is invoked', async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+    const erroringService = service as any;
+    erroringService.getStudent.and.callFake(() => throwError("service error"));
+    notificationService.notification$.subscribe((notification) => {
+      expect(notification.message).toBe('Unable to load student');
+      expect(notification.action).toBe('Retry');
+      expect(notification.config).toEqual({ duration: 5000});
+      const retryGetStudent = spyOn(component, 'getStudent');
+      notification.callback();
+      expect(retryGetStudent).toHaveBeenCalled();
+    });
+    activatedRoute.setParamMap({id: 1});
+    fixture.detectChanges();
+    component.getStudent();
+  })));
+
+  it('should send save error notification and retry when the notification callback is invoked', async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+    const erroringService = service as any;
+    erroringService.addStudent.and.callFake(() => throwError("service error"));
+
+    const newStudent = Object.assign({}, testStudent);
+    newStudent.id = null;
+    component.studentForm.setValue(newStudent);
+
+    notificationService.notification$.subscribe((notification) => {
+      expect(notification.message).toBe('Unable to save student');
+      expect(notification.action).toBe('Retry');
+      expect(notification.config).toEqual({ duration: 5000});
+      const retrySave = spyOn(component, 'save');
+      notification.callback();
+      expect(retrySave).toHaveBeenCalled();
+    });
+    fixture.detectChanges();
+    component.save();
+  })));
 });
