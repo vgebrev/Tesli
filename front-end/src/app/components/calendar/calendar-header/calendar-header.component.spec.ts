@@ -44,9 +44,10 @@ describe('CalendarHeaderComponent', () => {
 
   it('should change view when toggle button is clicked', () => {
     const toggleButtons = fixture.debugElement.queryAll(By.css('mat-button-toggle'));
+    let selectedView: string;
+    component.viewChange.subscribe((view) => selectedView = view);
+
     toggleButtons.forEach((toggleButtonDebugElement) => {
-      let selectedView: string;
-      component.viewChange.subscribe((view) => selectedView = view);
       const nativeElement = toggleButtonDebugElement.nativeElement;
       nativeElement.click();
       expect(selectedView).toBe(nativeElement.value);
