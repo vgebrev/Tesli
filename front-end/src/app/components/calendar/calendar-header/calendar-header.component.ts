@@ -22,6 +22,10 @@ export class CalendarHeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  onViewDateChanged(value) {
+    this.viewDateChange.emit(value);
+  }
+
   onViewToggleChanged({value}) {
     this.viewChange.emit(value);
   }

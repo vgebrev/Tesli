@@ -1,25 +1,25 @@
 <div class="calendar-header-container">
   <div>
-    <button  mat-raised-button color="primary" class="icon-button--shake"
+    <button mat-raised-button color="primary" class="icon-button--shake"
       mwlCalendarPreviousView
       [view]="view"
       [(viewDate)]="viewDate"
-      (viewDateChange)="viewDateChange.next(viewDate)">
+      (viewDateChange)="onViewDateChanged(viewDate)">
       <mat-icon>navigate_before</mat-icon>
       Previous
     </button>
-    <button  mat-raised-button color="secondary" class="icon-button--shake" 
+    <button mat-raised-button color="secondary" class="icon-button--shake" 
       mwlCalendarToday
       [(viewDate)]="viewDate"
-      (viewDateChange)="viewDateChange.next(viewDate)">
+      (viewDateChange)="onViewDateChanged(viewDate)">
       <mat-icon>today</mat-icon>
         Today
       </button>
-    <button  mat-raised-button color="primary" class="icon-button--shake"
+    <button mat-raised-button color="primary" class="icon-button--shake"
       mwlCalendarNextView
       [view]="view"
       [(viewDate)]="viewDate"
-      (viewDateChange)="viewDateChange.next(viewDate)">
+      (viewDateChange)="onViewDateChanged(viewDate)">
       Next
       <mat-icon>navigate_next</mat-icon>
     </button>
