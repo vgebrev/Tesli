@@ -1,46 +1,18 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Subject } from 'rxjs';
-import { CalendarEventTimesChangedEvent } from 'angular-calendar';
+import { Component, Input } from '@angular/core';
 import { CalendarComponent } from './calendar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
+import {
+  CalendarMonthViewStubComponent,
+  CalendarWeekViewStubComponent,
+  CalendarDayViewStubComponent
+} from '../../../../testing/angular-calendar.stubs';
 
 @Component({ selector: 'app-calendar-header', template: ''})
-class CalendarHeaderComponentStub {
+class CalendarHeaderStubComponent {
   @Input() view: string;
   @Input() viewDate: Date;
-}
-
-@Component({selector: 'mwl-calendar-month-view', template: ''})
-class CalendarMonthViewComponentStub {  
-  @Input() viewDate: Date;
-  @Input() events = []; 
-  @Input() activeDayIsOpen: boolean = false;
-  @Input() refresh: Subject<any>;
-  @Output()
-  eventTimesChanged = new EventEmitter<CalendarEventTimesChangedEvent>();
-}
-
-@Component({selector: 'mwl-calendar-week-view', template: ''})
-class CalendarWeekViewComponentStub {  
-  @Input() viewDate: Date;
-  @Input() events = []; 
-  @Input() refresh: Subject<any>;
-  @Output()
-  eventTimesChanged = new EventEmitter<CalendarEventTimesChangedEvent>();
-}
-
-@Component({selector: 'mwl-calendar-day-view', template: ''})
-class CalendarDayViewComponentStub {  
-  @Input() viewDate: Date;
-  @Input() events = []; 
-  @Input() refresh: Subject<any>;
-  @Input() hourSegments: number = 4;
-  @Input() dayStartHour: number = 0;
-  @Input() dayEndHour: number = 23;
-  @Output()
-  eventTimesChanged = new EventEmitter<CalendarEventTimesChangedEvent>();
 }
 
 describe('CalendarComponent', () => {
@@ -53,12 +25,12 @@ describe('CalendarComponent', () => {
         NoopAnimationsModule,
         AppMaterialModule
       ],
-      declarations: [ 
+      declarations: [
         CalendarComponent,
-        CalendarHeaderComponentStub,
-        CalendarMonthViewComponentStub,
-        CalendarWeekViewComponentStub,
-        CalendarDayViewComponentStub
+        CalendarHeaderStubComponent,
+        CalendarMonthViewStubComponent,
+        CalendarWeekViewStubComponent,
+        CalendarDayViewStubComponent
       ]
     })
     .compileComponents();

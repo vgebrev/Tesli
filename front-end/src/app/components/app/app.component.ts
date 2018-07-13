@@ -12,12 +12,12 @@ export class AppComponent {
   title = 'Tesli';
   constructor(private notificationService: NotificationService, public snackBar: MatSnackBar) {
     this.notificationService.notification$.subscribe((notification: Notification) => {
-      var snackBarRef = this.snackBar.open(notification.message, notification.action, notification.config);
-      snackBarRef.onAction().subscribe(() => { 
-        if (notification.callback) { 
-          notification.callback(); 
+      const snackBarRef = this.snackBar.open(notification.message, notification.action, notification.config);
+      snackBarRef.onAction().subscribe(() => {
+        if (notification.callback) {
+          notification.callback();
         }
       });
-    })
+    });
   }
 }

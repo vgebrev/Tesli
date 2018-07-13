@@ -10,24 +10,24 @@ import { addHours, isSameMonth, isSameDay, parse, format } from 'date-fns';
 })
 export class CalendarComponent implements OnInit {
 
-  view: string = 'month';
+  view = 'month';
   viewDate: Date = new Date();
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen = true;
   refresh: Subject<any> = new Subject();
   events: CalendarEvent[] = [
     {
       title: 'An event',
-      start: new Date(2018, 6, 8, 10, 0), 
+      start: new Date(2018, 6, 8, 10, 0),
       end: addHours(new Date(2018, 6, 8, 10, 0), 1),
       draggable: true,
       resizable: {
         beforeStart: true,
         afterEnd: true
       }
-    },     
+    },
     {
       title: 'Today event',
-      start: parse(format(this.viewDate, 'YYYY-MM-DD 15:00')), 
+      start: parse(format(this.viewDate, 'YYYY-MM-DD 15:00')),
       end: addHours(parse(format(this.viewDate, 'YYYY-MM-DD 15:00')), 1),
       draggable: true,
       resizable: {
@@ -39,10 +39,10 @@ export class CalendarComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.refresh.subscribe((newDate) => {
       this.viewDate = newDate;
-    })
+    });
   }
 
   onDayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {

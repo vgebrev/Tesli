@@ -22,7 +22,7 @@ describe('LoadingIndicatorComponent', () => {
     fixture.detectChanges();
     nativeElement = fixture.nativeElement;
   });
-  
+
   afterAll(() => {
     component.isLoading = false;
     fixture.detectChanges();
@@ -48,7 +48,6 @@ describe('LoadingIndicatorComponent', () => {
   it('should remove spinner overlay when isLoading changes from true to false', () => {
     component.isLoading = true;
     fixture.detectChanges();
-    
     component.isLoading = false;
     fixture.detectChanges();
 

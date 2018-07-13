@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, tap } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
 
-import { StudentService }  from '../../services/student.service';
+import { StudentService } from '../../services/student.service';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({
@@ -16,9 +16,9 @@ import { NotificationService } from '../../services/notification.service';
 export class StudentDetailComponent implements OnInit {
   studentForm: FormGroup;
   isLoading = false;
-  private id:number;
+  private id: number;
 
-  constructor( 
+  constructor(
     private route: ActivatedRoute,
     private studentService: StudentService,
     private notificationService: NotificationService,
@@ -28,9 +28,9 @@ export class StudentDetailComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.route.paramMap.subscribe(
-      params => { 
+      params => {
         this.id = +params.get('id');
-        this.getStudent(); 
+        this.getStudent();
       }
     );
   }
@@ -48,17 +48,19 @@ export class StudentDetailComponent implements OnInit {
       address: null,
       parentContactNumber: null,
       parentEmail: [null, Validators.email]
-    })
+    });
   }
 
   getStudent() {
-    if (!this.id) return;
+    if (!this.id) {
+      return;
+    }
     this.isLoading = true;
     this.studentService.getStudent(this.id)
       .pipe(
         tap(() => this.isLoading = false),
-        catchError((error) => { 
-          this.isLoading = false; 
+        catchError((error) => {
+          this.isLoading = false;
           this.notificationService.notification$.next({
             message: 'Unable to load student',
             action: 'Retry',
@@ -75,23 +77,25 @@ export class StudentDetailComponent implements OnInit {
   }
 
   save() {
-    if (!this.studentForm.valid) return false;
+    if (!this.studentForm.valid) {
+      return false;
+    }
     const student = this.studentForm.value;
-    const serviceAction = student.id ? 
+    const serviceAction = student.id ?
       this.studentService.updateStudent(this.studentForm.value) : this.studentService.addStudent(this.studentForm.value);
     this.isLoading = true;
     serviceAction
       .pipe(
         tap(() => this.isLoading = false),
-        catchError((error) => { 
-          this.isLoading = false; 
+        catchError((error) => {
+          this.isLoading = false;
           this.notificationService.notification$.next({
             message: 'Unable to save student',
             action: 'Retry',
             config: { duration : 5000 },
             callback: () => this.save()
           });
-          return throwError(error); 
+          return throwError(error);
         }),
       ).subscribe(() => this.goBack(), () => {});
     return true;

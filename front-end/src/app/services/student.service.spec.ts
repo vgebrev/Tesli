@@ -1,5 +1,5 @@
 import { TestBed, inject, async } from '@angular/core/testing';
-import { HttpClientModule, HttpRequest, HttpParams, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { StudentService } from './student.service';
 import { environment } from '../../environments/environment';
@@ -9,7 +9,7 @@ import { of } from 'rxjs';
 describe('StudentService', () => {
   const mockStudents = [
     { id: 1, name: 'Alice Cooper' },
-    { id: 2, name: 'Bob Marley'} 
+    { id: 2, name: 'Bob Marley'}
   ];
   const studentsUrl = `${environment.apiUrl}/student`;
 
@@ -30,7 +30,7 @@ describe('StudentService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should GET a list of students when getStudents() is called', 
+  it('should GET a list of students when getStudents() is called',
     async(
       inject([StudentService, HttpTestingController], (service: StudentService, api: HttpTestingController) => {
         service.getStudents().subscribe((students) => {
@@ -44,7 +44,7 @@ describe('StudentService', () => {
     )
   );
 
-  it('should GET a student when getStudent(id: number) is called', 
+  it('should GET a student when getStudent(id: number) is called',
     async(
       inject([StudentService, HttpTestingController], (service: StudentService, api: HttpTestingController) => {
         const id = 1;
@@ -59,14 +59,13 @@ describe('StudentService', () => {
     )
   );
 
-  it('should return 404 when getStudent(id: number) is called with invalid id', 
+  it('should return 404 when getStudent(id: number) is called with invalid id',
     async(
       inject([StudentService, HttpTestingController], (service: StudentService, api: HttpTestingController) => {
         const id = 999;
         service.getStudent(id)
           .pipe(
-            catchError((error) => 
-            {
+            catchError((error) => {
               expect(error.name).toEqual('HttpErrorResponse');
               expect(error.status).toEqual(404);
               expect(error.statusText).toEqual('Not found');
@@ -89,8 +88,8 @@ describe('StudentService', () => {
         const student = { id: 1, name: 'Updated Student' };
         service.updateStudent(student).subscribe();
         api.expectOne((request: HttpRequest<any>) => {
-          return request.url === `${studentsUrl}/${student.id}` 
-            && request.method === 'PUT' 
+          return request.url === `${studentsUrl}/${student.id}`
+            && request.method === 'PUT'
             && request.body === student;
         });
       })
@@ -104,8 +103,8 @@ describe('StudentService', () => {
         const student = { id: 0, name: 'New Student' };
         service.addStudent(student).subscribe();
         api.expectOne((request: HttpRequest<any>) => {
-          return request.url === `${studentsUrl}` 
-            && request.method === 'POST' 
+          return request.url === `${studentsUrl}`
+            && request.method === 'POST'
             && request.body === student;
         });
       })
@@ -118,8 +117,8 @@ describe('StudentService', () => {
         const id = 1;
         service.deleteStudent(id).subscribe();
         api.expectOne((request: HttpRequest<any>) => {
-          return request.url === `${studentsUrl}/${id}` 
-            && request.method === 'DELETE' 
+          return request.url === `${studentsUrl}/${id}`
+            && request.method === 'DELETE';
         });
       })
     )
@@ -131,8 +130,8 @@ describe('StudentService', () => {
         const student = { id: 1, name: 'New Student' };
         service.deleteStudent(student).subscribe();
         api.expectOne((request: HttpRequest<any>) => {
-          return request.url === `${studentsUrl}/${student.id}` 
-            && request.method === 'DELETE' 
+          return request.url === `${studentsUrl}/${student.id}`
+            && request.method === 'DELETE';
         });
       })
     )

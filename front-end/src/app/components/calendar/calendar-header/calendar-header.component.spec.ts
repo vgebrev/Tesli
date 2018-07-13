@@ -3,7 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CalendarHeaderComponent } from './calendar-header.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
-import { CalendarPreviousViewDirectiveStub, CalendarNextViewDirectiveStub, CalendarTodayDirectiveStub, CalendarDatePipeStub } from '../../../../testing/calendar.stubs';
+import {
+  CalendarPreviousViewStubDirective,
+  CalendarNextViewStubDirective,
+  CalendarTodayStubDirective,
+  CalendarDateStubPipe
+} from '../../../../testing/angular-calendar.stubs';
 
 
 describe('CalendarHeaderComponent', () => {
@@ -16,12 +21,12 @@ describe('CalendarHeaderComponent', () => {
         NoopAnimationsModule,
         AppMaterialModule
       ],
-      declarations: [ 
-        CalendarHeaderComponent, 
-        CalendarPreviousViewDirectiveStub,
-        CalendarNextViewDirectiveStub,
-        CalendarTodayDirectiveStub,
-        CalendarDatePipeStub ]
+      declarations: [
+        CalendarHeaderComponent,
+        CalendarPreviousViewStubDirective,
+        CalendarNextViewStubDirective,
+        CalendarTodayStubDirective,
+        CalendarDateStubPipe ]
     })
     .compileComponents();
   }));

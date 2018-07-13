@@ -6,12 +6,12 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./calendar-header.component.scss']
 })
 export class CalendarHeaderComponent implements OnInit {
-  
+
   @Input() view: string;
 
   @Input() viewDate: Date;
 
-  @Input() locale: string = 'en';
+  @Input() locale = 'en';
 
   @Output() viewChange: EventEmitter<string> = new EventEmitter();
 
@@ -21,7 +21,7 @@ export class CalendarHeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-  
+
   onViewToggleChanged({value}) {
     this.viewChange.emit(value);
   }

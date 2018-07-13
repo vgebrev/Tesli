@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
-import { NoopAnimationsModule }  from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../modules/app-material.module';
 import { ActivatedRouteStub } from '../../../testing/activated-route.stub';
 import { StudentDetailComponent } from './student-detail.component';
@@ -13,7 +13,7 @@ import { By } from '@angular/platform-browser';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({selector: 'loading-indicator', template: ''})
-class LoadingIndicatorStubComponent { @Input() isLoading : boolean; }
+class LoadingIndicatorStubComponent { @Input() isLoading: boolean; }
 
 describe('StudentDetailComponent', () => {
   let component: StudentDetailComponent;
@@ -21,7 +21,7 @@ describe('StudentDetailComponent', () => {
   let debugElement: DebugElement;
   let activatedRoute: ActivatedRouteStub;
   const testStudent = {
-    id: 1, 
+    id: 1,
     name: 'Test Student',
     grade: 10,
     school: 'Some school',
@@ -38,17 +38,16 @@ describe('StudentDetailComponent', () => {
     const studentServiceSpy = createHeroServiceSpy();
     const locationSpy = jasmine.createSpyObj('Location', ['back']);
     activatedRoute = new ActivatedRouteStub();
-    
     TestBed.configureTestingModule({
-      imports: [ 
+      imports: [
         NoopAnimationsModule,
-        AppMaterialModule, 
-        ReactiveFormsModule, 
+        AppMaterialModule,
+        ReactiveFormsModule,
         FormsModule ],
-      declarations: [ 
-        StudentDetailComponent, 
+      declarations: [
+        StudentDetailComponent,
         LoadingIndicatorStubComponent ],
-      providers: [ 
+      providers: [
         { provide: ActivatedRoute, useValue: activatedRoute },
         { provide: StudentService, useValue: studentServiceSpy },
         { provide: Location, useValue: locationSpy }
@@ -76,16 +75,16 @@ describe('StudentDetailComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(component.studentForm.value).toEqual({
-      id: 0, 
-      name: '', 
-      grade: null, 
-      school: null, 
+      id: 0,
+      name: '',
+      grade: null,
+      school: null,
       contactNumber: null,
-      email: null, 
-      goals: null, 
-      parentName: null, 
-      address: null, 
-      parentContactNumber: null, 
+      email: null,
+      goals: null,
+      parentName: null,
+      address: null,
+      parentContactNumber: null,
       parentEmail: null
     });
     expect(component.studentForm.pristine).toBeTruthy();
@@ -96,8 +95,8 @@ describe('StudentDetailComponent', () => {
       expect(location.back).toHaveBeenCalledTimes(1);
   }));
 
-  it('should call goBack when the Cancel button is clicked', inject([Location], (location: Location)=> {
-    var button = debugElement.query(By.css('button[type="button"]'));
+  it('should call goBack when the Cancel button is clicked', inject([Location], (location: Location) => {
+    const button = debugElement.query(By.css('button[type="button"]'));
     expect(button.nativeElement.textContent).toBe('Cancel', 'Cancel button not found');
     button.triggerEventHandler('click', null);
     expect(location.back).toHaveBeenCalledTimes(1);
@@ -107,7 +106,7 @@ describe('StudentDetailComponent', () => {
     expect(service.getStudent).not.toHaveBeenCalled();
   }));
 
-  it('should get a student when routed to with an id', fakeAsync(inject([StudentService], (service:StudentService) => {
+  it('should get a student when routed to with an id', fakeAsync(inject([StudentService], (service: StudentService) => {
       activatedRoute.setParamMap({id: 1});
       tick();
       expect(service.getStudent).toHaveBeenCalledWith(1);
@@ -126,20 +125,20 @@ describe('StudentDetailComponent', () => {
     component.studentForm.markAsDirty();
     fixture.detectChanges();
     expect(saveButton.nativeElement.disabled).toBeFalsy();
-  }); 
+  });
 
-  it('should call save when the form is submitted', inject([StudentService, Location], (service:StudentService, location:Location) => {
+  it('should call save when the form is submitted', inject([StudentService, Location], (service: StudentService, location: Location) => {
     const updatedStudent = Object.assign({}, testStudent);
     updatedStudent.name = 'Updated Student';
     const formElement = debugElement.query(By.css('.student-detail-form'));
     activatedRoute.setParamMap({id: 1});
     component.studentForm.controls['name'].setValue('Updated Student');
-    formElement.triggerEventHandler('ngSubmit', null);  
+    formElement.triggerEventHandler('ngSubmit', null);
     expect(service.updateStudent).toHaveBeenCalledWith(updatedStudent);
-    expect(location.back).toHaveBeenCalled();  
+    expect(location.back).toHaveBeenCalled();
   }));
 
-  it('should add a student when id is not set', inject([StudentService, Location], (service:StudentService, location:Location) => {
+  it('should add a student when id is not set', inject([StudentService, Location], (service: StudentService, location: Location) => {
       const newStudent = Object.assign({}, testStudent);
       newStudent.id = null;
       component.studentForm.setValue(newStudent);
@@ -148,7 +147,7 @@ describe('StudentDetailComponent', () => {
       expect(location.back).toHaveBeenCalled();
   }));
 
-  it('should update a student when id is set', inject([StudentService, Location], (service:StudentService, location:Location) => {
+  it('should update a student when id is set', inject([StudentService, Location], (service: StudentService, location: Location) => {
     const updatedStudent = Object.assign({}, testStudent);
     activatedRoute.setParamMap({id: 1});
     fixture.detectChanges();
@@ -158,9 +157,10 @@ describe('StudentDetailComponent', () => {
     expect(location.back).toHaveBeenCalled();
   }));
 
-  it('should send getStudent error notification and retry when the notification callback is invoked', async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+  it('should send getStudent error notification and retry when the notification callback is invoked',
+  async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
     const erroringService = service as any;
-    erroringService.getStudent.and.callFake(() => throwError("service error"));
+    erroringService.getStudent.and.callFake(() => throwError('service error'));
     notificationService.notification$.subscribe((notification) => {
       expect(notification.message).toBe('Unable to load student');
       expect(notification.action).toBe('Retry');
@@ -174,9 +174,10 @@ describe('StudentDetailComponent', () => {
     component.getStudent();
   })));
 
-  it('should send save error notification and retry when the notification callback is invoked', async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+  it('should send save error notification and retry when the notification callback is invoked',
+  async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
     const erroringService = service as any;
-    erroringService.addStudent.and.callFake(() => throwError("service error"));
+    erroringService.addStudent.and.callFake(() => throwError('service error'));
 
     const newStudent = Object.assign({}, testStudent);
     newStudent.id = null;

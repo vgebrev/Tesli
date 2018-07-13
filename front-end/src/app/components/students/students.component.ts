@@ -24,20 +24,19 @@ export class StudentsComponent implements OnInit {
   }
 
   getStudents(): void {
-    let order = 0;
     this.isLoading = true;
     this.studentService.getStudents()
       .pipe(
         tap(() => this.isLoading = false),
-        catchError(() => { 
-          this.isLoading = false; 
+        catchError(() => {
+          this.isLoading = false;
           this.notificationService.notification$.next({
-            message: 'Unable to load students', 
+            message: 'Unable to load students',
             action: 'Retry',
             config: { duration: 5000 },
             callback: () => this.getStudents()
           });
-          return of([]) 
+          return of([]);
         })
       ).subscribe(students => this.students = students);
   }
@@ -47,10 +46,10 @@ export class StudentsComponent implements OnInit {
     this.studentService.deleteStudent(student)
       .pipe(
         tap(() => this.isLoading = false),
-        catchError((error) => { 
-          this.isLoading = false; 
+        catchError((error) => {
+          this.isLoading = false;
           this.notificationService.notification$.next({
-            message: 'Unable to delete student', 
+            message: 'Unable to delete student',
             action: 'Retry',
             config: { duration: 5000 },
             callback: () => this.delete(student)
@@ -58,7 +57,7 @@ export class StudentsComponent implements OnInit {
           return throwError(error);
         }),
       ).subscribe(() => {
-        this.students = this.students.filter(s => s !== student)
+        this.students = this.students.filter(s => s !== student);
       }, (error) => {});
   }
 

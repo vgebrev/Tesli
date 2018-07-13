@@ -6,7 +6,7 @@ import { of, throwError, Observable } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../modules/app-material.module';
 import { StudentService } from '../../services/student.service';
-import { RouterTestingModule } from "@angular/router/testing";
+import { RouterTestingModule } from '@angular/router/testing';
 import { Router, Routes } from '@angular/router';
 import { Location } from '@angular/common';
 import { Student } from '../../models/student';
@@ -14,7 +14,7 @@ import { By } from '@angular/platform-browser';
 import { NotificationService } from '../../services/notification.service';
 
 @Component({selector: 'loading-indicator', template: ''})
-class LoadingIndicatorStubComponent { @Input() isLoading : boolean; }
+class LoadingIndicatorStubComponent { @Input() isLoading: boolean; }
 
 @Component({selector: 'app-student-detail', template: ''})
 class StudentDetailStubComponent { }
@@ -38,7 +38,7 @@ describe('StudentsComponent', () => {
     { path: 'student/:id', component: StudentDetailStubComponent },
     { path: 'student', component: StudentDetailStubComponent },
   ];
-  
+
   afterAll(() => {
     fixture.nativeElement.remove();
   });
@@ -51,12 +51,12 @@ describe('StudentsComponent', () => {
         AppMaterialModule,
         RouterTestingModule.withRoutes(routes)
       ],
-      declarations: [ 
+      declarations: [
         StudentsComponent,
         LoadingIndicatorStubComponent,
         StudentDetailStubComponent
       ],
-      providers: [ 
+      providers: [
         { provide: StudentService, useValue: studentServiceSpy },
       ]
     })
@@ -92,25 +92,27 @@ describe('StudentsComponent', () => {
     tick();
     expect(location.path()).toBe(`/student/${student.id}`);
   }));
-  
-  it('should load students when getStudents is called', inject([StudentService], (service:StudentService)=> {
+
+  it('should load students when getStudents is called', inject([StudentService], (service: StudentService) => {
     component.students = [];
     component.getStudents();
-    expect(service.getStudents).toHaveBeenCalledTimes(2); //First call is in ngOnInit 
+    expect(service.getStudents).toHaveBeenCalledTimes(2); // First call is in ngOnInit
     expect(component.students).toEqual(students);
   }));
 
-  it('should handle service getStudents errors', inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
-    var erroringService = service as any;
-    erroringService.getStudents.and.callFake(() => throwError("service error"));
+  it('should handle service getStudents errors',
+  inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+    const erroringService = service as any;
+    erroringService.getStudents.and.callFake(() => throwError('service error'));
     component.students = students;
     component.getStudents();
     expect(component.students).toEqual([]);
   }));
 
-  it('should send getStudents error notification and retry when the notification callback is invoked', async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+  it('should send getStudents error notification and retry when the notification callback is invoked',
+  async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
     const erroringService = service as any;
-    erroringService.getStudents.and.callFake(() => throwError("service error"));
+    erroringService.getStudents.and.callFake(() => throwError('service error'));
     notificationService.notification$.subscribe((notification) => {
       expect(notification.message).toBe('Unable to load students');
       expect(notification.action).toBe('Retry');
@@ -132,17 +134,18 @@ describe('StudentsComponent', () => {
   }));
 
   it('should handle service deleteStudent errors', inject([StudentService], (service: StudentService) => {
-    var erroringService = service as any;
-    erroringService.deleteStudent.and.callFake(() => throwError("service error"));
+    const erroringService = service as any;
+    erroringService.deleteStudent.and.callFake(() => throwError('service error'));
 
     component.delete(component.students[0]);
     expect(component.students).toEqual(students);
   }));
 
-  it('should send delete error notification and retry when the notification callback is invoked', async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
+  it('should send delete error notification and retry when the notification callback is invoked',
+  async(inject([StudentService, NotificationService], (service: StudentService, notificationService: NotificationService) => {
     const studentToDelete = component.students[0];
     const erroringService = service as any;
-    erroringService.deleteStudent.and.callFake(() => throwError("service error"));
+    erroringService.deleteStudent.and.callFake(() => throwError('service error'));
     notificationService.notification$.subscribe((notification) => {
       expect(notification.message).toBe('Unable to delete student');
       expect(notification.action).toBe('Retry');
@@ -166,7 +169,8 @@ describe('StudentsComponent', () => {
     expect(tableElement.nativeElement.rows.length).toBe(students.length + 1);
   });
 
-  it('should delete a student when the delete button of the table row is clicked', fakeAsync(inject([StudentService], (service:StudentService) => {
+  it('should delete a student when the delete button of the table row is clicked',
+  fakeAsync(inject([StudentService], (service: StudentService) => {
     const deleteButtonElements = debugElement.queryAll(By.css('.table-container button'));
     deleteButtonElements.forEach(buttonElement => {
       const index = deleteButtonElements.indexOf(buttonElement);
@@ -179,12 +183,12 @@ describe('StudentsComponent', () => {
     });
   })));
 
-  it('should navigate to student-detail when a table cell is clicked', fakeAsync(()=>{
+  it('should navigate to student-detail when a table cell is clicked', fakeAsync(() => {
     tick();
     const table = debugElement.query(By.css('.table-container table'));
     const cells = table.nativeElement.querySelectorAll('td[id]');
     cells.forEach(cell => {
-      const id = +cell.attributes["id"].value;
+      const id = +cell.attributes['id'].value;
       cell.click();
       tick();
       expect(location.path()).toBe(`/student/${id}`);

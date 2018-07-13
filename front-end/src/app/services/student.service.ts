@@ -44,7 +44,7 @@ export class StudentService {
   deleteStudent (student: Student | number): Observable<Student> {
     const id = typeof student === 'number' ? student : student.id;
     const url = `${this.studentsUrl}/${id}`;
-  
+
     return this.http.delete<Student>(url, httpOptions).pipe(
       catchError(this.handleError<Student>('deleteHero'))
     );
