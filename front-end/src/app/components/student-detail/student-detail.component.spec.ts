@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NoopAnimationsModule }  from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../modules/app-material.module';
-import { ActivatedRouteStub } from '../../../testing/activated-route-stub';
+import { ActivatedRouteStub } from '../../../testing/activated-route.stub';
 import { StudentDetailComponent } from './student-detail.component';
 import { Component, Input, DebugElement } from '@angular/core';
 import { Location } from '@angular/common';

@@ -3,7 +3,7 @@ import { AppComponent } from './app.component';
 import { NoopAnimationsModule }  from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../modules/app-material.module';
 import { Component } from '@angular/core';
-import { RouterLinkDirectiveStub } from '../../../testing/router-link-directive-stub';
+import { RouterLinkDirectiveStub } from '../../../testing/router-link-directive.stub';
 import { By } from '@angular/platform-browser';
 import { NotificationService, Notification } from '../../services/notification.service';
 import { MatSnackBarRef, SimpleSnackBar, MatSnackBar } from '@angular/material';
