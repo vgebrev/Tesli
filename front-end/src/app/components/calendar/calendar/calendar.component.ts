@@ -75,7 +75,7 @@ export class CalendarComponent implements OnInit {
     this.refresh.next(parse(format(newStart, 'YYYY-MM-DD')));
   }
 
-  onViewDateChanged(viewDate) {
-    this.refresh.next(viewDate);
+  onViewDateChanged(newDate) {
+    this.refresh.next(newDate);
   }
 }
