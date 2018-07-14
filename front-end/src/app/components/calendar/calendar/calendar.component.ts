@@ -42,6 +42,7 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
     this.refresh.subscribe((newDate) => {
       this.viewDate = newDate;
+      this.activeDayIsOpen = this.events.some((event) => isSameDay(event.start, this.viewDate) || isSameDay(event.end, this.viewDate));
     });
   }
 
@@ -66,8 +67,15 @@ export class CalendarComponent implements OnInit {
     newStart,
     newEnd
   }: CalendarEventTimesChangedEvent): void {
+    if (!isSameDay(newStart, newEnd)) {
+      return;
+    }
     event.start = newStart;
     event.end = newEnd;
     this.refresh.next(parse(format(newStart, 'YYYY-MM-DD')));
+  }
+
+  onViewDateChanged(viewDate) {
+    this.refresh.next(viewDate);
   }
 }
