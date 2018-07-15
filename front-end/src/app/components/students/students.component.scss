@@ -24,6 +24,6 @@ table {
 
 .mat-row:hover {
     transition: background-color 0.2s ease-in;
-    background:rgba(0,0,0,.04)
+    background:rgba(0,0,0,.04) // TODO: Make this a theme with the proper material background mixin
 }
 

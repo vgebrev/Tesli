@@ -5,7 +5,7 @@
     <app-calendar-header 
       [(view)]="view" 
       [(viewDate)]="viewDate"
-      (viewDateChange)="onViewDateChanged($event)">
+      (viewDateChange)="changeViewDate($event)">
     </app-calendar-header>
   </div>
   <div [ngSwitch]="view">
@@ -15,15 +15,15 @@
       [events]="events"
       [activeDayIsOpen]="activeDayIsOpen"
       [refresh]="refresh"
-      (dayClicked)="onDayClicked($event.day)"
-      (eventTimesChanged)="onEventTimesChanged($event)">
+      (dayClicked)="selectDay($event.day)"
+      (eventTimesChanged)="changeEventTimes($event)">
     </mwl-calendar-month-view>
     <mwl-calendar-week-view
       *ngSwitchCase="'week'"
       [viewDate]="viewDate"
       [events]="events"
       [refresh]="refresh"
-      (eventTimesChanged)="onEventTimesChanged($event)">
+      (eventTimesChanged)="changeEventTimes($event)">
     </mwl-calendar-week-view>
     <mwl-calendar-day-view
       *ngSwitchCase="'day'"
@@ -33,7 +33,12 @@
       [dayStartHour]="7"
       [dayEndHour]="20"
       [hourSegments]="4"
-      (eventTimesChanged)="onEventTimesChanged($event)">
+      (eventTimesChanged)="changeEventTimes($event)">
     </mwl-calendar-day-view>
-    </div>
+  </div>
+</div>
+<div class="action-container pad-right-4">
+  <button mat-fab matTooltip="Add New Lesson" matTooltipPosition="left" class="icon-button--shake" (click)="addLesson($event)">
+    <mat-icon aria-label="Add New Lesson">add</mat-icon>
+  </button>
 </div>

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { Subject } from 'rxjs';
 import { addHours, isSameMonth, isSameDay, parse, format } from 'date-fns';
+import { MatDialog } from '@angular/material/dialog';
+import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component';
 
 @Component({
   selector: 'app-calendar',
@@ -37,7 +39,7 @@ export class CalendarComponent implements OnInit {
     }
   ];
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit() {
     this.refresh.subscribe((newDate) => {
@@ -46,7 +48,7 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  onDayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  selectDay({ date, events }: { date: Date; events: CalendarEvent[] }): void {
     if (!isSameMonth(date, this.viewDate)) {
       return;
     }
@@ -62,7 +64,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  onEventTimesChanged({
+  changeEventTimes({
     event,
     newStart,
     newEnd
@@ -75,7 +77,14 @@ export class CalendarComponent implements OnInit {
     this.refresh.next(parse(format(newStart, 'YYYY-MM-DD')));
   }
 
-  onViewDateChanged(newDate) {
+  changeViewDate(newDate) {
     this.refresh.next(newDate);
+  }
+
+  addLesson() {
+    const dialogRef = this.dialog.open(LessonEditorComponent, {});
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('TODO: add lesson logic');
+    });
   }
 }

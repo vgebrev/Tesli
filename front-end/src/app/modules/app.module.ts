@@ -14,6 +14,7 @@ import { AppMaterialModule } from './app-material.module';
 import { LoadingIndicatorComponent } from '../components/loading-indicator/loading-indicator.component';
 import { CalendarComponent } from '../components/calendar/calendar/calendar.component';
 import { CalendarHeaderComponent } from '../components/calendar/calendar-header/calendar-header.component';
+import { LessonEditorComponent } from '../components/calendar/lesson-editor/lesson-editor.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,10 @@ import { CalendarHeaderComponent } from '../components/calendar/calendar-header/
     LoadingIndicatorComponent,
     CalendarComponent,
     CalendarHeaderComponent,
+    LessonEditorComponent,
+  ],
+  entryComponents: [
+    LessonEditorComponent
   ],
   imports: [
     BrowserModule,
