@@ -3,12 +3,15 @@ import { Component, Input } from '@angular/core';
 import { CalendarComponent } from './calendar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
-import {
-  CalendarMonthViewStubComponent,
-  CalendarWeekViewStubComponent,
-  CalendarDayViewStubComponent
-} from '../../../../testing/angular-calendar.stubs';
 import { addDays, addHours, addMonths } from 'date-fns';
+import {
+  CalendarModule,
+  DateAdapter,
+  CalendarWeekViewComponent,
+  CalendarMonthViewComponent,
+  CalendarDayViewComponent
+} from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 @Component({ selector: 'app-calendar-header', template: ''})
 class CalendarHeaderStubComponent {
@@ -24,14 +27,15 @@ describe('CalendarComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
-        AppMaterialModule
+        AppMaterialModule,
+        CalendarModule.forRoot({
+          provide: DateAdapter,
+          useFactory: adapterFactory
+        })
       ],
       declarations: [
         CalendarComponent,
-        CalendarHeaderStubComponent,
-        CalendarMonthViewStubComponent,
-        CalendarWeekViewStubComponent,
-        CalendarDayViewStubComponent
+        CalendarHeaderStubComponent
       ]
     })
     .compileComponents();

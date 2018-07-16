@@ -1,4 +1,4 @@
-import { Directive, Input, Output, HostListener, EventEmitter, Pipe, PipeTransform, Component } from '@angular/core';
+import { Directive, Input, Output, HostListener, EventEmitter, Pipe, PipeTransform, Component, TemplateRef } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CalendarEventTimesChangedEvent } from 'angular-calendar';
 
@@ -41,6 +41,7 @@ export class CalendarMonthViewStubComponent {
   @Input() events = [];
   @Input() activeDayIsOpen = false;
   @Input() refresh: Subject<any>;
+  @Input() cellTemplate: TemplateRef<any>;
   @Output()
   eventTimesChanged = new EventEmitter<CalendarEventTimesChangedEvent>();
 }
