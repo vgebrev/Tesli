@@ -12,12 +12,12 @@ import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component'
 })
 export class CalendarComponent implements OnInit {
 
+  hoverDay = null;
   view = 'month';
   viewDate: Date = new Date();
   activeDayIsOpen = true;
   refresh: Subject<any> = new Subject();
-  events: CalendarEvent[] = [
-    {
+  events: CalendarEvent[] = [{
       title: 'An event',
       start: new Date(2018, 6, 8, 10, 0),
       end: addHours(new Date(2018, 6, 8, 10, 0), 1),
@@ -26,8 +26,7 @@ export class CalendarComponent implements OnInit {
         beforeStart: true,
         afterEnd: true
       }
-    },
-    {
+    }, {
       title: 'Today event',
       start: parse(format(this.viewDate, 'YYYY-MM-DD 15:00')),
       end: addHours(parse(format(this.viewDate, 'YYYY-MM-DD 15:00')), 1),
@@ -36,8 +35,7 @@ export class CalendarComponent implements OnInit {
         beforeStart: true,
         afterEnd: true
       }
-    }
-  ];
+    }];
 
   constructor(public dialog: MatDialog) { }
 
@@ -48,7 +46,16 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  selectDay({ date, events }: { date: Date; events: CalendarEvent[] }): void {
+  handleCellClick(evt, day) {
+    if (evt.target.className.indexOf('cal-') >= 0) {
+      this.selectDay(day);
+    } else {
+      this.addLesson(day);
+    }
+  }
+
+  selectDay(day): void {
+   const { date, events } = day;
     if (!isSameMonth(date, this.viewDate)) {
       return;
     }
@@ -81,10 +88,19 @@ export class CalendarComponent implements OnInit {
     this.refresh.next(newDate);
   }
 
-  addLesson() {
+  addLesson(day) {
     const dialogRef = this.dialog.open(LessonEditorComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       console.log('TODO: add lesson logic');
     });
   }
+
+  setHoverDay(day) {
+    this.hoverDay = day;
+  }
+
+  clearHoverDay() {
+    this.hoverDay = null;
+  }
+
 }

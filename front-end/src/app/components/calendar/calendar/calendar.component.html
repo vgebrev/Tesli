@@ -8,6 +8,61 @@
       (viewDateChange)="changeViewDate($event)">
     </app-calendar-header>
   </div>
+
+  <ng-template
+      #cellTemplate
+      let-day="day"
+      let-openDay="openDay"
+      let-locale="locale"
+      let-tooltipPlacement="tooltipPlacement"
+      let-highlightDay="highlightDay"
+      let-unhighlightDay="unhighlightDay"
+      let-eventClicked="eventClicked"
+      let-tooltipTemplate="tooltipTemplate"
+      let-tooltipAppendToBody="tooltipAppendToBody">
+      <div
+        (mouseenter)="setHoverDay(day)"
+        (mouseleave)="clearHoverDay(day)"
+        (click)="handleCellClick($event, day)">
+        <div class="cal-cell-top">
+          <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+          <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+        </div>
+        <div class="cal-cell-bottom">
+          <div class="cal-action" *ngIf="hoverDay === day">
+              <button 
+                mat-mini-fab 
+                matTooltip="Add New Lesson" 
+                matTooltipPosition="left" 
+                class="icon-button--shake">
+                <mat-icon aria-label="Add New Lesson">add</mat-icon>
+              </button>
+            </div>
+          <div class="cal-events" *ngIf="day.events.length > 0">
+            <div
+              class="cal-event"
+              *ngFor="let event of day.events; trackBy:trackByEventId"
+              [style.backgroundColor]="event.color?.primary"
+              [ngClass]="event?.cssClass"
+              (mouseenter)="highlightDay.emit({event: event})"
+              (mouseleave)="unhighlightDay.emit({event: event})"
+              [mwlCalendarTooltip]="event.title | calendarEventTitle:'monthTooltip':event"
+              [tooltipPlacement]="tooltipPlacement"
+              [tooltipEvent]="event"
+              [tooltipTemplate]="tooltipTemplate"
+              [tooltipAppendToBody]="tooltipAppendToBody"
+              mwlDraggable
+              [class.cal-draggable]="event.draggable"
+              dragActiveClass="cal-drag-active"
+              [dropData]="{event: event}"
+              [dragAxis]="{x: event.draggable, y: event.draggable}"
+              (mwlClick)="eventClicked.emit({ event: event })">
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+
   <div [ngSwitch]="view">
     <mwl-calendar-month-view
       *ngSwitchCase="'month'"
@@ -15,8 +70,8 @@
       [events]="events"
       [activeDayIsOpen]="activeDayIsOpen"
       [refresh]="refresh"
-      (dayClicked)="selectDay($event.day)"
-      (eventTimesChanged)="changeEventTimes($event)">
+      (eventTimesChanged)="changeEventTimes($event)"
+      [cellTemplate]="cellTemplate">
     </mwl-calendar-month-view>
     <mwl-calendar-week-view
       *ngSwitchCase="'week'"
@@ -36,9 +91,4 @@
       (eventTimesChanged)="changeEventTimes($event)">
     </mwl-calendar-day-view>
   </div>
-</div>
-<div class="action-container pad-right-4">
-  <button mat-fab matTooltip="Add New Lesson" matTooltipPosition="left" class="icon-button--shake" (click)="addLesson($event)">
-    <mat-icon aria-label="Add New Lesson">add</mat-icon>
-  </button>
 </div>

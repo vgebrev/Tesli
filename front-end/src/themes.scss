@@ -47,6 +47,7 @@ $theme: mat-dark-theme($primary, $accent);
         .cal-day-cell.cal-today .cal-day-number {
             color: mat-color($primary, default-contrast);
             opacity: 1;
+            font-size: 1.4em;
         }
 
         .cal-day-cell.cal-drag-over
@@ -99,6 +100,22 @@ $theme: mat-dark-theme($primary, $accent);
             height: 16px;
             border-radius: 2px;            
             border-color: mat-color($accent, darker);
+        }
+
+        .cal-cell-top {
+            min-height: 52px;
+        }
+
+        .cal-cell-bottom {
+            display: flex;
+            flex-direction: row-reverse;
+            min-height: 46px;
+        }
+
+        .cal-action {
+            align-self: flex-end;
+            justify-content: flex-end;
+            margin: 0px 8px 8px;
         }
     }
 
