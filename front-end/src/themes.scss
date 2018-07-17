@@ -162,16 +162,23 @@ $theme: mat-dark-theme($primary, $accent);
     }
 
     .cal-day-view {
-
+        .cal-action {
+            transform: scale(0.5); justify-content: left
+        }
+        
         .cal-time {
             padding-top: 8px;
         }
-        
+
         .cal-hour:nth-child(odd) {
             background-color: mat-color($background, background); 
         }
         .cal-hour:nth-child(even) {
             background-color: mat-color($background, card); 
+        }
+
+        .cal-hour-segment {
+            display:flex; flex-direction: row;
         }
 
         .cal-hour-segment:hover,
