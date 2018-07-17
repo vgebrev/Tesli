@@ -1,17 +1,13 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { CalendarComponent } from './calendar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
-import { addDays, addHours, addMonths } from 'date-fns';
-import {
-  CalendarModule,
-  DateAdapter,
-  CalendarWeekViewComponent,
-  CalendarMonthViewComponent,
-  CalendarDayViewComponent
-} from 'angular-calendar';
+import { addDays, addHours, addMonths, parse, format } from 'date-fns';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { Subject } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({ selector: 'app-calendar-header', template: ''})
 class CalendarHeaderStubComponent {
@@ -19,11 +15,30 @@ class CalendarHeaderStubComponent {
   @Input() viewDate: Date;
 }
 
+class MatDialogRefMock {
+  private closed$: Subject<any>;
+  constructor() {
+    this.closed$ = new Subject();
+  }
+
+  afterClosed() {
+    return this.closed$;
+  }
+
+  close(dialogResult?: any) {
+    this.closed$.next(dialogResult);
+  }
+}
+
 describe('CalendarComponent', () => {
   let component: CalendarComponent;
   let fixture: ComponentFixture<CalendarComponent>;
 
   beforeEach(async(() => {
+    const dialogRefMock = new MatDialogRefMock();
+    const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
+    dialogSpy.open.and.callFake(() => dialogRefMock);
+
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
@@ -36,6 +51,10 @@ describe('CalendarComponent', () => {
       declarations: [
         CalendarComponent,
         CalendarHeaderStubComponent
+      ],
+      providers: [
+        { provide: MatDialog, useValue: dialogSpy },
+        { provide: MatDialogRef, useValue: dialogRefMock }
       ]
     })
     .compileComponents();
@@ -75,7 +94,7 @@ describe('CalendarComponent', () => {
 
   it('should update event and refresh if changeEventTimes is called with new start and end on the same day', () => {
     const calendarEvent = component.events[0];
-    const newStart = new Date();
+    const newStart =  parse(format(new Date(), 'YYYY-MM-DD'));
     const newEnd = addHours(newStart, 1);
     let refreshed = false;
 
@@ -128,5 +147,49 @@ describe('CalendarComponent', () => {
 
     expect(component.activeDayIsOpen).toBeTruthy();
     expect(component.viewDate).toEqual(newDate);
+  });
+
+  it('should open a lesson editor dialog when addLesson is called',
+  inject([MatDialog, MatDialogRef], (dialogSpy: MatDialog, dialogRef: MatDialogRef<any>) => {
+    component.addLesson({});
+    expect(dialogSpy.open).toHaveBeenCalled();
+    dialogRef.afterClosed().subscribe((result) => expect(result).toBeTruthy());
+    dialogRef.close(true);
+  }));
+
+  it('should set hoverDay to setHoverDay argument', () => {
+    const day = { isFakeDay: true };
+    component.setHoverDay(day);
+    expect(component.hoverDay).toBe(day);
+  });
+
+  it('should set hoverDay to null when clearHoverDay is called', () => {
+    const day = { isFakeDay: true };
+    component.hoverDay = day;
+
+    component.clearHoverDay();
+    expect(component.hoverDay).toBeNull();
+  });
+
+  it('should call selectDay when handleCellClick event is called with a target containing a class with cal- prefix', () => {
+    const selectDaySpy = spyOn(component, 'selectDay');
+    const addLessonSpy = spyOn(component, 'addLesson');
+    const day = { isFakeDay: true };
+    const evt = { target: { className: 'cal-cell-top' } };
+
+    component.handleCellClick(evt, day);
+    expect(selectDaySpy).toHaveBeenCalledWith(day);
+    expect(addLessonSpy).not.toHaveBeenCalled();
+  });
+
+  it('should call addLesson when handleCellClick event is called with a target containing a class without cal- prefix', () => {
+    const selectDaySpy = spyOn(component, 'selectDay');
+    const addLessonSpy = spyOn(component, 'addLesson');
+    const day = { isFakeDay: true };
+    const evt = { target: { className: 'icon-button--shake' } };
+
+    component.handleCellClick(evt, day);
+    expect(addLessonSpy).toHaveBeenCalledWith(day);
+    expect(selectDaySpy).not.toHaveBeenCalled();
   });
 });
