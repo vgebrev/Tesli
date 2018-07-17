@@ -11,8 +11,7 @@ import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component'
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
-
-  hoverDay = null;
+  hoverItem = null;
   view = 'month';
   viewDate: Date = new Date();
   activeDayIsOpen = true;
@@ -95,11 +94,11 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  setHoverDay(day) {
-    this.hoverDay = day;
+  setHoverItem(item) {
+    this.hoverItem = item;
   }
 
-  clearHoverDay() {
-    this.hoverDay = null;
+  clearHoverItem() {
+    this.hoverItem = null;
   }
 }

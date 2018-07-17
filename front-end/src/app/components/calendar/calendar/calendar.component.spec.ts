@@ -157,18 +157,18 @@ describe('CalendarComponent', () => {
     dialogRef.close(true);
   }));
 
-  it('should set hoverDay to setHoverDay argument', () => {
+  it('should set hoverItem to setHoverItem argument', () => {
     const day = { isFakeDay: true };
-    component.setHoverDay(day);
-    expect(component.hoverDay).toBe(day);
+    component.setHoverItem(day);
+    expect(component.hoverItem).toBe(day);
   });
 
-  it('should set hoverDay to null when clearHoverDay is called', () => {
+  it('should set hoverItem to null when clearHoverItem is called', () => {
     const day = { isFakeDay: true };
-    component.hoverDay = day;
+    component.hoverItem = day;
 
-    component.clearHoverDay();
-    expect(component.hoverDay).toBeNull();
+    component.clearHoverItem();
+    expect(component.hoverItem).toBeNull();
   });
 
   it('should call selectDay when handleCellClick event is called with a target containing a class with cal- prefix', () => {

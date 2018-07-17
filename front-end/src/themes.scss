@@ -163,6 +163,10 @@ $theme: mat-dark-theme($primary, $accent);
 
     .cal-day-view {
 
+        .cal-time {
+            padding-top: 8px;
+        }
+        
         .cal-hour:nth-child(odd) {
             background-color: mat-color($background, background); 
         }
