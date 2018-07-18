@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar';
+import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject } from 'rxjs';
 import { addHours, isSameMonth, isSameDay, parse, format } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component';
+
+function isDay(object: any): object is MonthViewDay {
+  return object.hasOwnProperty('events');
+}
 
 @Component({
   selector: 'app-calendar',
@@ -45,11 +50,13 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  handleCellClick(evt, day) {
-    if (evt.target.className.indexOf('cal-') >= 0) {
-      this.selectDay(day);
+  handleCalendarClick(evt, data: MonthViewDay|DayViewHourSegment) {
+    if (evt.target.className.indexOf('cal-') === -1) {
+      this.addLesson(data.date);
     } else {
-      this.addLesson(day);
+      if (isDay(data)) {
+        this.selectDay(data);
+      }
     }
   }
 
@@ -87,7 +94,7 @@ export class CalendarComponent implements OnInit {
     this.refresh.next(newDate);
   }
 
-  addLesson(day) {
+  addLesson(date: Date) {
     const dialogRef = this.dialog.open(LessonEditorComponent, {});
     dialogRef.afterClosed().subscribe(result => {
       console.log('TODO: add lesson logic');

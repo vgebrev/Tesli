@@ -151,7 +151,8 @@ describe('CalendarComponent', () => {
 
   it('should open a lesson editor dialog when addLesson is called',
   inject([MatDialog, MatDialogRef], (dialogSpy: MatDialog, dialogRef: MatDialogRef<any>) => {
-    component.addLesson({});
+    const now = new Date();
+    component.addLesson(now);
     expect(dialogSpy.open).toHaveBeenCalled();
     dialogRef.afterClosed().subscribe((result) => expect(result).toBeTruthy());
     dialogRef.close(true);
@@ -171,25 +172,57 @@ describe('CalendarComponent', () => {
     expect(component.hoverItem).toBeNull();
   });
 
-  it('should call selectDay when handleCellClick event is called with a target containing a class with cal- prefix', () => {
+  it('should call selectDay when handleCalendarClick is called with a target containing a class with cal- prefix and a day', () => {
     const selectDaySpy = spyOn(component, 'selectDay');
     const addLessonSpy = spyOn(component, 'addLesson');
-    const day = { isFakeDay: true };
+    const day = {
+      inMonth: true,
+      events: [],
+      badgeTotal: 0,
+      date: new Date(),
+      isPast: true,
+      isToday: true,
+      isFuture: false,
+      isWeekend: true
+    };
     const evt = { target: { className: 'cal-cell-top' } };
 
-    component.handleCellClick(evt, day);
+    component.handleCalendarClick(evt, day);
     expect(selectDaySpy).toHaveBeenCalledWith(day);
     expect(addLessonSpy).not.toHaveBeenCalled();
   });
 
-  it('should call addLesson when handleCellClick event is called with a target containing a class without cal- prefix', () => {
+  it('should call addLesson when handleCalendarClick is called with a target containing a class without cal- prefix and a day', () => {
     const selectDaySpy = spyOn(component, 'selectDay');
     const addLessonSpy = spyOn(component, 'addLesson');
-    const day = { isFakeDay: true };
+    const day = {
+      inMonth: true,
+      events: [],
+      badgeTotal: 0,
+      date: new Date(),
+      isPast: true,
+      isToday: true,
+      isFuture: false,
+      isWeekend: true
+    };
     const evt = { target: { className: 'icon-button--shake' } };
 
-    component.handleCellClick(evt, day);
-    expect(addLessonSpy).toHaveBeenCalledWith(day);
+    component.handleCalendarClick(evt, day);
+    expect(addLessonSpy).toHaveBeenCalledWith(day.date);
+    expect(selectDaySpy).not.toHaveBeenCalled();
+  });
+
+  it('should do nothing when handleCalendarClick is called with a target containing a class with cal- prefix and a segment', () => {
+    const selectDaySpy = spyOn(component, 'selectDay');
+    const addLessonSpy = spyOn(component, 'addLesson');
+    const segment = {
+      isStart: true,
+      date: new Date()
+    };
+    const evt = { target: { className: 'cal-hour-segment' } };
+
+    component.handleCalendarClick(evt, segment);
+    expect(addLessonSpy).not.toHaveBeenCalled();
     expect(selectDaySpy).not.toHaveBeenCalled();
   });
 });

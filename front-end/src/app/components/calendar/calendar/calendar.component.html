@@ -23,7 +23,7 @@
     <div
       (mouseenter)="setHoverItem(day)"
       (mouseleave)="clearHoverItem()"
-      (click)="handleCellClick($event, day)">
+      (click)="handleCalendarClick($event, day)">
       <div class="cal-cell-top">
         <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
         <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
@@ -75,7 +75,8 @@
     [class.cal-after-hour-start]="!segment.isStart"
     [ngClass]="segment.cssClass"
     (mouseenter)="setHoverItem(segment)"
-    (mouseleave)="clearHoverItem()">
+    (mouseleave)="clearHoverItem()"
+    (click)="handleCalendarClick($event, segment)">
     <div class="cal-action" *ngIf="hoverItem === segment">
       <button 
         mat-mini-fab
