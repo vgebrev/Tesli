@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { addHours, isSameMonth, isSameDay, parse, format, addMilliseconds, getTime, startOfHour, setHours } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component';
+import { environment } from '../../../../environments/environment';
 
 function isMonthViewDay(object: any): object is MonthViewDay {
   return object.hasOwnProperty('events');
@@ -56,7 +57,7 @@ export class CalendarComponent implements OnInit {
     if (evt.target.className.indexOf('cal-') === -1) {
       let date = data.date;
       if (isMonthViewDay(data)) {
-        date = startOfHour(setHours(date, 15));
+        date = startOfHour(setHours(date, environment.defaultLessonStartHour));
       }
       this.addLesson(date);
     } else {

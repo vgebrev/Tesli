@@ -9,6 +9,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({ selector: 'app-calendar-header', template: ''})
 class CalendarHeaderStubComponent {
@@ -209,7 +210,7 @@ describe('CalendarComponent', () => {
     const evt = { target: { className: 'icon-button--shake' } };
 
     component.handleCalendarClick(evt, day);
-    expect(addLessonSpy).toHaveBeenCalledWith(startOfHour(setHours(day.date, 15)));
+    expect(addLessonSpy).toHaveBeenCalledWith(startOfHour(setHours(day.date, environment.defaultLessonStartHour)));
     expect(selectDaySpy).not.toHaveBeenCalled();
   });
 
