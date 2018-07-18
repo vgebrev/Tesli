@@ -8,6 +8,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component';
 
 @Component({ selector: 'app-calendar-header', template: ''})
 class CalendarHeaderStubComponent {
@@ -16,17 +17,17 @@ class CalendarHeaderStubComponent {
 }
 
 class MatDialogRefMock {
-  private closed$: Subject<any>;
+  private dialogResult$: Subject<any>;
   constructor() {
-    this.closed$ = new Subject();
+    this.dialogResult$ = new Subject();
   }
 
   afterClosed() {
-    return this.closed$;
+    return this.dialogResult$;
   }
 
   close(dialogResult?: any) {
-    this.closed$.next(dialogResult);
+    this.dialogResult$.next(dialogResult);
   }
 }
 
@@ -152,8 +153,8 @@ describe('CalendarComponent', () => {
   it('should open a lesson editor dialog when addLesson is called',
   inject([MatDialog, MatDialogRef], (dialogSpy: MatDialog, dialogRef: MatDialogRef<any>) => {
     const now = new Date();
-    component.addLesson(now);
-    expect(dialogSpy.open).toHaveBeenCalled();
+    component.addLesson(now, false);
+    expect(dialogSpy.open).toHaveBeenCalledWith(LessonEditorComponent, { data: { eventStart: now } });
     dialogRef.afterClosed().subscribe((result) => expect(result).toBeTruthy());
     dialogRef.close(true);
   }));
@@ -208,7 +209,7 @@ describe('CalendarComponent', () => {
     const evt = { target: { className: 'icon-button--shake' } };
 
     component.handleCalendarClick(evt, day);
-    expect(addLessonSpy).toHaveBeenCalledWith(day.date);
+    expect(addLessonSpy).toHaveBeenCalledWith(day.date, true);
     expect(selectDaySpy).not.toHaveBeenCalled();
   });
 
