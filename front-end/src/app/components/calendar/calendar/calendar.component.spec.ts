@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { CalendarComponent } from './calendar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
-import { addDays, addHours, addMonths, parse, format } from 'date-fns';
+import { addDays, addHours, addMonths, parse, format, startOfHour, setHours } from 'date-fns';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { Subject } from 'rxjs';
@@ -153,7 +153,7 @@ describe('CalendarComponent', () => {
   it('should open a lesson editor dialog when addLesson is called',
   inject([MatDialog, MatDialogRef], (dialogSpy: MatDialog, dialogRef: MatDialogRef<any>) => {
     const now = new Date();
-    component.addLesson(now, false);
+    component.addLesson(now);
     expect(dialogSpy.open).toHaveBeenCalledWith(LessonEditorComponent, { data: { eventStart: now } });
     dialogRef.afterClosed().subscribe((result) => expect(result).toBeTruthy());
     dialogRef.close(true);
@@ -209,7 +209,7 @@ describe('CalendarComponent', () => {
     const evt = { target: { className: 'icon-button--shake' } };
 
     component.handleCalendarClick(evt, day);
-    expect(addLessonSpy).toHaveBeenCalledWith(day.date, true);
+    expect(addLessonSpy).toHaveBeenCalledWith(startOfHour(setHours(day.date, 15)));
     expect(selectDaySpy).not.toHaveBeenCalled();
   });
 
@@ -224,6 +224,20 @@ describe('CalendarComponent', () => {
 
     component.handleCalendarClick(evt, segment);
     expect(addLessonSpy).not.toHaveBeenCalled();
+    expect(selectDaySpy).not.toHaveBeenCalled();
+  });
+
+  it('should call addLesson when handleCalendarClick is called with a target containing a class without cal- prefix and a segment', () => {
+    const selectDaySpy = spyOn(component, 'selectDay');
+    const addLessonSpy = spyOn(component, 'addLesson');
+    const segment = {
+      date: new Date(),
+      isStart: false
+    };
+    const evt = { target: { className: 'icon-button--shake' } };
+
+    component.handleCalendarClick(evt, segment);
+    expect(addLessonSpy).toHaveBeenCalledWith(segment.date);
     expect(selectDaySpy).not.toHaveBeenCalled();
   });
 });

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject } from 'rxjs';
-import { addHours, isSameMonth, isSameDay, parse, format, addMilliseconds, getTime } from 'date-fns';
+import { addHours, isSameMonth, isSameDay, parse, format, addMilliseconds, getTime, startOfHour, setHours } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component';
 
@@ -41,7 +41,9 @@ export class CalendarComponent implements OnInit {
       }
     }];
 
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit() {
     this.refresh.subscribe((newDate) => {
@@ -52,7 +54,11 @@ export class CalendarComponent implements OnInit {
 
   handleCalendarClick(evt, data: MonthViewDay|DayViewHourSegment) {
     if (evt.target.className.indexOf('cal-') === -1) {
-      this.addLesson(data.date, isMonthViewDay(data));
+      let date = data.date;
+      if (isMonthViewDay(data)) {
+        date = startOfHour(setHours(date, 15));
+      }
+      this.addLesson(date);
     } else {
       if (isMonthViewDay(data)) {
         this.selectDay(data);
@@ -94,12 +100,7 @@ export class CalendarComponent implements OnInit {
     this.refresh.next(newDate);
   }
 
-  addLesson(date: Date, roundToNearestQuarterHour: boolean) {
-    if (roundToNearestQuarterHour) {
-      const now = new Date();
-      date = addMilliseconds(date, getTime(now)); // FIXME: getTime seems to be returning UTC time
-      // FIXME: This is only adding the current time to the date when it comes from the month view cell as midnight
-    }
+  addLesson(date: Date) {
     const dialogRef = this.dialog.open(LessonEditorComponent, { data: { eventStart: date } });
     dialogRef.afterClosed().subscribe(result => {
       console.log('TODO: add lesson logic');
