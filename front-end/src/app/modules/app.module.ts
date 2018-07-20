@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 
 import { AppComponent } from '../components/app/app.component';
 import { StudentsComponent } from '../components/students/students.component';
@@ -40,7 +41,8 @@ import { LessonEditorComponent } from '../components/calendar/lesson-editor/less
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
-    })
+    }),
+    AmazingTimePickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

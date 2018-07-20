@@ -6,6 +6,54 @@ $accent:  mat-palette($mat-green, A200, A100, A400);
 
 $theme: mat-dark-theme($primary, $accent);
 
+@mixin amazing-time-picker-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $background: map-get($theme, background);
+    $foreground: map_get($theme, foreground);
+
+    .time-picker-header {
+        background-color: mat-color($primary) !important;
+    }
+
+    // TODO: Sassify these
+    .time-picker-footer button {
+        font-weight: 500;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-size: 14px;
+        background-color: transparent !important;
+    }
+
+    .time-picker-footer button:hover {
+        font-weight: 500;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-size: 14px;
+        background:rgba(0,0,0,.12) !important;
+        color: mat-color($foreground, secondary-text) !important;
+    }
+
+    .time-picker-footer button.atp-ref-dialog-close {
+        box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+        background-color: mat-color($primary) !important;
+        color: mat-color($foreground, text) !important;
+        font-weight: 500;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-size: 14px;
+    }
+
+    .time-picker-clock-arrow,
+    .time-picker-clock-origin,
+    .time-picker-clock button.active {
+        background-color: mat-color($accent) !important;
+        color: mat-color($accent, default-contrast) !important;
+        font-weight: 500;
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-size: 14px;
+    }
+}
+
+@include amazing-time-picker-theme($theme);
+
 @mixin button-toggle-theme($theme) {
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
@@ -30,7 +78,6 @@ $theme: mat-dark-theme($primary, $accent);
 @mixin calendar-theme($theme) {
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
-
     $background: map-get($theme, background);
 
     .cal-month-view {

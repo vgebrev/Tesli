@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AmazingTimePickerService } from 'amazing-time-picker';
 
 @Component({
   selector: 'app-lesson-editor',
@@ -8,10 +9,27 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class LessonEditorComponent implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<LessonEditorComponent>,
+  startTime;
+  constructor(
+    public dialogRef: MatDialogRef<LessonEditorComponent>,
+    private timePickerService: AmazingTimePickerService,
   @Optional()  @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit() {
   }
 
+  open(selectedTime) {
+    const timePicker = this.timePickerService.open({
+      time:  selectedTime,
+      theme: 'dark',
+      preference: {
+        labels: {
+          ok: 'OK'
+        }
+      }
+    });
+    timePicker.afterClose().subscribe(time => {
+      selectedTime = time;
+    });
+  }
 }

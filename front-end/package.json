@@ -23,6 +23,7 @@
     "@angular/platform-browser": "^6.0.3",
     "@angular/platform-browser-dynamic": "^6.0.3",
     "@angular/router": "^6.0.3",
+    "amazing-time-picker": "^1.5.3",
     "angular-calendar": "^0.26.0-alpha.26",
     "angular-in-memory-web-api": "^0.6.0",
     "core-js": "^2.5.4",

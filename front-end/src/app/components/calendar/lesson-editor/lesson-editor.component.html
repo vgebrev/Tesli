@@ -3,10 +3,17 @@
   <p>
   {{data.eventStart}}
   </p>
+  <mat-form-field>
+    <input matInput placeholder="Start Time" type="time">
+    <mat-icon matSuffix (click)="open(startTime)" aria-label="Start Time">schedule</mat-icon>
+  </mat-form-field>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true">Save</button>
+<mat-dialog-actions align="end">
+    <button mat-button type="button" mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" 
+      class="icon-button--shake" [mat-dialog-close]="true">
+      <mat-icon>save</mat-icon><span>Save</span>
+    </button>
 </mat-dialog-actions>
 
 
