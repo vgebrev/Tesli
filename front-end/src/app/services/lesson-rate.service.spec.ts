@@ -13,25 +13,27 @@ describe('LessonRateService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should return the expected price for the given date and number of students',
+  it('getPrice returns the correct price for a given date and number of students',
   inject([LessonRateService], (service: LessonRateService) => {
+    const jan1st2017 = new Date(2017, 0, 1);
+    const jan1st2018 = new Date(2018, 0, 1);
     const theory = [
-      { date: new Date(2017, 0, 1), students: 1, expectedPrice: 300 },
-      { date: new Date(2017, 0, 1), students: 2, expectedPrice: 230 },
-      { date: new Date(2017, 0, 1), students: 3, expectedPrice: 180 },
-      { date: new Date(2017, 0, 1), students: 4, expectedPrice: 130 },
-      { date: new Date(2017, 0, 1), students: 5, expectedPrice: 130 },
-      { date: new Date(2017, 0, 1), students: 6, expectedPrice: 130 },
-      { date: new Date(2017, 0, 1), students: 7, expectedPrice: 90 },
-      { date: new Date(2017, 0, 1), students: 8, expectedPrice: 90 },
-      { date: new Date(2018, 0, 1), students: 1, expectedPrice: 300 },
-      { date: new Date(2018, 0, 1), students: 2, expectedPrice: 240 },
-      { date: new Date(2018, 0, 1), students: 3, expectedPrice: 190 },
-      { date: new Date(2018, 0, 1), students: 4, expectedPrice: 140 },
-      { date: new Date(2018, 0, 1), students: 5, expectedPrice: 140 },
-      { date: new Date(2018, 0, 1), students: 6, expectedPrice: 140 },
-      { date: new Date(2018, 0, 1), students: 7, expectedPrice: 100 },
-      { date: new Date(2018, 0, 1), students: 8, expectedPrice: 100 },
+      { date: jan1st2017, students: 1, expectedPrice: 300 },
+      { date: jan1st2017, students: 2, expectedPrice: 230 },
+      { date: jan1st2017, students: 3, expectedPrice: 180 },
+      { date: jan1st2017, students: 4, expectedPrice: 130 },
+      { date: jan1st2017, students: 5, expectedPrice: 130 },
+      { date: jan1st2017, students: 6, expectedPrice: 130 },
+      { date: jan1st2017, students: 7, expectedPrice: 90 },
+      { date: jan1st2017, students: 8, expectedPrice: 90 },
+      { date: jan1st2018, students: 1, expectedPrice: 300 },
+      { date: jan1st2018, students: 2, expectedPrice: 240 },
+      { date: jan1st2018, students: 3, expectedPrice: 190 },
+      { date: jan1st2018, students: 4, expectedPrice: 140 },
+      { date: jan1st2018, students: 5, expectedPrice: 140 },
+      { date: jan1st2018, students: 6, expectedPrice: 140 },
+      { date: jan1st2018, students: 7, expectedPrice: 100 },
+      { date: jan1st2018, students: 8, expectedPrice: 100 },
     ];
 
     theory.forEach((testCase) => expect(service.getPrice(testCase.date, testCase.students)).toEqual(testCase.expectedPrice));
