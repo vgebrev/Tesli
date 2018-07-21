@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AmazingTimePickerService } from 'amazing-time-picker';
+import { Lesson } from '../../../models/lesson';
 
 @Component({
   selector: 'app-lesson-editor',
@@ -9,11 +10,13 @@ import { AmazingTimePickerService } from 'amazing-time-picker';
 })
 export class LessonEditorComponent implements OnInit {
 
-  startTime;
+  private lesson: Lesson;
   constructor(
     public dialogRef: MatDialogRef<LessonEditorComponent>,
     private timePickerService: AmazingTimePickerService,
-  @Optional()  @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+      this.lesson = data.lesson;
+  }
 
   ngOnInit() {
   }

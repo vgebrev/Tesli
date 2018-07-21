@@ -1,3 +1,9 @@
 button span {
     padding-left: 12px;
 }
+
+.time-picker-toggle {
+    font-size:1em;
+    transform: translateY(4px); // TODO: Gnarly, why aren't margins/paddings working? Learn some damn CSS
+    padding-right:4px;
+}

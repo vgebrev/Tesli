@@ -4,8 +4,17 @@
   {{data.eventStart}}
   </p>
   <mat-form-field>
-    <input matInput placeholder="Start Time" type="time">
-    <mat-icon matSuffix (click)="open(startTime)" aria-label="Start Time">schedule</mat-icon>
+    <input matInput placeholder="Date" [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker touchUi #picker></mat-datepicker>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Start Time">
+    <mat-icon matSuffix (click)="open(startTime)" aria-label="Start Time" class="time-picker-toggle">schedule</mat-icon>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="End Time">
+    <mat-icon matSuffix (click)="open(startTime)" aria-label="End Time" class="time-picker-toggle">schedule</mat-icon>
   </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
