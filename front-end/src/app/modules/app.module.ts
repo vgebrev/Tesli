@@ -8,21 +8,21 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 
 import { AppComponent } from '../components/app/app.component';
-import { StudentsComponent } from '../components/students/students.component';
-import { StudentDetailComponent } from '../components/student-detail/student-detail.component';
+import { StudentListComponent } from '../components/student/student-list/student-list.component';
+import { StudentDetailComponent } from '../components/student/student-detail/student-detail.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppMaterialModule } from './app-material.module';
 import { LoadingIndicatorComponent } from '../components/loading-indicator/loading-indicator.component';
 import { CalendarComponent } from '../components/calendar/calendar/calendar.component';
 import { CalendarHeaderComponent } from '../components/calendar/calendar-header/calendar-header.component';
-import { LessonEditorComponent } from '../components/calendar/lesson-editor/lesson-editor.component';
-import { LessonAttendanceListComponent } from '../components/calendar/lesson-attendance-list/lesson-attendance-list.component';
-import { LessonDateTimePickerComponent } from '../components/calendar/lesson-date-time-picker/lesson-date-time-picker.component';
+import { LessonEditorComponent } from '../components/lesson/lesson-editor/lesson-editor.component';
+import { LessonAttendanceListComponent } from '../components/lesson/lesson-attendance-list/lesson-attendance-list.component';
+import { LessonDateTimePickerComponent } from '../components/lesson/lesson-date-time-picker/lesson-date-time-picker.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    StudentsComponent,
+    StudentListComponent,
     StudentDetailComponent,
     LoadingIndicatorComponent,
     CalendarComponent,

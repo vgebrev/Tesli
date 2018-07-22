@@ -1,16 +1,16 @@
 import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AppMaterialModule } from '../../modules/app-material.module';
-import { ActivatedRouteStub } from '../../../testing/activated-route.stub';
+import { AppMaterialModule } from '../../../modules/app-material.module';
+import { ActivatedRouteStub } from '../../../../testing/activated-route.stub';
 import { StudentDetailComponent } from './student-detail.component';
 import { Component, Input, DebugElement } from '@angular/core';
 import { Location } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { StudentService } from '../../services/student.service';
+import { StudentService } from '../../../services/student.service';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
-import { NotificationService } from '../../services/notification.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({selector: 'loading-indicator', template: ''})
 class LoadingIndicatorStubComponent { @Input() isLoading: boolean; }

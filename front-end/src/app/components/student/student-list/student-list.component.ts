@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Student } from '../../models/student';
-import { StudentService } from '../../services/student.service';
+import { Student } from '../../../models/student';
+import { StudentService } from '../../../services/student.service';
 import { tap, catchError } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
-import { NotificationService } from '../../services/notification.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
-  selector: 'app-students',
-  templateUrl: './students.component.html',
-  styleUrls: ['./students.component.scss']
+  selector: 'app-student-list',
+  templateUrl: './student-list.component.html',
+  styleUrls: ['./student-list.component.scss']
 })
-export class StudentsComponent implements OnInit {
+export class StudentListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'email', 'contactNumber', 'school', 'grade', 'action'];
   students: Student[] = [];
   isLoading = true;

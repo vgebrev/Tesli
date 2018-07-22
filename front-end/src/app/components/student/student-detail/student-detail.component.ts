@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { catchError, tap } from 'rxjs/operators';
-import { of, throwError } from 'rxjs';
+import { throwError } from 'rxjs';
 
-import { StudentService } from '../../services/student.service';
-import { NotificationService } from '../../services/notification.service';
+import { StudentService } from '../../../services/student.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({
   selector: 'app-student-detail',

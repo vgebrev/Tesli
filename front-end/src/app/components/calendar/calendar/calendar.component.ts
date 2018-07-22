@@ -4,7 +4,7 @@ import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject } from 'rxjs';
 import { addHours, isSameMonth, isSameDay, parse, format, addMilliseconds, getTime, startOfHour, setHours, startOfMinute } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
-import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component';
+import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.component';
 import { environment } from '../../../../environments/environment';
 
 function isMonthViewDay(object: any): object is MonthViewDay {

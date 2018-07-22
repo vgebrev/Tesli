@@ -1,17 +1,17 @@
 import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 
-import { StudentsComponent } from './students.component';
+import { StudentListComponent } from './student-list.component';
 import { Component, Input, DebugElement } from '@angular/core';
 import { of, throwError, Observable } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AppMaterialModule } from '../../modules/app-material.module';
-import { StudentService } from '../../services/student.service';
+import { AppMaterialModule } from '../../../modules/app-material.module';
+import { StudentService } from '../../../services/student.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router, Routes } from '@angular/router';
 import { Location } from '@angular/common';
-import { Student } from '../../models/student';
+import { Student } from '../../../models/student';
 import { By } from '@angular/platform-browser';
-import { NotificationService } from '../../services/notification.service';
+import { NotificationService } from '../../../services/notification.service';
 
 @Component({selector: 'loading-indicator', template: ''})
 class LoadingIndicatorStubComponent { @Input() isLoading: boolean; }
@@ -20,8 +20,8 @@ class LoadingIndicatorStubComponent { @Input() isLoading: boolean; }
 class StudentDetailStubComponent { }
 
 describe('StudentsComponent', () => {
-  let component: StudentsComponent;
-  let fixture: ComponentFixture<StudentsComponent>;
+  let component: StudentListComponent;
+  let fixture: ComponentFixture<StudentListComponent>;
   let debugElement: DebugElement;
   let router: Router;
   let location: Location;
@@ -33,7 +33,7 @@ describe('StudentsComponent', () => {
   ];
 
   const routes: Routes = [
-    { path: 'students', component: StudentsComponent },
+    { path: 'students', component: StudentListComponent },
     { path: '', redirectTo: '/students', pathMatch: 'full' },
     { path: 'student/:id', component: StudentDetailStubComponent },
     { path: 'student', component: StudentDetailStubComponent },
@@ -52,7 +52,7 @@ describe('StudentsComponent', () => {
         RouterTestingModule.withRoutes(routes)
       ],
       declarations: [
-        StudentsComponent,
+        StudentListComponent,
         LoadingIndicatorStubComponent,
         StudentDetailStubComponent
       ],
@@ -75,7 +75,7 @@ describe('StudentsComponent', () => {
   }
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StudentsComponent);
+    fixture = TestBed.createComponent(StudentListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     debugElement = fixture.debugElement;
