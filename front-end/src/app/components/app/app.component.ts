@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NotificationService } from '../../services/notification.service';
 import { MatSnackBar } from '@angular/material';
-import { Notification } from '../../models/notification';
+import { Notification } from '../../model/notification';
 
 @Component({
   selector: 'app-root',

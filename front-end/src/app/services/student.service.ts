@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Student } from '../models/student';
+import { Student } from '../model/student';
 import { environment } from '../../environments/environment';
 
 const httpOptions = {

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Optional } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Lesson } from '../../../models/lesson';
+import { Lesson } from '../../../model/lesson';
 
 @Component({
   selector: 'app-lesson-editor',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Student } from '../../../models/student';
+import { Student } from '../../../model/student';
 import { StudentService } from '../../../services/student.service';
 import { tap, catchError } from 'rxjs/operators';
 import { of, throwError } from 'rxjs';
