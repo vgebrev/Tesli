@@ -3,7 +3,7 @@ import { Component, Input } from '@angular/core';
 import { CalendarComponent } from './calendar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
-import { addDays, addHours, addMonths, parse, format, startOfHour, setHours } from 'date-fns';
+import { addDays, addHours, addMonths, parse, format, startOfHour, setHours, getTime, startOfMinute } from 'date-fns';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { Subject } from 'rxjs';
@@ -154,8 +154,17 @@ describe('CalendarComponent', () => {
   it('should open a lesson editor dialog when addLesson is called',
   inject([MatDialog, MatDialogRef], (dialogSpy: MatDialog, dialogRef: MatDialogRef<any>) => {
     const now = new Date();
+    const startTime = format(getTime(startOfMinute(now)), 'HH:mm');
+    const endTime = format(getTime(addHours(startOfMinute(now), 1)), 'HH:mm');
+
     component.addLesson(now);
-    expect(dialogSpy.open).toHaveBeenCalledWith(LessonEditorComponent, { data: { eventStart: now } });
+    expect(dialogSpy.open).toHaveBeenCalledWith(LessonEditorComponent, { data: {
+      date: now,
+      startTime: startTime,
+      endTime: endTime,
+      attendees: [],
+      status: 'active'
+    }});
     dialogRef.afterClosed().subscribe((result) => expect(result).toBeTruthy());
     dialogRef.close(true);
   }));

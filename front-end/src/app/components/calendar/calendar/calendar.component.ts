@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject } from 'rxjs';
-import { addHours, isSameMonth, isSameDay, parse, format, addMilliseconds, getTime, startOfHour, setHours } from 'date-fns';
+import { addHours, isSameMonth, isSameDay, parse, format, addMilliseconds, getTime, startOfHour, setHours, startOfMinute } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../lesson-editor/lesson-editor.component';
 import { environment } from '../../../../environments/environment';
@@ -102,7 +102,15 @@ export class CalendarComponent implements OnInit {
   }
 
   addLesson(date: Date) {
-    const dialogRef = this.dialog.open(LessonEditorComponent, { data: { eventStart: date } });
+    const startTime = startOfMinute(getTime(date));
+    const dialogRef = this.dialog.open(LessonEditorComponent, {
+      data: {
+        date: date,
+        startTime: format(startTime, 'HH:mm'),
+        endTime: format(addHours(startTime, 1), 'HH:mm'),
+        attendees: [],
+        status: 'active'
+      }});
     dialogRef.afterClosed().subscribe(result => {
       console.log('TODO: add lesson logic');
     });

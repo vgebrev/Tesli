@@ -3,7 +3,20 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { LessonEditorComponent } from './lesson-editor.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppMaterialModule } from '../../../modules/app-material.module';
-import { AmazingTimePickerService } from 'amazing-time-picker';
+import { Component, Input } from '@angular/core';
+import { LessonAttendee } from '../../../models/lesson-attendee';
+
+@Component({  selector: 'lesson-date-time-picker',  template: '' })
+class LessonDateTimePickerStubComponent {
+  @Input() date: Date;
+  @Input() startTime: string;
+  @Input() endTime: string;
+}
+
+@Component({ selector: 'lesson-attendance-list', template: '' })
+class LessonAttendanceListStubComponent {
+  @Input() attendees: LessonAttendee[];
+}
 
 class MatDialogRefMock {
   constructor() { }
@@ -14,18 +27,20 @@ describe('LessonEditorComponent', () => {
   let fixture: ComponentFixture<LessonEditorComponent>;
 
   beforeEach(async(() => {
-    const amazingTimePickerServiceSpy = jasmine.createSpyObj<AmazingTimePickerService>(['open']);
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
         MatDialogModule,
         AppMaterialModule
       ],
-      declarations: [ LessonEditorComponent ],
+      declarations: [
+        LessonEditorComponent,
+        LessonDateTimePickerStubComponent,
+        LessonAttendanceListStubComponent
+      ],
       providers: [
         { provide: MatDialogRef, useValue: MatDialogRefMock },
-        { provide: MAT_DIALOG_DATA, useValue: { data: { eventStart: new Date() } } },
-        { provide: AmazingTimePickerService, useValue: amazingTimePickerServiceSpy }
+        { provide: MAT_DIALOG_DATA, useValue: { data: { eventStart: new Date() } } }
       ]
     })
     .compileComponents();

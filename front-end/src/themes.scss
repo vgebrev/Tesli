@@ -6,6 +6,25 @@ $accent:  mat-palette($mat-green, A200, A100, A400);
 
 $theme: mat-dark-theme($primary, $accent);
 
+@mixin date-picker-theme($theme) {
+    $primary: map-get($theme, primary);
+    $accent: map-get($theme, accent);
+    $background: map-get($theme, background);
+    $foreground: map_get($theme, foreground);
+
+    .mat-calendar-header {
+        background-color: mat-color($primary);
+    }
+
+    .mat-calendar-body-selected {
+        font-weight: 500;
+        background-color: mat-color($accent);
+        color: mat-color($accent, default-contrast);
+    }
+}
+
+@include date-picker-theme($theme);
+
 @mixin amazing-time-picker-theme($theme) {
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);

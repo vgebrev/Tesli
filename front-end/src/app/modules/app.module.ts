@@ -16,6 +16,8 @@ import { LoadingIndicatorComponent } from '../components/loading-indicator/loadi
 import { CalendarComponent } from '../components/calendar/calendar/calendar.component';
 import { CalendarHeaderComponent } from '../components/calendar/calendar-header/calendar-header.component';
 import { LessonEditorComponent } from '../components/calendar/lesson-editor/lesson-editor.component';
+import { LessonAttendanceListComponent } from '../components/calendar/lesson-attendance-list/lesson-attendance-list.component';
+import { LessonDateTimePickerComponent } from '../components/calendar/lesson-date-time-picker/lesson-date-time-picker.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { LessonEditorComponent } from '../components/calendar/lesson-editor/less
     CalendarComponent,
     CalendarHeaderComponent,
     LessonEditorComponent,
+    LessonAttendanceListComponent,
+    LessonDateTimePickerComponent,
   ],
   entryComponents: [
     LessonEditorComponent
