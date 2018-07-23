@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { LessonDateTimePickerComponent } from './lesson-date-time-picker.component';
 import { AmazingTimePickerService } from 'amazing-time-picker';
@@ -14,7 +15,9 @@ describe('LessonDateTimePickerComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
-        AppMaterialModule
+        AppMaterialModule,
+        ReactiveFormsModule,
+        FormsModule
       ],
       declarations: [ LessonDateTimePickerComponent ],
       providers: [
