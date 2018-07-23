@@ -104,6 +104,7 @@ export class CalendarComponent implements OnInit {
   addLesson(date: Date) {
     const startTime = startOfMinute(getTime(date));
     const dialogRef = this.dialog.open(LessonEditorComponent, {
+      autoFocus: false,
       data: {
         date: date,
         startTime: format(startTime, 'HH:mm'),
@@ -113,6 +114,7 @@ export class CalendarComponent implements OnInit {
       }});
     dialogRef.afterClosed().subscribe(result => {
       console.log('TODO: add lesson logic');
+      console.log(result);
     });
   }
 

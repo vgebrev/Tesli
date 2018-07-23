@@ -1,5 +1,6 @@
 .time-picker-toggle {
-    font-size:1em;
+    cursor: pointer;
+    font-size: 1em;
     transform: translateY(4px); // FIXME: Gnarly, why aren't margins/paddings working? Learn some damn CSS
-    padding-right:4px;
+    padding-right: 4px;
 }

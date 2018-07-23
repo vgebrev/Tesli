@@ -158,13 +158,16 @@ describe('CalendarComponent', () => {
     const endTime = format(getTime(addHours(startOfMinute(now), 1)), 'HH:mm');
 
     component.addLesson(now);
-    expect(dialogSpy.open).toHaveBeenCalledWith(LessonEditorComponent, { data: {
-      date: now,
-      startTime: startTime,
-      endTime: endTime,
-      attendees: [],
-      status: 'active'
-    }});
+    expect(dialogSpy.open).toHaveBeenCalledWith(LessonEditorComponent, {
+      autoFocus: false,
+      data: {
+        date: now,
+        startTime: startTime,
+        endTime: endTime,
+        attendees: [],
+        status: 'active'
+      }
+    });
     dialogRef.afterClosed().subscribe((result) => expect(result).toBeTruthy());
     dialogRef.close(true);
   }));
