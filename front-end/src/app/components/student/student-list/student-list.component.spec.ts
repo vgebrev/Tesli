@@ -9,7 +9,7 @@ import { StudentService } from '../../../services/student.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Router, Routes } from '@angular/router';
 import { Location } from '@angular/common';
-import { Student } from '../../../models/student';
+import { Student } from '../../../model/student';
 import { By } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/notification.service';
 

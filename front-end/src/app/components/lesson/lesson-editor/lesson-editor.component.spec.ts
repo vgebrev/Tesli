@@ -4,7 +4,7 @@ import { LessonEditorComponent } from './lesson-editor.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppMaterialModule } from '../../../modules/app-material.module';
 import { Component, Input } from '@angular/core';
-import { LessonAttendee } from '../../../models/lesson-attendee';
+import { LessonAttendee } from '../../../model/lesson-attendee';
 
 @Component({  selector: 'lesson-date-time-picker',  template: '' })
 class LessonDateTimePickerStubComponent {
