@@ -18,6 +18,7 @@ import { CalendarHeaderComponent } from '../components/calendar/calendar-header/
 import { LessonEditorComponent } from '../components/lesson/lesson-editor/lesson-editor.component';
 import { LessonAttendanceListComponent } from '../components/lesson/lesson-attendance-list/lesson-attendance-list.component';
 import { LessonDateTimePickerComponent } from '../components/lesson/lesson-date-time-picker/lesson-date-time-picker.component';
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,9 @@ import { LessonDateTimePickerComponent } from '../components/lesson/lesson-date-
     }),
     AmazingTimePickerModule,
   ],
-  providers: [],
+  providers: [
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

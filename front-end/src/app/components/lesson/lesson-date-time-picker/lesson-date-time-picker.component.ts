@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AmazingTimePickerService } from 'amazing-time-picker';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
+import { CustomValidators } from '../../../validators/custom-validators';
 
 @Component({
   selector: 'lesson-date-time-picker',
@@ -12,7 +13,8 @@ export class LessonDateTimePickerComponent implements OnInit {
   @Input() date: Date;
   @Input() startTime: string;
   @Input() endTime: string;
-  private lessonDateTimeForm: FormGroup;
+  lessonDateTimeForm: FormGroup;
+  isValid: boolean;
 
   constructor(
     private timePickerService: AmazingTimePickerService,
@@ -25,14 +27,16 @@ export class LessonDateTimePickerComponent implements OnInit {
   createForm() {
     this.lessonDateTimeForm = this.formBuilder.group({
       date: this.date,
-      startTime: this.startTime,
-      endTime: this.endTime
-    });
+      startTime: [this.startTime, CustomValidators.time],
+      endTime: [this.endTime, CustomValidators.time]
+    }, { validator: CustomValidators.timeOrder });
+    this.isValid = this.lessonDateTimeForm.valid;
   }
 
-  open(selectedTime) {
+  openTimePicker(selectedTime) {
+    const control = this.lessonDateTimeForm.controls[`${selectedTime}Time`];
     const timePicker = this.timePickerService.open({
-      time:  selectedTime === 'start' ? this.startTime : this.endTime,
+      time: control.value,
       theme: 'dark',
       preference: {
         labels: {
@@ -40,6 +44,11 @@ export class LessonDateTimePickerComponent implements OnInit {
         }
       }
     });
-    timePicker.afterClose().subscribe(time => this.lessonDateTimeForm.controls[`${selectedTime}Time`].setValue(time));
+    timePicker.afterClose().subscribe(time => { control.setValue(time); this.onFormChanged(); });
+  }
+
+  onFormChanged() {
+    Object.keys(this.lessonDateTimeForm.controls).forEach(control => this.lessonDateTimeForm.get(control).markAsDirty());
+    this.isValid = this.lessonDateTimeForm.valid;
   }
 }

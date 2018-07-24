@@ -64,12 +64,12 @@ export class StudentDetailComponent implements OnInit {
           this.notificationService.notification$.next({
             message: 'Unable to load student',
             action: 'Retry',
-            config: { duration : 5000 },
+            config: { duration: 5000 },
             callback: () => this.getStudent()
           });
           return throwError(error);
         }),
-      ).subscribe(student => this.studentForm.setValue(student), () => {});
+    ).subscribe(student => this.studentForm.setValue(student), () => { });
   }
 
   goBack() {
@@ -92,12 +92,12 @@ export class StudentDetailComponent implements OnInit {
           this.notificationService.notification$.next({
             message: 'Unable to save student',
             action: 'Retry',
-            config: { duration : 5000 },
+            config: { duration: 5000 },
             callback: () => this.save()
           });
           return throwError(error);
         }),
-      ).subscribe(() => this.goBack(), () => {});
+    ).subscribe(() => this.goBack(), () => { });
     return true;
   }
 }

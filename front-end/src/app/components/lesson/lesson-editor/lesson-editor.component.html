@@ -1,9 +1,6 @@
 <h2 mat-dialog-title>Lesson Details</h2>
 <mat-dialog-content>
-  <p>
-  {{lesson.date}}
-  </p>
-  <lesson-date-time-picker
+  <lesson-date-time-picker #dateTimePicker
     [date]="lesson.date"
     [startTime]="lesson.startTime"
     [endTime]="lesson.endTime">
@@ -14,7 +11,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button type="button" mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" 
+  <button mat-raised-button color="primary" [disabled]="!dateTimePicker.isValid"
     class="icon-button--shake" [mat-dialog-close]="lesson">
     <mat-icon>save</mat-icon><span>Save</span>
   </button>

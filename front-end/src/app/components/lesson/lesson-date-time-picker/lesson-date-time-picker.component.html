@@ -1,15 +1,20 @@
 <form [formGroup]="lessonDateTimeForm">
   <mat-form-field>
-    <input matInput placeholder="Date" [matDatepicker]="picker" formControlName="date">
+    <input matInput placeholder="Date" [matDatepicker]="picker" formControlName="date" (dateChange)="onFormChanged()" required>
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker touchUi #picker></mat-datepicker>
+    <mat-error>Invalid date</mat-error>
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="Start Time" formControlName="startTime">
-    <mat-icon matSuffix (click)="open('start')" aria-label="Start Time" class="time-picker-toggle">schedule</mat-icon>
+    <input matInput placeholder="Start Time" formControlName="startTime" (change)="onFormChanged()" required>
+    <mat-icon matSuffix (click)="openTimePicker('start')" aria-label="Start Time" class="time-picker-toggle">schedule</mat-icon>
+    <mat-error *ngIf="lessonDateTimeForm.get('startTime').hasError('time')">Invalid time</mat-error>
+    <mat-error *ngIf="lessonDateTimeForm.get('startTime').hasError('isAfterEndTime')">Start should be before End</mat-error>
   </mat-form-field>
   <mat-form-field>
-    <input matInput placeholder="End Time" formControlName="endTime">
-    <mat-icon matSuffix (click)="open('end')" aria-label="End Time" class="time-picker-toggle">schedule</mat-icon>
+    <input matInput placeholder="End Time" formControlName="endTime" (change)="onFormChanged()" required>
+    <mat-icon matSuffix (click)="openTimePicker('end')" aria-label="End Time" class="time-picker-toggle">schedule</mat-icon>
+    <mat-error *ngIf="lessonDateTimeForm.get('endTime').hasError('time')">Invalid time</mat-error>
+    <mat-error *ngIf="lessonDateTimeForm.get('endTime').hasError('isBeforeStartTime')">End should be after Start</mat-error>
   </mat-form-field>
 </form>
