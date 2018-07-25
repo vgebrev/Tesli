@@ -3,7 +3,8 @@
   <lesson-date-time-picker #dateTimePicker
     [date]="lesson.date"
     [startTime]="lesson.startTime"
-    [endTime]="lesson.endTime">
+    [endTime]="lesson.endTime"
+    (dateTimeChange)="onDateTimeChanged($event)">
   </lesson-date-time-picker>
   <lesson-attendance-list 
     [attendees]="lesson.attendees">

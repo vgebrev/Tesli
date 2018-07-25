@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { AmazingTimePickerService } from 'amazing-time-picker';
 import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
 import { CustomValidators } from '../../../validators/custom-validators';
@@ -13,6 +13,7 @@ export class LessonDateTimePickerComponent implements OnInit {
   @Input() date: Date;
   @Input() startTime: string;
   @Input() endTime: string;
+  @Output() dateTimeChange: EventEmitter<any> = new EventEmitter();
   lessonDateTimeForm: FormGroup;
   isValid: boolean;
 
@@ -50,6 +51,9 @@ export class LessonDateTimePickerComponent implements OnInit {
   onFormChanged() {
     Object.keys(this.lessonDateTimeForm.controls).forEach(control => this.lessonDateTimeForm.get(control).markAsDirty());
     this.isValid = this.lessonDateTimeForm.valid;
+    if (this.isValid) {
+      this.dateTimeChange.emit(this.lessonDateTimeForm.value);
+    }
   }
 
   hasError(controlName: string, error: string) {
