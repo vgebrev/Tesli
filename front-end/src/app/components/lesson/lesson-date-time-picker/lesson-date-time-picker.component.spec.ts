@@ -7,7 +7,7 @@ import { LessonDateTimePickerComponent } from './lesson-date-time-picker.compone
 import { AmazingTimePickerService } from 'amazing-time-picker';
 import { Subject } from 'rxjs';
 
-fdescribe('LessonDateTimePickerComponent', () => {
+describe('LessonDateTimePickerComponent', () => {
   let component: LessonDateTimePickerComponent;
   let fixture: ComponentFixture<LessonDateTimePickerComponent>;
   const timePickerClose$ = new Subject();
@@ -69,5 +69,15 @@ fdescribe('LessonDateTimePickerComponent', () => {
 
     component.lessonDateTimeForm.patchValue(expectedValue);
     component.onFormChanged();
+  });
+
+  it('should return true when hasError is called with a control containing the error', () => {
+    component.lessonDateTimeForm.get('startTime').setErrors({ testError: true });
+    expect(component.hasError('startTime', 'testError')).toBeTruthy();
+  });
+
+  it('should return false when hasError is called with a control not containing the error', () => {
+    component.lessonDateTimeForm.get('startTime').setErrors(null);
+    expect(component.hasError('startTime', 'testError')).toBeFalsy();
   });
 });
