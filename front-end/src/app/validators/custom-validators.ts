@@ -24,7 +24,7 @@ export class CustomValidators extends Validators {
 
     if (!startTime.isValid || !endTime.isValid) { return null; }
 
-    if (endTime.isBefore(startTime)) {
+    if (endTime.isBefore(startTime) || endTime.isSame(startTime)) {
       startTimeControl.setErrors({ isAfterEndTime: true });
       endTimeControl.setErrors({ isBeforeStartTime: true });
     } else {

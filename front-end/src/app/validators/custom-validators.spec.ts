@@ -81,7 +81,7 @@ describe('CustomValidators', () => {
   }));
 
   it('timeOrder is valid if start time is before end time', inject([FormBuilder], (formBuilder: FormBuilder) => {
-    const form = buildForm(formBuilder, '15:00', '16:00');
+    const form = buildForm(formBuilder, '15:00', '15:45');
 
     expect(form.get('startTime').hasError('isAfterEndTime')).toBeFalsy();
     expect(form.get('endTime').hasError('isBeforeStartTime')).toBeFalsy();
