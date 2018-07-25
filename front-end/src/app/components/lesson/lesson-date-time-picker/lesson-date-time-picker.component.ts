@@ -51,4 +51,8 @@ export class LessonDateTimePickerComponent implements OnInit {
     Object.keys(this.lessonDateTimeForm.controls).forEach(control => this.lessonDateTimeForm.get(control).markAsDirty());
     this.isValid = this.lessonDateTimeForm.valid;
   }
+
+  hasError(controlName: string, error: string) {
+    return this.lessonDateTimeForm.get(controlName).hasError(error);
+  }
 }

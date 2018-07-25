@@ -16,17 +16,14 @@ export class CustomValidators extends Validators {
   static timeOrder(control: AbstractControl) {
     const startTimeControl = control.get('startTime');
     const endTimeControl = control.get('endTime');
-
-    if (!startTimeControl.value || !endTimeControl.value) { return null; }
-
     const startTime = new Time(startTimeControl.value);
     const endTime = new Time(endTimeControl.value);
 
     if (!startTime.isValid || !endTime.isValid) { return null; }
 
     if (endTime.isBefore(startTime) || endTime.isSame(startTime)) {
-      startTimeControl.setErrors({ isAfterEndTime: true });
-      endTimeControl.setErrors({ isBeforeStartTime: true });
+      startTimeControl.setErrors({ timeOrder: true });
+      endTimeControl.setErrors({ timeOrder: true });
     } else {
       startTimeControl.setErrors(null);
       endTimeControl.setErrors(null);

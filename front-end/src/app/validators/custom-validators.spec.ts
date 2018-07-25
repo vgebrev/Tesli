@@ -55,35 +55,35 @@ describe('CustomValidators', () => {
   it('timeOrder is valid if start time is invalid', inject([FormBuilder], (formBuilder: FormBuilder) => {
     const form = buildForm(formBuilder, 'invalid start', '16:00');
 
-    expect(form.get('startTime').hasError('isAfterEndTime')).toBeFalsy();
-    expect(form.get('endTime').hasError('isBeforeStartTime')).toBeFalsy();
+    expect(form.get('startTime').hasError('timeOrder')).toBeFalsy();
+    expect(form.get('endTime').hasError('timeOrder')).toBeFalsy();
   }));
 
   it('timeOrder is valid if end time is invalid', inject([FormBuilder], (formBuilder: FormBuilder) => {
     const form = buildForm(formBuilder, '15:00', 'invalid');
 
-    expect(form.get('startTime').hasError('isAfterEndTime')).toBeFalsy();
-    expect(form.get('endTime').hasError('isBeforeStartTime')).toBeFalsy();
+    expect(form.get('startTime').hasError('timeOrder')).toBeFalsy();
+    expect(form.get('endTime').hasError('timeOrder')).toBeFalsy();
   }));
 
   it('timeOrder is invalid if start time is after end time', inject([FormBuilder], (formBuilder: FormBuilder) => {
     const form = buildForm(formBuilder, '16:00', '15:00');
 
-    expect(form.get('startTime').hasError('isAfterEndTime')).toBeTruthy();
-    expect(form.get('endTime').hasError('isBeforeStartTime')).toBeTruthy();
+    expect(form.get('startTime').hasError('timeOrder')).toBeTruthy();
+    expect(form.get('endTime').hasError('timeOrder')).toBeTruthy();
   }));
 
   it('timeOrder is invalid if start time is the same as end time', inject([FormBuilder], (formBuilder: FormBuilder) => {
     const form = buildForm(formBuilder, '15:00', '15:00');
 
-    expect(form.get('startTime').hasError('isAfterEndTime')).toBeTruthy();
-    expect(form.get('endTime').hasError('isBeforeStartTime')).toBeTruthy();
+    expect(form.get('startTime').hasError('timeOrder')).toBeTruthy();
+    expect(form.get('endTime').hasError('timeOrder')).toBeTruthy();
   }));
 
   it('timeOrder is valid if start time is before end time', inject([FormBuilder], (formBuilder: FormBuilder) => {
     const form = buildForm(formBuilder, '15:00', '15:45');
 
-    expect(form.get('startTime').hasError('isAfterEndTime')).toBeFalsy();
-    expect(form.get('endTime').hasError('isBeforeStartTime')).toBeFalsy();
+    expect(form.get('startTime').hasError('timeOrder')).toBeFalsy();
+    expect(form.get('endTime').hasError('timeOrder')).toBeFalsy();
   }));
 });
