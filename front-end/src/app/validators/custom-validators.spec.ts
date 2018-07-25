@@ -3,7 +3,7 @@ import { TestBed, inject } from '@angular/core/testing';
 import { CustomValidators } from './custom-validators';
 import { FormBuilder, AbstractControl } from '@angular/forms';
 
-fdescribe('CustomValidators', () => {
+describe('CustomValidators', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [FormBuilder]
