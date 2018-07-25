@@ -21,6 +21,6 @@ export class Time {
     }
 
     isBefore(time: Time) {
-      return this.hour < time.hour || (this.hour === time.hour && this.minute < time.minute);
+      return this.hour <= time.hour || (this.hour === time.hour && this.minute <= time.minute);
     }
 }
