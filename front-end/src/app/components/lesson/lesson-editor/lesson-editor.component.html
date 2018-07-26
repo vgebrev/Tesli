@@ -12,7 +12,7 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button type="button" mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="!dateTimePicker.isValid"
+  <button mat-raised-button color="primary" [disabled]="!dateTimePicker.isValid || !lesson.attendees.length"
     class="icon-button--shake" [mat-dialog-close]="lesson">
     <mat-icon>save</mat-icon><span>Save</span>
   </button>
