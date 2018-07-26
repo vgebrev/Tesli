@@ -38,4 +38,5 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<mat-error *ngIf="!attendees.length">Please add at least one student to lesson</mat-error>
 </div>
