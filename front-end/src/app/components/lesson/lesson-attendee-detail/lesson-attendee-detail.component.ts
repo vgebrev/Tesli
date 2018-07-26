@@ -20,4 +20,7 @@ export class LessonAttendeeDetailComponent implements OnInit {
   ngOnInit() {
   }
 
+  delete() {
+    this.remove.emit();
+  }
 }
