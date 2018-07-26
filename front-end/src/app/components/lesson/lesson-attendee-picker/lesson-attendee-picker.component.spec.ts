@@ -7,6 +7,7 @@ import { AppMaterialModule } from '../../../modules/app-material.module';
 import { Student } from '../../../model/student';
 import { of } from 'rxjs';
 import { StudentService } from '../../../services/student.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('LessonAttendeePickerComponent', () => {
   let component: LessonAttendeePickerComponent;
@@ -30,6 +31,8 @@ describe('LessonAttendeePickerComponent', () => {
       imports: [
         NoopAnimationsModule,
         AppMaterialModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       declarations: [
         LessonAttendeePickerComponent,

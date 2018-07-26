@@ -6,6 +6,7 @@ import { Student } from '../../../model/student';
 import { StudentService } from '../../../services/student.service';
 import { NotificationService } from '../../../services/notification.service';
 import { LessonAttendee } from '../../../model/lesson-attendee';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'lesson-attendee-picker',
@@ -15,7 +16,7 @@ import { LessonAttendee } from '../../../model/lesson-attendee';
 export class LessonAttendeePickerComponent implements OnInit {
   isLoading: boolean;
   students: Student[];
-  selectedStudent: Student;
+  selectedStudent = new FormControl();
   @Output() attendeePick: EventEmitter<LessonAttendee> = new EventEmitter();
 
   constructor(private studentService: StudentService, private notificationService: NotificationService) { }
@@ -42,14 +43,16 @@ export class LessonAttendeePickerComponent implements OnInit {
       ).subscribe(students => this.students = students);
   }
 
-  pickAttendee(): void {
-    if (this.selectedStudent) {
+  pickAttendee(event): void {
+    if (this.selectedStudent.value) {
       this.attendeePick.emit(Object.assign(new LessonAttendee(), {
-        student: this.selectedStudent,
+        student: this.selectedStudent.value,
         hasAttended: false,
         hasPaid: false,
         price: 0
       }));
+      this.selectedStudent.setValue(null);
+      event.source.close();
     }
   }
 }

@@ -1,7 +1,7 @@
 <div class="lesson-attendee-picker">
   <loading-indicator [isLoading]="isLoading"></loading-indicator>
   <mat-form-field class="full-width">
-    <mat-select placeholder="Student" [(value)]="selectedStudent" (selectionChange)="pickAttendee()">
+    <mat-select placeholder="Add Student" [formControl]="selectedStudent" (selectionChange)="pickAttendee($event)">
       <mat-option *ngFor="let student of students" [value]="student">
         {{student.name}}
       </mat-option>
