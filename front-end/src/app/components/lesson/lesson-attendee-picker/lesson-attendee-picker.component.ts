@@ -42,15 +42,14 @@ export class LessonAttendeePickerComponent implements OnInit {
       ).subscribe(students => this.students = students);
   }
 
-  pickAttendee(event): void {
+  pickAttendee(): void {
     if (this.selectedStudent) {
       this.attendeePick.emit(Object.assign(new LessonAttendee(), {
         student: this.selectedStudent,
         hasAttended: false,
         hasPaid: false,
-        price: undefined
+        price: 0
       }));
     }
-    event.stopPropagation();
   }
 }

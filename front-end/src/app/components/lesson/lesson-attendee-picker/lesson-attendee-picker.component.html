@@ -1,20 +1,10 @@
 <div class="lesson-attendee-picker">
   <loading-indicator [isLoading]="isLoading"></loading-indicator>
   <mat-form-field class="full-width">
-    <mat-select placeholder="Student" [(value)]="selectedStudent" required>
+    <mat-select placeholder="Student" [(value)]="selectedStudent" (selectionChange)="pickAttendee()">
       <mat-option *ngFor="let student of students" [value]="student">
         {{student.name}}
       </mat-option>
     </mat-select>
-    <button
-      matSuffix 
-      mat-icon-button 
-      matTooltip="Add to Lesson" 
-      matTooltipPosition="right" 
-      (click)="pickAttendee($event)"
-      class="icon-button--shake">
-      <mat-icon>add</mat-icon>
-    </button>
-    <mat-error>Student is required</mat-error>
   </mat-form-field>
 </div>
