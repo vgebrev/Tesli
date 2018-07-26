@@ -25,10 +25,6 @@ export class LessonAttendeeListComponent implements OnInit {
     this.table.renderRows();
   }
 
-  updateAttendee(attendee: LessonAttendee, newAttendee: LessonAttendee) {
-    Object.assign(attendee, newAttendee);
-  }
-
   addAttendee(attendee: LessonAttendee) {
     if (!this.attendees.find(a => a.student === attendee.student)) {
       const attendeeCount = this.attendees.length;
