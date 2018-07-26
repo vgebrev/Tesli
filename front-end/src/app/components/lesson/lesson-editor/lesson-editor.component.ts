@@ -19,6 +19,5 @@ export class LessonEditorComponent implements OnInit {
 
   onDateTimeChanged(dateTime) {
     Object.assign(this.lesson, dateTime);
-    console.log(this.lesson);
   }
 }
