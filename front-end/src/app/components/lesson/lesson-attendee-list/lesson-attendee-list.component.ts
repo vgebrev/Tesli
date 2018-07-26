@@ -19,7 +19,9 @@ export class LessonAttendeeListComponent implements OnInit {
   }
 
   removeAttendee(attendee: LessonAttendee) {
+    const attendeeCount = this.attendees.length;
     this.attendees = this.attendees.filter(a => a !== attendee);
+    this.setPrices(attendeeCount);
     this.table.renderRows();
   }
 
@@ -29,15 +31,17 @@ export class LessonAttendeeListComponent implements OnInit {
 
   addAttendee(attendee: LessonAttendee) {
     if (!this.attendees.find(a => a.student === attendee.student)) {
+      const attendeeCount = this.attendees.length;
       this.attendees.push(attendee);
-      this.setPrices();
+      this.setPrices(attendeeCount);
       this.table.renderRows();
     }
   }
 
-  setPrices() {
+  setPrices(previousAttendeeCount: number) {
+    if (this.attendees.length === 0) { return; }
     const now = new Date();
-    const priceForPreviousAttendeeCount = this.lessonRateService.getPrice(now, Math.max(this.attendees.length - 1, 1));
+    const priceForPreviousAttendeeCount = this.lessonRateService.getPrice(now, Math.max(previousAttendeeCount, 1));
     const priceForCurrentAttendeeCount = this.lessonRateService.getPrice(now, this.attendees.length);
     this.attendees.forEach(attendee => {
       if (attendee.price === 0 || attendee.price === priceForPreviousAttendeeCount) {
