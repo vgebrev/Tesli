@@ -34,8 +34,8 @@ export class LessonDateTimePickerComponent implements OnInit {
     this.isValid = this.lessonDateTimeForm.valid;
   }
 
-  openTimePicker(selectedTime) {
-    const control = this.lessonDateTimeForm.controls[`${selectedTime}Time`];
+  openTimePicker(formControlName) {
+    const control = this.lessonDateTimeForm.controls[formControlName];
     const timePicker = this.timePickerService.open({
       time: control.value,
       theme: 'dark',

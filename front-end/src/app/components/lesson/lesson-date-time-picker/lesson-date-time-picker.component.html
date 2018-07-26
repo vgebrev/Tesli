@@ -7,14 +7,18 @@
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="Start Time" formControlName="startTime" (change)="onFormChanged()" required>
-    <mat-icon matSuffix (click)="openTimePicker('start')" aria-label="Start Time" class="time-picker-toggle">schedule</mat-icon>
+    <button matSuffix mat-icon-button (click)="openTimePicker('startTime')">
+      <mat-icon aria-label="Start Time">schedule</mat-icon>
+    </button>
     <mat-error *ngIf="hasError('startTime', 'required')">Start Time is required</mat-error>
     <mat-error *ngIf="hasError('startTime', 'time')">Invalid time</mat-error>
     <mat-error *ngIf="hasError('startTime', 'timeOrder')">Start Time should be before End Time</mat-error>
   </mat-form-field>
   <mat-form-field>
     <input matInput placeholder="End Time" formControlName="endTime" (change)="onFormChanged()" required>
-    <mat-icon matSuffix (click)="openTimePicker('end')" aria-label="End Time" class="time-picker-toggle">schedule</mat-icon>
+    <button matSuffix mat-icon-button (click)="openTimePicker('endTime')">
+        <mat-icon aria-label="End Time">schedule</mat-icon>
+    </button>
     <mat-error *ngIf="hasError('endTime', 'required')">End Time is required</mat-error>
     <mat-error *ngIf="hasError('endTime', 'time')">Invalid time</mat-error>
     <mat-error *ngIf="hasError('endTime', 'timeOrder')">End Time should be after Start Time</mat-error>

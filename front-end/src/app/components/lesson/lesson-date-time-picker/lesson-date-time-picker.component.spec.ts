@@ -42,7 +42,7 @@ describe('LessonDateTimePickerComponent', () => {
 
   it('should call open on AmazingTimePicker service when openTimePicker is called',
   inject([AmazingTimePickerService], (timePickerService: AmazingTimePickerService) => {
-    component.openTimePicker('start');
+    component.openTimePicker('startTime');
     expect(timePickerService.open).toHaveBeenCalledWith({
         time: component.lessonDateTimeForm.get('startTime').value,
         theme: 'dark',
