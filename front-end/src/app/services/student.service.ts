@@ -46,7 +46,7 @@ export class StudentService {
     const url = `${this.studentsUrl}/${id}`;
 
     return this.http.delete<Student>(url, httpOptions).pipe(
-      catchError(this.handleError<Student>('deleteHero'))
+      catchError(this.handleError<Student>('deleteStudent'))
     );
   }
 

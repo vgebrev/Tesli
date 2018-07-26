@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 
 import { StudentListComponent } from './student-list.component';
-import { Component, Input, DebugElement } from '@angular/core';
-import { of, throwError, Observable } from 'rxjs';
+import { Component, DebugElement } from '@angular/core';
+import { of, throwError } from 'rxjs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
 import { StudentService } from '../../../services/student.service';
@@ -12,9 +12,7 @@ import { Location } from '@angular/common';
 import { Student } from '../../../model/student';
 import { By } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/notification.service';
-
-@Component({selector: 'loading-indicator', template: ''})
-class LoadingIndicatorStubComponent { @Input() isLoading: boolean; }
+import { LoadingIndicatorStubComponent } from '../../../../testing/loading-indicator.stub';
 
 @Component({selector: 'app-student-detail', template: ''})
 class StudentDetailStubComponent { }
@@ -44,7 +42,7 @@ describe('StudentsComponent', () => {
   });
 
   beforeEach(async(() => {
-    const studentServiceSpy = createHeroServiceSpy();
+    const studentServiceSpy = createStudentServiceSpy();
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
@@ -67,7 +65,7 @@ describe('StudentsComponent', () => {
     router.initialNavigation();
   }));
 
-  function createHeroServiceSpy() {
+  function createStudentServiceSpy() {
     const studentServiceSpy = jasmine.createSpyObj('StudentService', ['getStudents', 'deleteStudent']);
     studentServiceSpy.getStudents.and.callFake(() => of(students));
     studentServiceSpy.deleteStudent.and.callFake(() => of({}));

@@ -2,11 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { LessonAttendee } from '../../../model/lesson-attendee';
 
 @Component({
-  selector: 'lesson-attendance-list',
-  templateUrl: './lesson-attendance-list.component.html',
-  styleUrls: ['./lesson-attendance-list.component.scss']
+  selector: 'lesson-attendee-list',
+  templateUrl: './lesson-attendee-list.component.html',
+  styleUrls: ['./lesson-attendee-list.component.scss']
 })
-export class LessonAttendanceListComponent implements OnInit {
+export class LessonAttendeeListComponent implements OnInit {
 
   @Input() attendees: LessonAttendee[];
 

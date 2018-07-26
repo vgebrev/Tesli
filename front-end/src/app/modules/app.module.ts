@@ -16,7 +16,7 @@ import { LoadingIndicatorComponent } from '../components/loading-indicator/loadi
 import { CalendarComponent } from '../components/calendar/calendar/calendar.component';
 import { CalendarHeaderComponent } from '../components/calendar/calendar-header/calendar-header.component';
 import { LessonEditorComponent } from '../components/lesson/lesson-editor/lesson-editor.component';
-import { LessonAttendanceListComponent } from '../components/lesson/lesson-attendance-list/lesson-attendance-list.component';
+import { LessonAttendeeListComponent } from '../components/lesson/lesson-attendee-list/lesson-attendee-list.component';
 import { LessonDateTimePickerComponent } from '../components/lesson/lesson-date-time-picker/lesson-date-time-picker.component';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { LessonAttendeeDetailComponent } from '../components/lesson/lesson-attendee-detail/lesson-attendee-detail.component';
@@ -31,7 +31,7 @@ import { LessonAttendeePickerComponent } from '../components/lesson/lesson-atten
     CalendarComponent,
     CalendarHeaderComponent,
     LessonEditorComponent,
-    LessonAttendanceListComponent,
+    LessonAttendeeListComponent,
     LessonDateTimePickerComponent,
     LessonAttendeeDetailComponent,
     LessonAttendeePickerComponent,

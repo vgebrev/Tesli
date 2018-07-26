@@ -3,7 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppMaterialModule } from '../../../modules/app-material.module';
 import { ActivatedRouteStub } from '../../../../testing/activated-route.stub';
 import { StudentDetailComponent } from './student-detail.component';
-import { Component, Input, DebugElement } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { Location } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -11,9 +11,7 @@ import { StudentService } from '../../../services/student.service';
 import { of, throwError } from 'rxjs';
 import { By } from '@angular/platform-browser';
 import { NotificationService } from '../../../services/notification.service';
-
-@Component({selector: 'loading-indicator', template: ''})
-class LoadingIndicatorStubComponent { @Input() isLoading: boolean; }
+import { LoadingIndicatorStubComponent } from '../../../../testing/loading-indicator.stub';
 
 describe('StudentDetailComponent', () => {
   let component: StudentDetailComponent;
@@ -35,7 +33,7 @@ describe('StudentDetailComponent', () => {
   };
 
   beforeEach(async(() => {
-    const studentServiceSpy = createHeroServiceSpy();
+    const studentServiceSpy = createStudentServiceSpy();
     const locationSpy = jasmine.createSpyObj('Location', ['back']);
     activatedRoute = new ActivatedRouteStub();
     TestBed.configureTestingModule({
@@ -56,7 +54,7 @@ describe('StudentDetailComponent', () => {
     .compileComponents();
   }));
 
-  function createHeroServiceSpy() {
+  function createStudentServiceSpy() {
     const studentServiceSpy = jasmine.createSpyObj('StudentService', ['getStudent', 'updateStudent', 'addStudent']);
     studentServiceSpy.getStudent.and.callFake(() => of(testStudent));
     studentServiceSpy.addStudent.and.callFake(() => of({}));

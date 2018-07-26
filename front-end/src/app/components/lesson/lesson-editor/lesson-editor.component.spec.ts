@@ -13,8 +13,8 @@ class LessonDateTimePickerStubComponent {
   @Input() endTime: string;
 }
 
-@Component({ selector: 'lesson-attendance-list', template: '' })
-class LessonAttendanceListStubComponent {
+@Component({ selector: 'lesson-attendee-list', template: '' })
+class LessonAttendeeListStubComponent {
   @Input() attendees: LessonAttendee[];
 }
 
@@ -36,7 +36,7 @@ describe('LessonEditorComponent', () => {
       declarations: [
         LessonEditorComponent,
         LessonDateTimePickerStubComponent,
-        LessonAttendanceListStubComponent
+        LessonAttendeeListStubComponent
       ],
       providers: [
         { provide: MatDialogRef, useValue: MatDialogRefMock },

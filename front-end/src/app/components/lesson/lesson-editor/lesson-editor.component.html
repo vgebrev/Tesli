@@ -6,9 +6,9 @@
     [endTime]="lesson.endTime"
     (dateTimeChange)="onDateTimeChanged($event)">
   </lesson-date-time-picker>
-  <lesson-attendance-list 
+  <lesson-attendee-list 
     [attendees]="lesson.attendees">
-  </lesson-attendance-list>
+  </lesson-attendee-list>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button type="button" mat-dialog-close>Cancel</button>
