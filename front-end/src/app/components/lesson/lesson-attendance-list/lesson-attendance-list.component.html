@@ -1,3 +1,12 @@
-<p>
-  lesson-attendance-list works!
-</p>
+<div class="lesson-attendance-list">
+<lesson-attendee-picker (attendeePick)="addAttendee($event)"></lesson-attendee-picker>
+<lesson-attendee-detail 
+  *ngFor="let attendee of attendees"
+  [student]="attendee.student"
+  [hasAttended]="attendee.hasAttended"
+  [hasPaid]="attendee.hasPaid"
+  [price]="attendee.price"
+  (remove)="removeAttendee(attendee)"
+  (update)="updateAttendee(attendee, $event)">
+</lesson-attendee-detail>
+</div>

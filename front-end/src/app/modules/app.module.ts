@@ -19,6 +19,8 @@ import { LessonEditorComponent } from '../components/lesson/lesson-editor/lesson
 import { LessonAttendanceListComponent } from '../components/lesson/lesson-attendance-list/lesson-attendance-list.component';
 import { LessonDateTimePickerComponent } from '../components/lesson/lesson-date-time-picker/lesson-date-time-picker.component';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { LessonAttendeeDetailComponent } from '../components/lesson/lesson-attendee-detail/lesson-attendee-detail.component';
+import { LessonAttendeePickerComponent } from '../components/lesson/lesson-attendee-picker/lesson-attendee-picker.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
     LessonEditorComponent,
     LessonAttendanceListComponent,
     LessonDateTimePickerComponent,
+    LessonAttendeeDetailComponent,
+    LessonAttendeePickerComponent,
   ],
   entryComponents: [
     LessonEditorComponent

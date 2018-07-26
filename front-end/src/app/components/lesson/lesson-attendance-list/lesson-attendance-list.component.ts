@@ -15,4 +15,17 @@ export class LessonAttendanceListComponent implements OnInit {
   ngOnInit() {
   }
 
+  removeAttendee(attendee: LessonAttendee) {
+    this.attendees = this.attendees.filter(a => a !== attendee);
+  }
+
+  updateAttendee(attendee: LessonAttendee, newAttendee: LessonAttendee) {
+    Object.assign(attendee, newAttendee);
+  }
+
+  addAttendee(attendee: LessonAttendee) {
+    if (!this.attendees.find(a => a.student === attendee.student)) {
+      this.attendees.push(attendee);
+    }
+  }
 }

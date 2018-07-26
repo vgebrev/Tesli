@@ -37,6 +37,10 @@ body {
     animation: shake-animation 0.5s;
 }
 
+.full-width {
+    width: 100%;
+}
+
 mat-button-toggle .mat-button-toggle-label-content {
     width: 100%;
     padding: 0;
