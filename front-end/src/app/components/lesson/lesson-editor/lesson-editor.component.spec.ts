@@ -55,4 +55,18 @@ describe('LessonEditorComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should update lesson with date and time when onDateTimeChanged is called', () => {
+    const dateTime = {
+      date: new Date(2018, 6, 27, 15, 0),
+      startTime: '15:00',
+      endTime: '16:00'
+    };
+
+    component.onDateTimeChanged(dateTime);
+
+    expect(component.lesson.date).toBe(dateTime.date);
+    expect(component.lesson.startTime).toBe(dateTime.startTime);
+    expect(component.lesson.endTime).toBe(dateTime.endTime);
+  });
 });

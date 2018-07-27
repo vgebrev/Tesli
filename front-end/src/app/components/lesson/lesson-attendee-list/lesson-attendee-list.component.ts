@@ -26,12 +26,12 @@ export class LessonAttendeeListComponent implements OnInit {
   }
 
   addAttendee(attendee: LessonAttendee) {
-    if (!this.attendees.find(a => a.student === attendee.student)) {
-      const attendeeCount = this.attendees.length;
-      this.attendees.push(attendee);
-      this.setPrices(attendeeCount);
-      this.table.renderRows();
-    }
+    if (this.attendees.find(a => a.student === attendee.student)) { return; }
+
+    const attendeeCount = this.attendees.length;
+    this.attendees.push(attendee);
+    this.setPrices(attendeeCount);
+    this.table.renderRows();
   }
 
   setPrices(previousAttendeeCount: number) {

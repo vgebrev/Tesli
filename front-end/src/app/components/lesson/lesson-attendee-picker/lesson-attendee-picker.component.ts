@@ -44,15 +44,15 @@ export class LessonAttendeePickerComponent implements OnInit {
   }
 
   pickAttendee(event): void {
-    if (this.selectedStudent.value) {
-      this.attendeePick.emit(Object.assign(new LessonAttendee(), {
-        student: this.selectedStudent.value,
-        hasAttended: false,
-        hasPaid: false,
-        price: 0
-      }));
-      this.selectedStudent.setValue(null);
-      event.source.close();
-    }
+    if (!this.selectedStudent.value) { return; }
+
+    this.attendeePick.emit(Object.assign(new LessonAttendee(), {
+      student: this.selectedStudent.value,
+      hasAttended: false,
+      hasPaid: false,
+      price: 0
+    }));
+    this.selectedStudent.setValue(null);
+    event.source.close();
   }
 }
