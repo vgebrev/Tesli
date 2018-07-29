@@ -10,7 +10,6 @@ import { StudentService } from '../../../services/student.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NotificationService } from '../../../services/notification.service';
 import { LessonAttendee } from '../../../model/lesson-attendee';
-import { privateEncrypt } from 'crypto';
 
 describe('LessonAttendeePickerComponent', () => {
   let component: LessonAttendeePickerComponent;

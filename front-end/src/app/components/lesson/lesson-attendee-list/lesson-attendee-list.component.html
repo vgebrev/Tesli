@@ -1,4 +1,5 @@
 <div class="lesson-attendee-list">
+<loading-indicator [isLoading]="isLoading"></loading-indicator>
 <lesson-attendee-picker (attendeePick)="addAttendee($event)"></lesson-attendee-picker>
 <table mat-table [dataSource]="attendees" class="mat-elevation-z8 full-width" [class.hidden]="attendees.length === 0">
   <ng-container matColumnDef="name">

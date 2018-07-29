@@ -1,10 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { LessonRateService } from './lesson-rate.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('LessonRateService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientModule,
+        HttpClientTestingModule],
       providers: [LessonRateService]
     });
   });
@@ -45,6 +50,8 @@ describe('LessonRateService', () => {
       { date: jan1st2018, students: 8, expectedPrice: 100 },
     ];
 
-    theory.forEach((testCase) => expect(service.getPrice(testCase.date, testCase.students)).toEqual(testCase.expectedPrice));
+    theory.forEach((testCase) => {
+      service.getPrice$(testCase.date, testCase.students).subscribe((actualPrice) => expect(actualPrice).toEqual(testCase.expectedPrice));
+    });
   }));
 });

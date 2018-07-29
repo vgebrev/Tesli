@@ -4,9 +4,11 @@ import { AppMaterialModule } from '../../../modules/app-material.module';
 import { FormsModule } from '@angular/forms';
 
 import { LessonAttendeeListComponent } from './lesson-attendee-list.component';
-import { Component, Input, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { LessonAttendee } from '../../../model/lesson-attendee';
 import { LessonRateService } from '../../../services/lesson-rate.service';
+import { LoadingIndicatorStubComponent } from '../../../../testing/loading-indicator.stub';
+import { of } from 'rxjs';
 
 @Component({ selector: 'lesson-attendee-picker', template: '' })
 class LessonAttendeePickerStubComponent {
@@ -18,8 +20,8 @@ describe('LessonAttendeeListComponent', () => {
   let fixture: ComponentFixture<LessonAttendeeListComponent>;
 
   beforeEach(async(() => {
-    const lessonRateServiceSpy = jasmine.createSpyObj<LessonRateService>(['getPrice']);
-    lessonRateServiceSpy.getPrice.and.callFake((effectiveDate: Date, numberOfStudents: number) => numberOfStudents);
+    const lessonRateServiceSpy = jasmine.createSpyObj<LessonRateService>(['getPrice$']);
+    lessonRateServiceSpy.getPrice$.and.callFake((effectiveDate: Date, numberOfStudents: number) => of(numberOfStudents));
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
@@ -28,7 +30,8 @@ describe('LessonAttendeeListComponent', () => {
       ],
       declarations: [
         LessonAttendeeListComponent,
-        LessonAttendeePickerStubComponent
+        LessonAttendeePickerStubComponent,
+        LoadingIndicatorStubComponent
       ],
       providers: [
         { provide: LessonRateService, useValue: lessonRateServiceSpy }
@@ -106,7 +109,7 @@ describe('LessonAttendeeListComponent', () => {
   it('setPrices should return immediately when there are no attendees',
   inject([LessonRateService], (lessonRateService: LessonRateService) => {
     component.setPrices(1);
-    expect(lessonRateService.getPrice).not.toHaveBeenCalled();
+    expect(lessonRateService.getPrice$).not.toHaveBeenCalled();
   }));
 
   it('setPrices should set price to a new attendee',
@@ -118,7 +121,7 @@ describe('LessonAttendeeListComponent', () => {
       price: 0
     });
     component.setPrices(0);
-    expect(lessonRateService.getPrice).toHaveBeenCalledTimes(2);
+    expect(lessonRateService.getPrice$).toHaveBeenCalledTimes(2);
     expect(component.attendees[0].price).toBe(1);
   }));
 
@@ -131,7 +134,7 @@ describe('LessonAttendeeListComponent', () => {
       price: 2
     });
     component.setPrices(2);
-    expect(lessonRateService.getPrice).toHaveBeenCalledTimes(2);
+    expect(lessonRateService.getPrice$).toHaveBeenCalledTimes(2);
     expect(component.attendees[0].price).toBe(1);
   }));
 
@@ -144,7 +147,7 @@ describe('LessonAttendeeListComponent', () => {
       price: 3
     });
     component.setPrices(2);
-    expect(lessonRateService.getPrice).toHaveBeenCalledTimes(2);
+    expect(lessonRateService.getPrice$).toHaveBeenCalledTimes(2);
     expect(component.attendees[0].price).toBe(3);
   }));
 });
