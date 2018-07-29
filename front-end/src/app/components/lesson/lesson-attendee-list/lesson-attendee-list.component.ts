@@ -58,6 +58,7 @@ export class LessonAttendeeListComponent implements OnInit {
         })
       )
       .subscribe((prices: Array<number>) => {
+        if (prices.length !== 2) { return; }
         const PREVIOUS = 0;
         const CURRENT = 1;
         this.attendees.forEach((attendee) => {

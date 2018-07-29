@@ -34,35 +34,3 @@ export class CalendarDateStubPipe implements PipeTransform {
         return null;
     }
 }
-
-@Component({selector: 'mwl-calendar-month-view', template: ''})
-export class CalendarMonthViewStubComponent {
-  @Input() viewDate: Date;
-  @Input() events = [];
-  @Input() activeDayIsOpen = false;
-  @Input() refresh: Subject<any>;
-  @Input() cellTemplate: TemplateRef<any>;
-  @Output()
-  eventTimesChanged = new EventEmitter<CalendarEventTimesChangedEvent>();
-}
-
-@Component({selector: 'mwl-calendar-week-view', template: ''})
-export class CalendarWeekViewStubComponent {
-  @Input() viewDate: Date;
-  @Input() events = [];
-  @Input() refresh: Subject<any>;
-  @Output()
-  eventTimesChanged = new EventEmitter<CalendarEventTimesChangedEvent>();
-}
-
-@Component({selector: 'mwl-calendar-day-view', template: ''})
-export class CalendarDayViewStubComponent {
-  @Input() viewDate: Date;
-  @Input() events = [];
-  @Input() refresh: Subject<any>;
-  @Input() hourSegments = 4;
-  @Input() dayStartHour = 0;
-  @Input() dayEndHour = 23;
-  @Output()
-  eventTimesChanged = new EventEmitter<CalendarEventTimesChangedEvent>();
-}

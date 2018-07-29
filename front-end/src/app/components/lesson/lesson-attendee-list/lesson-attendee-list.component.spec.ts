@@ -7,8 +7,9 @@ import { LessonAttendeeListComponent } from './lesson-attendee-list.component';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { LessonAttendee } from '../../../model/lesson-attendee';
 import { LessonRateService } from '../../../services/lesson-rate.service';
+import { NotificationService } from '../../../services/notification.service';
 import { LoadingIndicatorStubComponent } from '../../../../testing/loading-indicator.stub';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 @Component({ selector: 'lesson-attendee-picker', template: '' })
 class LessonAttendeePickerStubComponent {
@@ -150,4 +151,26 @@ describe('LessonAttendeeListComponent', () => {
     expect(lessonRateService.getPrice$).toHaveBeenCalledTimes(2);
     expect(component.attendees[0].price).toBe(3);
   }));
+
+  it('should handle service getPrice$ errors',
+  async(inject([LessonRateService, NotificationService], (service: LessonRateService, notificationService: NotificationService) => {
+    const erroringService = service as any;
+    erroringService.getPrice$.and.callFake(() => throwError('service error'));
+    component.attendees.push({
+      student: { id: 1, name: 'test student' },
+      hasAttended: false,
+      hasPaid: false,
+      price: 2
+    });
+
+    notificationService.notification$.subscribe((notification) => {
+      expect(notification.message).toBe('Unable to set prices');
+      expect(notification.action).toBe('Retry');
+      expect(notification.config).toEqual({ duration: 5000});
+      const retrySetPrices = spyOn(component, 'setPrices');
+      notification.callback();
+      expect(retrySetPrices).toHaveBeenCalledWith(1);
+    });
+    component.setPrices(1);
+  })));
 });
