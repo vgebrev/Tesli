@@ -6,10 +6,12 @@ import { AppMaterialModule } from '../../../modules/app-material.module';
 import { addDays, addHours, addMonths, parse, format, startOfHour, setHours, getTime, startOfMinute } from 'date-fns';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { Subject } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.component';
 import { environment } from '../../../../environments/environment';
+import { LessonService } from '../../../services/lesson.service';
+import { lessons } from '../../../services/in-memory-data/lessons';
 
 @Component({ selector: 'app-calendar-header', template: ''})
 class CalendarHeaderStubComponent {
@@ -41,6 +43,8 @@ describe('CalendarComponent', () => {
     const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     dialogSpy.open.and.callFake(() => dialogRefMock);
 
+    const lessonServiceSpy = jasmine.createSpyObj<LessonService>(['getLessons']);
+    lessonServiceSpy.getLessons.and.callFake(() => of(lessons));
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
@@ -56,7 +60,8 @@ describe('CalendarComponent', () => {
       ],
       providers: [
         { provide: MatDialog, useValue: dialogSpy },
-        { provide: MatDialogRef, useValue: dialogRefMock }
+        { provide: MatDialogRef, useValue: dialogRefMock },
+        { provide: LessonService, useValue: lessonServiceSpy }
       ]
     })
     .compileComponents();

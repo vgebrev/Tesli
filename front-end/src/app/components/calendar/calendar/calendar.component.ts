@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar';
 import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject } from 'rxjs';
-import { addHours, isSameMonth, isSameDay, parse, format, addMilliseconds, getTime, startOfHour, setHours, startOfMinute } from 'date-fns';
+import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute, getDate } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.component';
 import { environment } from '../../../../environments/environment';
+import { LessonService } from '../../../services/lesson.service';
 
 function isMonthViewDay(object: any): object is MonthViewDay {
   return object.hasOwnProperty('events');
@@ -22,27 +23,10 @@ export class CalendarComponent implements OnInit {
   viewDate: Date = new Date();
   activeDayIsOpen = true;
   refresh: Subject<any> = new Subject();
-  events: CalendarEvent[] = [{
-      title: 'An event',
-      start: new Date(2018, 6, 8, 10, 0),
-      end: addHours(new Date(2018, 6, 8, 10, 0), 1),
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    }, {
-      title: 'Today event',
-      start: parse(format(this.viewDate, 'YYYY-MM-DD 15:00')),
-      end: addHours(parse(format(this.viewDate, 'YYYY-MM-DD 15:00')), 1),
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      }
-    }];
+  events: CalendarEvent[] = [];
 
   constructor(
+    private lessonService: LessonService,
     public dialog: MatDialog,
   ) { }
 
@@ -50,6 +34,23 @@ export class CalendarComponent implements OnInit {
     this.refresh.subscribe((newDate) => {
       this.viewDate = newDate;
       this.activeDayIsOpen = this.events.some((event) => isSameDay(event.start, this.viewDate) || isSameDay(event.end, this.viewDate));
+    });
+    this.loadLessons();
+  }
+
+  loadLessons() {
+    this.lessonService.getLessons().subscribe((lessons) => {
+      this.events = lessons.map((lesson) => ({
+        title: 'Lesson Title',
+        start: parse(lesson.date),
+        end: parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`)),
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true
+        },
+        meta: lesson
+      }));
     });
   }
 
