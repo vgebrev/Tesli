@@ -3,21 +3,18 @@ import { TestBed, inject, async, fakeAsync, tick, flushMicrotasks } from '@angul
 import { LessonRateService } from './lesson-rate.service';
 import { HttpClientModule, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { lessonRates as lessonRatesWithUtcDates } from './in-memory-data/lesson-rates';
+import { lessonRates } from './in-memory-data/lesson-rates';
 import { environment } from '../../environments/environment';
 
 describe('LessonRateService', () => {
   const lessonRatesUrl = `${environment.apiUrl}/lessonRate`;
-  const lessonRates = lessonRatesWithUtcDates.map((utcLessonRate) => ({
-    effectiveDate: new Date(utcLessonRate.effectiveDate.getTime() + utcLessonRate.effectiveDate.getTimezoneOffset() * 60 * 1000),
-    numberOfStudents: utcLessonRate.numberOfStudents,
-    price: utcLessonRate.price
-  }));
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientModule,
-        HttpClientTestingModule],
+        HttpClientTestingModule
+      ],
       providers: [LessonRateService]
     });
   });
