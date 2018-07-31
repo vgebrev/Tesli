@@ -137,9 +137,20 @@ export class CalendarComponent implements OnInit {
         attendees: [],
         status: 'active'
       }});
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('TODO: add lesson logic');
-      console.log(result);
+    dialogRef.afterClosed().subscribe(lesson => {
+      if (!lesson) { return; }
+      this.events.push({
+        title: 'Lesson Title',
+        start: parse(lesson.date),
+        end: parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`)),
+        draggable: true,
+        resizable: {
+          beforeStart: true,
+          afterEnd: true
+        },
+        meta: lesson
+      });
+      this.refresh.next(lesson.date);
     });
   }
 
