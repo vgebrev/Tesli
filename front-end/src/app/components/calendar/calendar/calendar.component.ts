@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CalendarEvent, CalendarEventTimesChangedEvent } from 'angular-calendar';
+import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarEventTitleFormatter } from 'angular-calendar';
 import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject } from 'rxjs';
 import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute, getDate } from 'date-fns';
@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.component';
 import { environment } from '../../../../environments/environment';
 import { LessonService } from '../../../services/lesson.service';
+import { LessonTitleFormatter } from './lesson-title-formatter.provider';
 
 function isMonthViewDay(object: any): object is MonthViewDay {
   return object.hasOwnProperty('events');
@@ -15,7 +16,10 @@ function isMonthViewDay(object: any): object is MonthViewDay {
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  providers: [
+    { provide: CalendarEventTitleFormatter, useClass: LessonTitleFormatter }
+  ]
 })
 export class CalendarComponent implements OnInit {
   hoverItem = null;
@@ -95,6 +99,7 @@ export class CalendarComponent implements OnInit {
     }
     event.start = newStart;
     event.end = newEnd;
+    event.title = format(newStart); // TODO: Figure out why custom title formatter only updates when title changes
     this.refresh.next(parse(format(newStart, 'YYYY-MM-DD')));
   }
 
