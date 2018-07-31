@@ -12,6 +12,7 @@ import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.
 import { environment } from '../../../../environments/environment';
 import { LessonService } from '../../../services/lesson.service';
 import { lessons } from '../../../services/in-memory-data/lessons';
+import { LoadingIndicatorStubComponent } from '../../../../testing/loading-indicator.stub';
 
 @Component({ selector: 'app-calendar-header', template: ''})
 class CalendarHeaderStubComponent {
@@ -56,7 +57,8 @@ describe('CalendarComponent', () => {
       ],
       declarations: [
         CalendarComponent,
-        CalendarHeaderStubComponent
+        CalendarHeaderStubComponent,
+        LoadingIndicatorStubComponent
       ],
       providers: [
         { provide: MatDialog, useValue: dialogSpy },
@@ -135,7 +137,7 @@ describe('CalendarComponent', () => {
 
   it('should set activeDayIsOpen to false when it is true and selectDay is called with a new day in the same month and no events',
   () => {
-    const viewDate = new Date();
+    const viewDate = new Date(2018, 6, 1);
     const newDate = addDays(viewDate, 1);
     component.activeDayIsOpen = true;
     component.viewDate = viewDate;
@@ -146,7 +148,7 @@ describe('CalendarComponent', () => {
 
   it('should set activeDayIsOpen to true when it is false and selectDay is called with a new day in the same month with events',
   () => {
-    const viewDate = new Date();
+    const viewDate = new Date(2018, 6, 1);
     const newDate = addDays(viewDate, 1);
     component.activeDayIsOpen = false;
     component.viewDate = viewDate;
