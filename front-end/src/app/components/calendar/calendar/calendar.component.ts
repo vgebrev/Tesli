@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarEventTitleFormatter } from 'angular-calendar';
 import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject, of } from 'rxjs';
-import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute, getDate } from 'date-fns';
+import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.component';
 import { environment } from '../../../../environments/environment';
 import { LessonService } from '../../../services/lesson.service';
 import { LessonTitleFormatter } from './lesson-title-formatter.provider';
-import { tap, catchError } from '../../../../../node_modules/rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
 import { Lesson } from '../../../model/lesson';
+import { MatMenuTrigger } from '@angular/material';
 
 function isMonthViewDay(object: any): object is MonthViewDay {
   return object.hasOwnProperty('events');
@@ -32,6 +33,7 @@ export class CalendarComponent implements OnInit {
   activeDayIsOpen = true;
   refresh: Subject<any> = new Subject();
   events: CalendarEvent[] = [];
+  @ViewChildren(MatMenuTrigger) menu: QueryList<MatMenuTrigger>;
 
   constructor(
     private lessonService: LessonService,
@@ -63,17 +65,28 @@ export class CalendarComponent implements OnInit {
           return of([]);
         })
       ).subscribe((lessons: Array<Lesson>) => {
-        this.events = lessons.map((lesson) => ({
-          title: 'Lesson Title',
-          start: parse(lesson.date),
-          end: parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`)),
-          draggable: true,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true
-          },
-          meta: lesson
-        }));
+        this.events = lessons
+          .sort((a, b) => parse(a.date) > parse(b.date) ? 1 : -1)
+          .map((lesson) => ({
+            title: 'Lesson Title',
+            start: parse(lesson.date),
+            end: parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`)),
+            draggable: true,
+            resizable: {
+              beforeStart: true,
+              afterEnd: true
+            },
+            meta: lesson,
+            actions: [{
+              icon: 'edit',
+              label: 'Edit',
+              onClick: (evt) => { console.log('TODO: edit'); console.log(evt); }
+            }, {
+              icon: 'repeat',
+              label: 'Reschedule',
+              onClick: (evt) => { console.log('TODO: reschedule'); console.log(evt); }
+            }]
+          }));
       });
   }
 
@@ -92,7 +105,7 @@ export class CalendarComponent implements OnInit {
   }
 
   selectDay(day): void {
-   const { date, events } = day;
+    const { date, events } = day;
     if (!isSameMonth(date, this.viewDate)) {
       return;
     }
@@ -152,6 +165,13 @@ export class CalendarComponent implements OnInit {
       });
       this.refresh.next(lesson.date);
     });
+  }
+
+  showMenu(event) {
+    const eventIndex =  this.events
+      .filter((e) => isSameDay(e.start, event.start))
+      .findIndex((e) => e === event);
+    this.menu.toArray()[eventIndex].openMenu();
   }
 
   setHoverItem(item) {

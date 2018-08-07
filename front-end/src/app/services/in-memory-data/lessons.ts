@@ -33,7 +33,7 @@ export const lessons: Lesson[] = [{
     status: 'active'
   }, {
     id: 3,
-    date: new Date(2018, 7, 5, 11, 15),
+    date: new Date(2018, 7, 7, 11, 15),
     startTime: '11:15',
     endTime: '12:30',
     attendees: [{

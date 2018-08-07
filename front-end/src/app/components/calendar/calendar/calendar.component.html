@@ -64,33 +64,47 @@
     </div>
   </ng-template>
 
-<ng-template
-  #hourSegmentTemplate
-  let-segment="segment"
-  let-locale="locale"
-  let-segmentHeight="segmentHeight">
-  <div
-    class="cal-hour-segment"
-    [style.height.px]="segmentHeight"
-    [class.cal-hour-start]="segment.isStart"
-    [class.cal-after-hour-start]="!segment.isStart"
-    [ngClass]="segment.cssClass"
-    (mouseenter)="setHoverItem(segment)"
-    (mouseleave)="clearHoverItem()"
-    (click)="handleCalendarClick($event, segment)">
-    <div class="cal-action" *ngIf="hoverItem === segment">
-      <button 
-        mat-mini-fab
-        matTooltip="Add New Lesson" 
-        matTooltipPosition="right" 
-        class="icon-button--shake">
-        <mat-icon aria-label="Add New Lesson">add</mat-icon>
+  <ng-template
+    #hourSegmentTemplate
+    let-segment="segment"
+    let-locale="locale"
+    let-segmentHeight="segmentHeight">
+    <div
+      class="cal-hour-segment"
+      [style.height.px]="segmentHeight"
+      [class.cal-hour-start]="segment.isStart"
+      [class.cal-after-hour-start]="!segment.isStart"
+      [ngClass]="segment.cssClass"
+      (mouseenter)="setHoverItem(segment)"
+      (mouseleave)="clearHoverItem()"
+      (click)="handleCalendarClick($event, segment)">
+      <div class="cal-action" *ngIf="hoverItem === segment">
+        <button 
+          mat-mini-fab
+          matTooltip="Add New Lesson" 
+          matTooltipPosition="right" 
+          class="icon-button--shake">
+          <mat-icon aria-label="Add New Lesson">add</mat-icon>
+        </button>
+      </div>
+      <div class="cal-time" *ngIf="hoverItem !== segment">
+        {{ segment.date | calendarDate:'dayViewHour':locale }}
+      </div>
+    </div>
+  </ng-template>
+
+  <ng-template
+    #eventActionsMenuTemplate
+    let-event="event">
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" (mwlClick)="showMenu(event)">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #actionsMenu="matMenu">
+      <button mat-menu-item *ngFor="let action of event.actions; trackBy:trackByIndex" (mwlClick)="action.onClick({event: event})">
+        <mat-icon>{{action.icon}}</mat-icon>
+        <span [innerHtml]="action.label"></span>
       </button>
-    </div>
-    <div class="cal-time" *ngIf="hoverItem !== segment">
-      {{ segment.date | calendarDate:'dayViewHour':locale }}
-    </div>
-  </div>
+    </mat-menu>
 </ng-template>
 
   <div [ngSwitch]="view">
@@ -101,7 +115,8 @@
       [activeDayIsOpen]="activeDayIsOpen"
       [refresh]="refresh"
       (eventTimesChanged)="changeEventTimes($event)"
-      [cellTemplate]="monthCellTemplate">
+      [cellTemplate]="monthCellTemplate"
+      [eventActionsTemplate]="eventActionsMenuTemplate">
     </mwl-calendar-month-view>
     <mwl-calendar-day-view
       *ngSwitchCase="'day'"
@@ -113,7 +128,8 @@
       [hourSegments]="4"
       [hourSegmentHeight]="36"
       (eventTimesChanged)="changeEventTimes($event)"
-      [hourSegmentTemplate]="hourSegmentTemplate">
+      [hourSegmentTemplate]="hourSegmentTemplate"
+      [eventActionsTemplate]="eventActionsMenuTemplate">
     </mwl-calendar-day-view>
   </div>
 </div>

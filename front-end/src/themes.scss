@@ -94,6 +94,10 @@ $theme: mat-dark-theme($primary, $accent);
     $primary: map-get($theme, primary);
     $accent: map-get($theme, accent);
     $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    .cal-event-action {
+        color: mat-color($foreground, icon);
+    }
 
     .cal-month-view {
         .cal-open-day-events {
