@@ -87,7 +87,7 @@ export class CalendarComponent implements OnInit {
         onClick: (evt) => { this.editLesson(evt.event); }
       }, {
         icon: 'repeat',
-        label: 'Reschedule',
+        label: 'Repeat',
         onClick: (evt) => { console.log('TODO: reschedule'); console.log(evt); }
       }]
     };

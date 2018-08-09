@@ -159,25 +159,27 @@ describe('CalendarComponent', () => {
   });
 
   it('should open a lesson editor dialog when addLesson is called',
-  inject([MatDialog, MatDialogRef], (dialogSpy: MatDialog, dialogRef: MatDialogRef<any>) => {
+  async(inject([MatDialog, MatDialogRef], (dialogSpy: MatDialog, dialogRef: MatDialogRef<any>) => {
     const now = new Date();
     const startTime = format(getTime(startOfMinute(now)), 'HH:mm');
     const endTime = format(getTime(addHours(startOfMinute(now), 1)), 'HH:mm');
+    const lesson = {
+      id: 0,
+      date: now,
+      startTime: startTime,
+      endTime: endTime,
+      attendees: [],
+      status: 'active'
+    };
 
     component.addLesson(now);
     expect(dialogSpy.open).toHaveBeenCalledWith(LessonEditorComponent, {
       autoFocus: false,
-      data: {
-        date: now,
-        startTime: startTime,
-        endTime: endTime,
-        attendees: [],
-        status: 'active'
-      }
+      data: lesson
     });
     dialogRef.afterClosed().subscribe((result) => expect(result).toBeTruthy());
-    dialogRef.close(true);
-  }));
+    dialogRef.close(lesson);
+  })));
 
   it('should set hoverItem to setHoverItem argument', () => {
     const day = { isFakeDay: true };
