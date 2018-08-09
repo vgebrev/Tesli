@@ -66,27 +66,31 @@ export class CalendarComponent implements OnInit {
       ).subscribe((lessons: Array<Lesson>) => {
         this.events = lessons
           .sort((a, b) => parse(a.date) > parse(b.date) ? 1 : -1)
-          .map((lesson) => ({
-            title: 'Lesson Title',
-            start: parse(lesson.date),
-            end: parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`)),
-            draggable: true,
-            resizable: {
-              beforeStart: true,
-              afterEnd: true
-            },
-            meta: lesson,
-            actions: [{
-              icon: 'edit',
-              label: 'Edit',
-              onClick: (evt) => { this.editLesson(evt.event); }
-            }, {
-              icon: 'repeat',
-              label: 'Reschedule',
-              onClick: (evt) => { console.log('TODO: reschedule'); console.log(evt); }
-            }]
-          }));
+          .map((lesson) => this.initEvent(lesson));
       });
+  }
+
+  initEvent(lesson) {
+    return {
+      title: 'Lesson Title',
+      start: parse(format(lesson.date, `YYYY-MM-DD ${lesson.startTime}`)),
+      end: parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`)),
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      },
+      meta: lesson,
+      actions: [{
+        icon: 'edit',
+        label: 'Edit',
+        onClick: (evt) => { this.editLesson(evt.event); }
+      }, {
+        icon: 'repeat',
+        label: 'Reschedule',
+        onClick: (evt) => { console.log('TODO: reschedule'); console.log(evt); }
+      }]
+    };
   }
 
   handleCalendarClick(evt, data: MonthViewDay|DayViewHourSegment) {
@@ -134,6 +138,7 @@ export class CalendarComponent implements OnInit {
     event.meta.startTime = format(newStart, 'HH:mm');
     event.meta.endTime = format(newEnd, 'HH:mm');
     event.title = this.lessonTitleFormatter.day(event, ''); // TODO: Figure out why UI only updates using title formatter when title changes
+    this.sortEvents();
     this.refresh.next(parse(format(newStart, 'YYYY-MM-DD')));
   }
 
@@ -144,20 +149,14 @@ export class CalendarComponent implements OnInit {
   addLesson(date: Date) {
     const startTime = startOfMinute(getTime(date));
     const lessonToAdd = {
+      id: 0,
       date: date,
       startTime: format(startTime, 'HH:mm'),
       endTime: format(addHours(startTime, 1), 'HH:mm'),
       attendees: [],
       status: 'active'
     };
-    const event: any = {
-      draggable: true,
-      resizable: {
-        beforeStart: true,
-        afterEnd: true
-      },
-      meta: lessonToAdd
-    };
+    const event: any = this.initEvent(lessonToAdd);
     this.editLesson(event, true);
   }
 
@@ -176,8 +175,13 @@ export class CalendarComponent implements OnInit {
       if (isNew) {
         this.events.push(event);
       }
+      this.sortEvents();
       this.refresh.next(lesson.date);
     });
+  }
+
+  sortEvents() {
+    this.events = this.events.sort((a, b) => a.start > b.start ? 1 : -1);
   }
 
   setHoverItem(item) {
