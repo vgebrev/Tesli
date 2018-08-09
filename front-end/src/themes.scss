@@ -261,6 +261,10 @@ $theme: mat-dark-theme($primary, $accent);
             background-color: mat-color($primary, 600);
             color: mat-color($primary, default-contrast);
             border: 1px solid mat-color($primary, lighter);
+
+            ul {
+                list-style-type: none;
+            }
         }
 
         .cal-starts-within-day .cal-event {

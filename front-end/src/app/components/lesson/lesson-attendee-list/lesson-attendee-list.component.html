@@ -34,7 +34,8 @@
         matTooltip="Remove from Lesson" 
         matTooltipPosition="right" 
         (click)="removeAttendee(attendee)"
-        class="icon-button--shake">
+        class="icon-button--shake"
+        [disabled]="attendee.hasAttended || attendee.hasPaid">
         <mat-icon>delete</mat-icon>
       </button>
     </td>

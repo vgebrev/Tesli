@@ -96,7 +96,7 @@
   <ng-template
     #eventActionsMenuTemplate
     let-event="event">
-    <button mat-icon-button [matMenuTriggerFor]="actionsMenu" (mwlClick)="showMenu(event)">
+    <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
       <mat-icon>more_vert</mat-icon>
     </button>
     <mat-menu #actionsMenu="matMenu">

@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarEventTitleFormatter } from 'angular-calendar';
 import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject, of } from 'rxjs';
-import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute } from 'date-fns';
+import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute, startOfDay } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.component';
 import { environment } from '../../../../environments/environment';
@@ -11,7 +11,6 @@ import { LessonTitleFormatter } from './lesson-title-formatter.provider';
 import { tap, catchError } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
 import { Lesson } from '../../../model/lesson';
-import { MatMenuTrigger } from '@angular/material';
 
 function isMonthViewDay(object: any): object is MonthViewDay {
   return object.hasOwnProperty('events');
@@ -33,12 +32,12 @@ export class CalendarComponent implements OnInit {
   activeDayIsOpen = true;
   refresh: Subject<any> = new Subject();
   events: CalendarEvent[] = [];
-  @ViewChildren(MatMenuTrigger) menu: QueryList<MatMenuTrigger>;
 
   constructor(
     private lessonService: LessonService,
     private notificationService: NotificationService,
     public dialog: MatDialog,
+    private lessonTitleFormatter: CalendarEventTitleFormatter
   ) { }
 
   ngOnInit() {
@@ -80,7 +79,7 @@ export class CalendarComponent implements OnInit {
             actions: [{
               icon: 'edit',
               label: 'Edit',
-              onClick: (evt) => { console.log('TODO: edit'); console.log(evt); }
+              onClick: (evt) => { this.editLesson(evt.event); }
             }, {
               icon: 'repeat',
               label: 'Reschedule',
@@ -131,7 +130,10 @@ export class CalendarComponent implements OnInit {
     }
     event.start = newStart;
     event.end = newEnd;
-    event.title = format(newStart); // TODO: Figure out why custom title formatter only updates when title changes
+    event.meta.date = newStart;
+    event.meta.startTime = format(newStart, 'HH:mm');
+    event.meta.endTime = format(newEnd, 'HH:mm');
+    event.title = this.lessonTitleFormatter.day(event, ''); // TODO: Figure out why UI only updates using title formatter when title changes
     this.refresh.next(parse(format(newStart, 'YYYY-MM-DD')));
   }
 
@@ -141,37 +143,41 @@ export class CalendarComponent implements OnInit {
 
   addLesson(date: Date) {
     const startTime = startOfMinute(getTime(date));
-    const dialogRef = this.dialog.open(LessonEditorComponent, {
-      autoFocus: false,
-      data: {
-        date: date,
-        startTime: format(startTime, 'HH:mm'),
-        endTime: format(addHours(startTime, 1), 'HH:mm'),
-        attendees: [],
-        status: 'active'
-      }});
-    dialogRef.afterClosed().subscribe(lesson => {
-      if (!lesson) { return; }
-      this.events.push({
-        title: 'Lesson Title',
-        start: parse(lesson.date),
-        end: parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`)),
-        draggable: true,
-        resizable: {
-          beforeStart: true,
-          afterEnd: true
-        },
-        meta: lesson
-      });
-      this.refresh.next(lesson.date);
-    });
+    const lessonToAdd = {
+      date: date,
+      startTime: format(startTime, 'HH:mm'),
+      endTime: format(addHours(startTime, 1), 'HH:mm'),
+      attendees: [],
+      status: 'active'
+    };
+    const event: any = {
+      draggable: true,
+      resizable: {
+        beforeStart: true,
+        afterEnd: true
+      },
+      meta: lessonToAdd
+    };
+    this.editLesson(event, true);
   }
 
-  showMenu(event) {
-    const eventIndex =  this.events
-      .filter((e) => isSameDay(e.start, event.start))
-      .findIndex((e) => e === event);
-    this.menu.toArray()[eventIndex].openMenu();
+  editLesson(event: CalendarEvent, isNew?: boolean) {
+    const lessonToEdit = event.meta;
+    const dialogRef = this.dialog.open(LessonEditorComponent, {
+      autoFocus: false,
+      data: lessonToEdit
+    });
+    dialogRef.afterClosed().subscribe(lesson => {
+      if (!lesson) { return; }
+      event.meta = lesson;
+      event.start = parse(format(lesson.date, `YYYY-MM-DD ${lesson.startTime}`)),
+      event.end = parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`));
+      event.title = this.lessonTitleFormatter.day(event, '');
+      if (isNew) {
+        this.events.push(event);
+      }
+      this.refresh.next(lesson.date);
+    });
   }
 
   setHoverItem(item) {

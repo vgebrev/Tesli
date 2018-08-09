@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { LessonAttendee } from '../../../model/lesson-attendee';
-import { MatTable } from '@angular/material/table';
-import { LessonRateService } from '../../../services/lesson-rate.service';
 import { forkJoin, of } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
+import { MatTable } from '@angular/material/table';
+import { LessonAttendee } from '../../../model/lesson-attendee';
+import { LessonRateService } from '../../../services/lesson-rate.service';
 import { NotificationService } from '../../../services/notification.service';
 
 @Component({
@@ -23,13 +23,16 @@ export class LessonAttendeeListComponent implements OnInit {
 
   removeAttendee(attendee: LessonAttendee) {
     const attendeeCount = this.attendees.length;
-    this.attendees = this.attendees.filter(a => a !== attendee);
+    const attendeeIndex = this.attendees.findIndex(a => a.student.id === attendee.student.id);
+    if (attendeeIndex >= 0) {
+      this.attendees.splice(attendeeIndex, 1);
+    }
     this.setPrices(attendeeCount);
     this.table.renderRows();
   }
 
   addAttendee(attendee: LessonAttendee) {
-    if (this.attendees.find(a => a.student === attendee.student)) { return; }
+    if (this.attendees.find(a => a.student.id === attendee.student.id)) { return; }
 
     const attendeeCount = this.attendees.length;
     this.attendees.push(attendee);
@@ -62,7 +65,7 @@ export class LessonAttendeeListComponent implements OnInit {
         const PREVIOUS = 0;
         const CURRENT = 1;
         this.attendees.forEach((attendee) => {
-          if (attendee.price === 0 || attendee.price === prices[PREVIOUS]) {
+          if ((attendee.price === 0 || attendee.price === prices[PREVIOUS]) && !attendee.hasPaid) {
             attendee.price = prices[CURRENT];
           }
         });
