@@ -86,9 +86,13 @@ export class CalendarComponent implements OnInit {
         label: 'Edit',
         onClick: (evt) => { this.editLesson(evt.event); }
       }, {
-        icon: 'repeat',
+        icon: 'autorenew',
         label: 'Repeat',
         onClick: (evt) => { console.log('TODO: reschedule'); console.log(evt); }
+      }, {
+        icon: 'cancel',
+        label: 'Cancel',
+        onClick: (evt) => { this.toggleCancelStatus(evt.event); }
       }]
     };
   }
@@ -178,6 +182,24 @@ export class CalendarComponent implements OnInit {
       this.sortEvents();
       this.refresh.next(lesson.date);
     });
+  }
+
+  toggleCancelStatus(event) {
+    const lesson = event.meta;
+    const CANCEL_ACTION = 2;
+    const action = event.actions[CANCEL_ACTION];
+
+    if (lesson.status === 'active') {
+      action.icon = 'restore';
+      action.label = 'Restore';
+      lesson.status = 'cancelled';
+    } else {
+      action.icon = 'cancel';
+      action.label = 'Cancel';
+      lesson.status = 'active';
+    }
+    event.title = this.lessonTitleFormatter.day(event,'');
+    this.refresh.next(lesson.date);
   }
 
   sortEvents() {

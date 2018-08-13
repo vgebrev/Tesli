@@ -9,7 +9,7 @@ export class LessonTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   month(event: CalendarEvent): string {
-    return `${this.duration(event.start, event.end)}: ${this.studentNames(event.meta)}`;
+    return this.statusQualifier(event.meta, `${this.duration(event.start, event.end)}: ${this.studentNames(event.meta)}`);
   }
 
   monthTooltip(event: CalendarEvent): string {
@@ -17,7 +17,7 @@ export class LessonTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   day(event: CalendarEvent): string {
-    return `${this.duration(event.start, event.end)} ${this.studentsList(event.meta)}`;
+    return this.statusQualifier(event.meta, `${this.duration(event.start, event.end)} ${this.studentsList(event.meta)}`);
   }
 
   dayTooltip(event: CalendarEvent): string {
@@ -30,6 +30,10 @@ export class LessonTitleFormatter extends CalendarEventTitleFormatter {
 
   time(time: Date): string {
     return `<b>${new DatePipe(this.locale).transform(time, 'h:mm a', this.locale)}</b>`;
+  }
+
+  statusQualifier(lesson: Lesson, innerHtml: string) {
+    return `<span class="lesson-${lesson.status}">${innerHtml}</span>`;
   }
 
   studentsList(lesson: Lesson) {
