@@ -22,6 +22,7 @@ import { LessonDateTimePickerComponent } from '../components/lesson/lesson-date-
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { LessonAttendeePickerComponent } from '../components/lesson/lesson-attendee-picker/lesson-attendee-picker.component';
 import { InMemoryDataService } from '../services/in-memory-data.service';
+import { LessonRepeaterComponent } from '../components/lesson/lesson-repeater/lesson-repeater.component';
 
 @NgModule({
   declarations: [
@@ -35,9 +36,11 @@ import { InMemoryDataService } from '../services/in-memory-data.service';
     LessonAttendeeListComponent,
     LessonDateTimePickerComponent,
     LessonAttendeePickerComponent,
+    LessonRepeaterComponent,
   ],
   entryComponents: [
-    LessonEditorComponent
+    LessonEditorComponent,
+    LessonRepeaterComponent
   ],
   imports: [
     BrowserModule,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarEventTitleFormatter } from 'angular-calendar';
 import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
 import { Subject, of } from 'rxjs';
-import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute, startOfDay } from 'date-fns';
+import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute, addDays } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.component';
 import { environment } from '../../../../environments/environment';
@@ -11,6 +11,7 @@ import { LessonTitleFormatter } from './lesson-title-formatter.provider';
 import { tap, catchError } from 'rxjs/operators';
 import { NotificationService } from '../../../services/notification.service';
 import { Lesson } from '../../../model/lesson';
+import { LessonRepeaterComponent } from '../../lesson/lesson-repeater/lesson-repeater.component';
 
 function isMonthViewDay(object: any): object is MonthViewDay {
   return object.hasOwnProperty('events');
@@ -88,11 +89,11 @@ export class CalendarComponent implements OnInit {
       }, {
         icon: 'autorenew',
         label: 'Repeat',
-        onClick: (evt) => { console.log('TODO: reschedule'); console.log(evt); }
+        onClick: (evt) => { this.repeatLesson(evt.event); }
       }, {
         icon: 'cancel',
         label: 'Cancel',
-        onClick: (evt) => { this.toggleCancelStatus(evt.event); }
+        onClick: (evt) => { this.toggleLessonStatus(evt.event); }
       }]
     };
   }
@@ -184,7 +185,28 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-  toggleCancelStatus(event) {
+  repeatLesson(event: CalendarEvent) {
+    const dialogRef = this.dialog.open(LessonRepeaterComponent);
+    dialogRef.afterClosed().subscribe(({repeatCount, repeatInterval}) => {
+      for (let index = 0; index < repeatCount; index++) {
+        const lessonToRepeat = Object.assign({}, event.meta);
+        lessonToRepeat.id = 0;
+        lessonToRepeat.date = addDays(lessonToRepeat.date, (index + 1) * repeatInterval);
+        lessonToRepeat.attendees = lessonToRepeat.attendees.map(originalAttendee => {
+          const newAttendee = Object.assign({}, originalAttendee);
+          newAttendee.hasAttended = false;
+          newAttendee.hasPaid = false;
+          return newAttendee;
+        });
+        const repeatEvent = this.initEvent(lessonToRepeat);
+        this.events.push(repeatEvent);
+      }
+      this.sortEvents();
+      this.refresh.next(event.start);
+    });
+  }
+
+  toggleLessonStatus(event) {
     const lesson = event.meta;
     const CANCEL_ACTION = 2;
     const action = event.actions[CANCEL_ACTION];
@@ -198,7 +220,7 @@ export class CalendarComponent implements OnInit {
       action.label = 'Cancel';
       lesson.status = 'active';
     }
-    event.title = this.lessonTitleFormatter.day(event,'');
+    event.title = this.lessonTitleFormatter.day(event, '');
     this.refresh.next(lesson.date);
   }
 

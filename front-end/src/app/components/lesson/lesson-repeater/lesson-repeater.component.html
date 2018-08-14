@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>
+  Repeat Lesson</h2>
+<mat-dialog-content>
+  Repeat lesson
+  <mat-form-field>
+    <mat-select [(value)]="repeatCount">
+      <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]" [value]="i">
+        {{i}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field> more time{{repeatCount > 1 ? 's' : ''}}, once every
+  <mat-form-field>
+    <mat-select [(value)]="repeatInterval">
+      <mat-option *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]" [value]="i">
+        {{i}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  day{{repeatInterval > 1 ? 's' : ''}}
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button type="button" mat-dialog-close>Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="{repeatCount: repeatCount, repeatInterval: repeatInterval}">
+    OK
+  </button>
+</mat-dialog-actions>
