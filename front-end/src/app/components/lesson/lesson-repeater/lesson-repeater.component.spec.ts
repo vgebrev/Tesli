@@ -5,7 +5,6 @@ import { AppMaterialModule } from '../../../modules/app-material.module';
 
 import { LessonRepeaterComponent } from './lesson-repeater.component';
 
-
 describe('LessonRepeaterComponent', () => {
   let component: LessonRepeaterComponent;
   let fixture: ComponentFixture<LessonRepeaterComponent>;
