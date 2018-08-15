@@ -26,9 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\model\model.csproj" />
-    <ProjectReference Include="..\model.sqlite\model.sqlite.csproj" />
-    <ProjectReference Include="..\services\services.csproj" />
+    <ProjectReference Include="..\Tesli.Model\Tesli.Model.csproj" />
+    <ProjectReference Include="..\Tesli.Model.Sqlite\Tesli.Model.Sqlite.csproj" />
+    <ProjectReference Include="..\Tesli.Services\Tesli.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "api", "api\api.csproj", "{2B83A7CD-570D-431A-9F9D-2250DC19D77E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesli.Api", "Tesli.Api\Tesli.Api.csproj", "{2B83A7CD-570D-431A-9F9D-2250DC19D77E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tests", "tests\tests.csproj", "{BDECD027-DFCF-464B-827D-2E5AC6546378}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesli.Tests", "Tesli.Tests\Tesli.Tests.csproj", "{BDECD027-DFCF-464B-827D-2E5AC6546378}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model", "model\model.csproj", "{F427C0C8-CA73-4A5F-8D6F-FD114F741834}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesli.Model", "Tesli.Model\Tesli.Model.csproj", "{F427C0C8-CA73-4A5F-8D6F-FD114F741834}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "model.sqlite", "model.sqlite\model.sqlite.csproj", "{B69108E0-024D-4DC3-A883-3EDFED069346}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesli.Model.Sqlite", "Tesli.Model.Sqlite\Tesli.Model.Sqlite.csproj", "{B69108E0-024D-4DC3-A883-3EDFED069346}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "services", "services\services.csproj", "{4C234E8C-E779-4BB2-B1CF-5A8801AE8744}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesli.Services", "Tesli.Services\Tesli.Services.csproj", "{4C234E8C-E779-4BB2-B1CF-5A8801AE8744}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,7 +7,7 @@ param (
 
 Write-Output "Building $config";
 
-dotnet test .\back-end\tests\tests.csproj;
+dotnet test .\back-end\Tesli.Tests\Tesli.Tests.csproj;
 Write-Output "dotnet test exited with code: $LastExitCode";
 if ($LastExitCode -ne 0) { exit $LastExitCode; }
 
@@ -17,7 +17,7 @@ Write-Output "ng test exited with code: $LastExitCode"
 if ($LastExitCode -ne 0) { Pop-Location; exit $LastExitCode; }
 Pop-Location;
 
-dotnet publish .\back-end\api --configuration $config --output $deployRoot\back-end\api;
+dotnet publish .\back-end\Tesli.Api --configuration $config --output $deployRoot\back-end\api;
 Write-Output "dotnet publish exited with code: $LastExitCode";
 if ($LastExitCode -ne 0) { exit $LastExitCode; }
 

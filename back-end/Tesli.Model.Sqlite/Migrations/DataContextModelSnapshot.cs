@@ -16,6 +16,22 @@ namespace model.sqlite.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.1-rtm-30846");
 
+            modelBuilder.Entity("Tesli.Model.Entities.LessonRate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("EffectiveDate");
+
+                    b.Property<int>("NumberOfStudents");
+
+                    b.Property<decimal>("Price");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LessonRates");
+                });
+
             modelBuilder.Entity("Tesli.Model.Entities.Student", b =>
                 {
                     b.Property<int>("Id")

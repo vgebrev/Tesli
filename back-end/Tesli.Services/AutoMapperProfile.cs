@@ -10,6 +10,8 @@ namespace Tesli.Services
         public AutoMapperProfile(){
             CreateMap<Student, Student>()
                .ForMember(destination => destination.Id, map => map.Ignore());
+            CreateMap<LessonRate, LessonRate>()
+                .ForMember(destination => destination.Id, map => map.Ignore());
         }
     }
 }
