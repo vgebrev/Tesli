@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/back-end/api/api.csproj"
+                "${workspaceFolder}/back-end/Tesli.Api/Tesli.Api.csproj"
             ],
             "problemMatcher": "$msCompile"
         },
@@ -18,7 +18,7 @@
             "group": "test",
             "args": [
                 "test",
-                "${workspaceFolder}/back-end/tests/tests.csproj"
+                "${workspaceFolder}/back-end/Tesli.Tests/Tesli.Tests.csproj"
             ],
             "presentation": {
                 "reveal": "silent"

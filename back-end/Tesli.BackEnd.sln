@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesli.Model.Sqlite", "Tesli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesli.Services", "Tesli.Services\Tesli.Services.csproj", "{4C234E8C-E779-4BB2-B1CF-5A8801AE8744}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tesli.Database.Sqlite", "Tesli.Database.Sqlite\Tesli.Database.Sqlite.csproj", "{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,5 +88,17 @@ Global
 		{4C234E8C-E779-4BB2-B1CF-5A8801AE8744}.Release|x64.Build.0 = Release|Any CPU
 		{4C234E8C-E779-4BB2-B1CF-5A8801AE8744}.Release|x86.ActiveCfg = Release|Any CPU
 		{4C234E8C-E779-4BB2-B1CF-5A8801AE8744}.Release|x86.Build.0 = Release|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Debug|x64.Build.0 = Debug|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Debug|x86.Build.0 = Debug|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Release|x64.ActiveCfg = Release|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Release|x64.Build.0 = Release|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB76A08A-ADD7-404D-8DE4-31C276AEAE9B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
