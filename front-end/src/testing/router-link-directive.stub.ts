@@ -10,13 +10,3 @@ export class RouterLinkStubDirective {
     this.navigatedTo = this.linkParams;
   }
 }
-
-/// Dummy module to satisfy Angular Language service. Never used.
-import { NgModule } from '@angular/core';
-
-@NgModule({
-  declarations: [
-    RouterLinkStubDirective
-  ]
-})
-export class RouterStubsModule {}
