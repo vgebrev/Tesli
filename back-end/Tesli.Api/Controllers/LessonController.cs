@@ -7,9 +7,9 @@ using Tesli.Services;
 namespace Tesli.Api.Controllers
 {
     [Route("api/[controller]")]
-    public class LessonRateController : CrudController<LessonRate>
+    public class LessonController : CrudController<Lesson>
     {
-        public LessonRateController(ICrudService<LessonRate> service, ILogger<LessonRateController> logger) : base(service, logger) 
+        public LessonController(ICrudService<Lesson> service, ILogger<LessonController> logger) : base(service, logger) 
         { }
     }
 }

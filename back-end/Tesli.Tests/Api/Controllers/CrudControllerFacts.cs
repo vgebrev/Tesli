@@ -45,7 +45,7 @@ namespace Tesli.Tests.Api.Controllers
         {
             var entity = this.fixture.MockEntities.First();
            
-            var result = this.controller.Get(entity.Id);
+            var result = this.controller.GetById(entity.Id);
            
             Assert.IsType<ActionResult<MockEntity>>(result);
             Assert.Equal(entity, result.Value);
@@ -57,7 +57,7 @@ namespace Tesli.Tests.Api.Controllers
         {
             var id = 100;
             
-            var result = this.controller.Get(id);
+            var result = this.controller.GetById(id);
             
             Assert.IsType<ActionResult<MockEntity>>(result);
             Assert.IsType<NotFoundResult>(result.Result);
@@ -66,7 +66,7 @@ namespace Tesli.Tests.Api.Controllers
         }
 
         [Fact]
-        public void PostCallsServiceInsertAndReturnsCreatedAtRouteResultWithNewEntityAndRoute()
+        public void PostCallsServiceInsertAndReturnsCreatedAtActionResultWithNewEntityAndRoute()
         {
             var unsetId = 0;
             var newEntity = new MockEntity { Id = unsetId, StringProperty = "New", DateTimeProperty = DateTime.UtcNow, NullableDecimalProperty = 1.7M, IntegerProperty = 1000 };
@@ -74,9 +74,9 @@ namespace Tesli.Tests.Api.Controllers
             var postResult = this.controller.Post(newEntity);
             Assert.IsType<ActionResult<MockEntity>>(postResult);
             
-            var createdResult = postResult.Result as CreatedAtRouteResult;
+            var createdResult = postResult.Result as CreatedAtActionResult;
             Assert.NotNull(createdResult);
-            Assert.Equal(nameof(ICrudService<MockEntity>.GetById), createdResult.RouteName);
+            Assert.Equal(nameof(this.controller.GetById), createdResult.ActionName);
             Assert.Equal(createdResult.Value, newEntity);
             this.serviceMock.Verify(service => service.GetById(unsetId), Times.Once());
             this.serviceMock.Verify(service => service.Insert(newEntity), Times.Once());

@@ -30,8 +30,8 @@ namespace Tesli.Api.Controllers
             return result;
         }
 
-        [HttpGet("{id}", Name = nameof(ICrudService<TEntity>.GetById))]
-        public virtual ActionResult<TEntity> Get(int id)
+        [HttpGet("{id}")] //, Name = nameof(ICrudService<TEntity>.GetById))]
+        public virtual ActionResult<TEntity> GetById(int id)
         {
             var entity = this.Service.GetById(id);
             if (entity == null)
@@ -56,7 +56,7 @@ namespace Tesli.Api.Controllers
             var id = this.Service.Insert(value);
             var newEntity = this.Service.GetById(id);
             this.Logger.LogInformation($"Inserted with Id {id}. Value: {Json(newEntity)}");
-            return CreatedAtRoute(nameof(ICrudService<TEntity>.GetById), new { id = id }, newEntity);
+            return CreatedAtAction(nameof(this.GetById), new { id = id }, newEntity);
         }
 
         [HttpPut("{id}")]
