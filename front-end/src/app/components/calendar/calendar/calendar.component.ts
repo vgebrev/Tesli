@@ -30,7 +30,7 @@ export class CalendarComponent implements OnInit {
   hoverItem = null;
   view = 'month';
   viewDate: Date = new Date();
-  activeDayIsOpen = true;
+  activeDayIsOpen = false;
   refresh: Subject<any> = new Subject();
   events: CalendarEvent[] = [];
 
