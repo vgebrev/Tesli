@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+// import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { HttpClientModule } from '@angular/common/http';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -21,7 +21,7 @@ import { LessonAttendeeListComponent } from '../components/lesson/lesson-attende
 import { LessonDateTimePickerComponent } from '../components/lesson/lesson-date-time-picker/lesson-date-time-picker.component';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
 import { LessonAttendeePickerComponent } from '../components/lesson/lesson-attendee-picker/lesson-attendee-picker.component';
-import { InMemoryDataService } from '../services/in-memory-data.service';
+// import { InMemoryDataService } from '../services/in-memory-data.service';
 import { LessonRepeaterComponent } from '../components/lesson/lesson-repeater/lesson-repeater.component';
 
 @NgModule({
@@ -49,9 +49,9 @@ import { LessonRepeaterComponent } from '../components/lesson/lesson-repeater/le
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    ),
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   InMemoryDataService, { dataEncapsulation: false }
+    // ),
     AppMaterialModule,
     CalendarModule.forRoot({
       provide: DateAdapter,

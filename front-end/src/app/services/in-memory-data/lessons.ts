@@ -8,6 +8,7 @@ export const lessons: Lesson[] = [{
     startTime: '10:00',
     endTime: '11:00',
     attendees: [{
+        id: 1,
         student: students[0],
         hasAttended: true,
         hasPaid: true,
@@ -20,11 +21,13 @@ export const lessons: Lesson[] = [{
     startTime: '15:00',
     endTime: '16:00',
     attendees: [{
+      id: 2,
       student: students[0],
       hasAttended: false,
       hasPaid: false,
       price: 240
     }, {
+      id: 3,
       student: students[1],
       hasAttended: true,
       hasPaid: false,
@@ -37,16 +40,19 @@ export const lessons: Lesson[] = [{
     startTime: '11:15',
     endTime: '12:30',
     attendees: [{
+      id: 4,
       student: students[2],
       hasAttended: false,
       hasPaid: false,
       price: 190
     }, {
+      id: 5,
       student: students[3],
       hasAttended: false,
       hasPaid: true,
       price: 171
     }, {
+      id: 6,
       student: students[4],
       hasAttended: false,
       hasPaid: false,
@@ -59,10 +65,11 @@ export const lessons: Lesson[] = [{
     startTime: '16:00',
     endTime: '17:00',
     attendees: [{
-        student: students[5],
-        hasAttended: false,
-        hasPaid: true,
-        price: 270
+      id: 7,
+      student: students[5],
+      hasAttended: false,
+      hasPaid: true,
+      price: 270
     }],
     status: 'cancelled',
   }
