@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/back-end/api/bin/Debug/netcoreapp2.1/api.dll",
+            "program": "${workspaceFolder}/back-end/Tesli.Api/bin/Debug/netcoreapp2.1/Tesli.Api.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/back-end/api",
+            "cwd": "${workspaceFolder}/back-end/Tesli.Api",
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "launchBrowser": {

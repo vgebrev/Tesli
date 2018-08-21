@@ -5,6 +5,6 @@ export class Lesson {
     date: Date;
     startTime: string;
     endTime: string;
-    attendees: LessonAttendee[];
+    lessonAttendees: LessonAttendee[];
     status: 'active' | 'cancelled';
 }

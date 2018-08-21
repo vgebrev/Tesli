@@ -13,7 +13,8 @@ import { NotificationService } from '../../../services/notification.service';
 })
 export class LessonAttendeeListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'hasAttended', 'hasPaid', 'price', 'action'];
-  @Input() attendees: LessonAttendee[];
+  @Input() lessonId: number;
+  @Input() lessonAttendees: LessonAttendee[];
   @ViewChild(MatTable) table: MatTable<any>;
   isLoading: boolean;
   constructor(private lessonRateService: LessonRateService, private notificationService: NotificationService) { }
@@ -22,30 +23,30 @@ export class LessonAttendeeListComponent implements OnInit {
   }
 
   removeAttendee(attendee: LessonAttendee) {
-    const attendeeCount = this.attendees.length;
-    const attendeeIndex = this.attendees.findIndex(a => a.student.id === attendee.student.id);
+    const attendeeCount = this.lessonAttendees.length;
+    const attendeeIndex = this.lessonAttendees.findIndex(a => a.student.id === attendee.student.id);
     if (attendeeIndex >= 0) {
-      this.attendees.splice(attendeeIndex, 1);
+      this.lessonAttendees.splice(attendeeIndex, 1);
     }
     this.setPrices(attendeeCount);
     this.table.renderRows();
   }
 
   addAttendee(attendee: LessonAttendee) {
-    if (this.attendees.find(a => a.student.id === attendee.student.id)) { return; }
-
-    const attendeeCount = this.attendees.length;
-    this.attendees.push(attendee);
+    if (this.lessonAttendees.find(a => a.student.id === attendee.student.id)) { return; }
+    attendee.lessonId = this.lessonId;
+    const attendeeCount = this.lessonAttendees.length;
+    this.lessonAttendees.push(attendee);
     this.setPrices(attendeeCount);
     this.table.renderRows();
   }
 
   setPrices(previousAttendeeCount: number) {
-    if (this.attendees.length === 0) { return; }
+    if (this.lessonAttendees.length === 0) { return; }
     this.isLoading = true;
     const now = new Date();
     const priceForPreviousAttendee$ = this.lessonRateService.getPrice$(now, Math.max(previousAttendeeCount, 1));
-    const priceForCurrentAttendee$ = this.lessonRateService.getPrice$(now, this.attendees.length);
+    const priceForCurrentAttendee$ = this.lessonRateService.getPrice$(now, this.lessonAttendees.length);
     forkJoin(priceForPreviousAttendee$, priceForCurrentAttendee$)
       .pipe(
         tap(() => this.isLoading = false),
@@ -64,7 +65,7 @@ export class LessonAttendeeListComponent implements OnInit {
         if (prices.length !== 2) { return; }
         const PREVIOUS = 0;
         const CURRENT = 1;
-        this.attendees.forEach((attendee) => {
+        this.lessonAttendees.forEach((attendee) => {
           if ((attendee.price === 0 || attendee.price === prices[PREVIOUS]) && !attendee.hasPaid) {
             attendee.price = prices[CURRENT];
           }

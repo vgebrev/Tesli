@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventTimesChangedEvent, CalendarEventTitleFormatter } from 'angular-calendar';
 import { DayViewHourSegment, MonthViewDay } from 'calendar-utils';
-import { Subject, of } from 'rxjs';
+import { Subject, of, Observable, throwError } from 'rxjs';
 import { addHours, isSameMonth, isSameDay, parse, format, getTime, startOfHour, setHours, startOfMinute, addDays } from 'date-fns';
 import { MatDialog } from '@angular/material/dialog';
 import { LessonEditorComponent } from '../../lesson/lesson-editor/lesson-editor.component';
@@ -153,12 +153,12 @@ export class CalendarComponent implements OnInit {
 
   addLesson(date: Date) {
     const startTime = startOfMinute(getTime(date));
-    const lessonToAdd = {
+    const lessonToAdd: Lesson = {
       id: 0,
       date: date,
       startTime: format(startTime, 'HH:mm'),
       endTime: format(addHours(startTime, 1), 'HH:mm'),
-      attendees: [],
+      lessonAttendees: [],
       status: 'active'
     };
     const event: any = this.initEvent(lessonToAdd);
@@ -173,15 +173,18 @@ export class CalendarComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(lesson => {
       if (!lesson) { return; }
-      event.meta = lesson;
-      event.start = parse(format(lesson.date, `YYYY-MM-DD ${lesson.startTime}`)),
-      event.end = parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`));
-      event.title = this.lessonTitleFormatter.day(event, '');
-      if (isNew) {
-        this.events.push(event);
-      }
-      this.sortEvents();
-      this.refresh.next(lesson.date);
+      this.saveLesson(lesson).subscribe(() => {
+        this.isLoading = false;
+        event.meta = lesson;
+        event.start = parse(format(lesson.date, `YYYY-MM-DD ${lesson.startTime}`)),
+        event.end = parse(format(lesson.date, `YYYY-MM-DD ${lesson.endTime}`));
+        event.title = this.lessonTitleFormatter.day(event, '');
+        if (isNew) {
+          this.events.push(event);
+        }
+        this.sortEvents();
+        this.refresh.next(lesson.date);
+      });
     });
   }
 
@@ -192,7 +195,7 @@ export class CalendarComponent implements OnInit {
         const lessonToRepeat = Object.assign({}, event.meta);
         lessonToRepeat.id = 0;
         lessonToRepeat.date = addDays(lessonToRepeat.date, (index + 1) * repeatInterval);
-        lessonToRepeat.attendees = lessonToRepeat.attendees.map(originalAttendee => {
+        lessonToRepeat.lessonAttendees = lessonToRepeat.lessonAttendees.map(originalAttendee => {
           const newAttendee = Object.assign({}, originalAttendee);
           newAttendee.hasAttended = false;
           newAttendee.hasPaid = false;
@@ -222,6 +225,27 @@ export class CalendarComponent implements OnInit {
     }
     event.title = this.lessonTitleFormatter.day(event, '');
     this.refresh.next(lesson.date);
+  }
+
+  saveLesson(lesson: Lesson): Observable<Lesson> {
+    this.isLoading = true;
+    const serviceAction = lesson.id ?
+      this.lessonService.updateLesson(lesson) :
+      this.lessonService.addLesson(lesson);
+    serviceAction.pipe(
+      tap(() => this.isLoading = false),
+      catchError((error) => {
+        this.isLoading = false;
+        this.notificationService.notification$.next({
+          message: 'Unable to save lesson',
+          action: 'Retry',
+          config: { duration: 5000 },
+          callback: () => this.saveLesson(lesson)
+        });
+        return throwError(error);
+      })
+    );
+    return serviceAction;
   }
 
   sortEvents() {

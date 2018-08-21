@@ -6,13 +6,14 @@
     [endTime]="lesson.endTime"
     (dateTimeChange)="onDateTimeChanged($event)">
   </lesson-date-time-picker>
-  <lesson-attendee-list #attendeeList
-    [attendees]="lesson.attendees">
+  <lesson-attendee-list #lessonAttendeesList
+    [lessonId]="lesson.id"
+    [lessonAttendees]="lesson.lessonAttendees">
   </lesson-attendee-list>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button type="button" mat-dialog-close>Cancel</button>
-  <button mat-raised-button color="primary" [disabled]="!dateTimePicker.isValid || attendeeList.attendees.length === 0"
+  <button mat-raised-button color="primary" [disabled]="!dateTimePicker.isValid || lessonAttendeesList.lessonAttendees.length === 0"
     class="icon-button--shake" [mat-dialog-close]="lesson">
     <mat-icon>save</mat-icon><span>Save</span>
   </button>

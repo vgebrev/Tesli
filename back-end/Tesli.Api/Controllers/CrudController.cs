@@ -30,7 +30,7 @@ namespace Tesli.Api.Controllers
             return result;
         }
 
-        [HttpGet("{id}")] //, Name = nameof(ICrudService<TEntity>.GetById))]
+        [HttpGet("{id}")]
         public virtual ActionResult<TEntity> GetById(int id)
         {
             var entity = this.Service.GetById(id);

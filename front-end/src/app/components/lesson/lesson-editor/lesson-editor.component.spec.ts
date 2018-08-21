@@ -15,7 +15,8 @@ class LessonDateTimePickerStubComponent {
 
 @Component({ selector: 'lesson-attendee-list', template: '' })
 class LessonAttendeeListStubComponent {
-  @Input() attendees: LessonAttendee[];
+  @Input() lessonId: number;
+  @Input() lessonAttendees: LessonAttendee[];
 }
 
 class MatDialogRefMock {

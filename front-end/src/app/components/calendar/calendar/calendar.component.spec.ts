@@ -13,6 +13,7 @@ import { environment } from '../../../../environments/environment';
 import { LessonService } from '../../../services/lesson.service';
 import { lessons } from '../../../services/in-memory-data/lessons';
 import { LoadingIndicatorStubComponent } from '../../../../testing/loading-indicator.stub';
+import { Lesson } from '../../../model/lesson';
 
 @Component({ selector: 'app-calendar-header', template: ''})
 class CalendarHeaderStubComponent {
@@ -44,8 +45,9 @@ describe('CalendarComponent', () => {
     const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     dialogSpy.open.and.callFake(() => dialogRefMock);
 
-    const lessonServiceSpy = jasmine.createSpyObj<LessonService>(['getLessons']);
+    const lessonServiceSpy = jasmine.createSpyObj<LessonService>(['getLessons', 'addLesson']);
     lessonServiceSpy.getLessons.and.callFake(() => of(lessons));
+    lessonServiceSpy.addLesson.and.callFake(() => of({}));
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
@@ -163,12 +165,12 @@ describe('CalendarComponent', () => {
     const now = new Date();
     const startTime = format(getTime(startOfMinute(now)), 'HH:mm');
     const endTime = format(getTime(addHours(startOfMinute(now), 1)), 'HH:mm');
-    const lesson = {
+    const lesson: Lesson = {
       id: 0,
       date: now,
       startTime: startTime,
       endTime: endTime,
-      attendees: [],
+      lessonAttendees: [],
       status: 'active'
     };
 

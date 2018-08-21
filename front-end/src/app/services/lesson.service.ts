@@ -23,4 +23,16 @@ export class LessonService {
       catchError((error) => throwError(error))
     );
   }
+
+  updateLesson(lesson: Lesson): Observable<Lesson> {
+    return this.http.put<Lesson>(this.lessonsUrl, lesson, httpOptions).pipe(
+      catchError((error) => throwError(error))
+    );
+  }
+
+  addLesson(lesson: Lesson): Observable<Lesson> {
+    return this.http.post<Lesson>(this.lessonsUrl, lesson, httpOptions).pipe(
+      catchError((error) => throwError(error))
+    );
+  }
 }

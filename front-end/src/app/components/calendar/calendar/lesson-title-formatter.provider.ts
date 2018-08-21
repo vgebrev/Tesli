@@ -37,13 +37,13 @@ export class LessonTitleFormatter extends CalendarEventTitleFormatter {
   }
 
   studentsList(lesson: Lesson) {
-    return `<ul>${lesson.attendees
+    return `<ul>${lesson.lessonAttendees
       .map(attendee => `<li>${attendee.student.name}</li>`)
       .join('')}</ul>`;
   }
 
   studentNames(lesson: Lesson) {
-    return lesson.attendees
+    return lesson.lessonAttendees
       .map(attendee => attendee.student.name)
       .join(', ');
   }

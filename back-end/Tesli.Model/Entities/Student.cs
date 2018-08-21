@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace Tesli.Model.Entities
 {
@@ -16,6 +17,7 @@ namespace Tesli.Model.Entities
         public string Address { get; set; }
         public string ParentContactNumber { get; set; }
         public string ParentEmail { get; set; }
+        [JsonIgnore]
         public virtual ICollection<LessonAttendee> LessonAttendees { get; set; } = new HashSet<LessonAttendee>();
     }
 }

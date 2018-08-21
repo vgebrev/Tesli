@@ -10,6 +10,7 @@ import { LessonRateService } from '../../../services/lesson-rate.service';
 import { NotificationService } from '../../../services/notification.service';
 import { LoadingIndicatorStubComponent } from '../../../../testing/loading-indicator.stub';
 import { of, throwError } from 'rxjs';
+import { Lesson } from '../../../model/lesson';
 
 @Component({ selector: 'lesson-attendee-picker', template: '' })
 class LessonAttendeePickerStubComponent {
@@ -44,7 +45,7 @@ describe('LessonAttendeeListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(LessonAttendeeListComponent);
     component = fixture.componentInstance;
-    component.attendees = [];
+    component.lessonAttendees = [];
     fixture.detectChanges();
   });
 
@@ -53,7 +54,10 @@ describe('LessonAttendeeListComponent', () => {
   });
 
   it('removeAttendee should remove an attendee, set prices and render table rows', () => {
-    const attendee = {
+    const attendee: LessonAttendee = {
+      id: 1,
+      lessonId: 0,
+      studentId: 1,
       student: { id: 1, name: 'test student' },
       hasAttended: false,
       hasPaid: false,
@@ -61,10 +65,10 @@ describe('LessonAttendeeListComponent', () => {
     };
     const setPricesSpy = spyOn(component, 'setPrices');
     const tableRenderRowsSpy = spyOn(component.table, 'renderRows');
-    component.attendees.push(attendee);
+    component.lessonAttendees.push(attendee);
 
     component.removeAttendee(attendee);
-    expect(component.attendees.length).toBe(0);
+    expect(component.lessonAttendees.length).toBe(0);
     expect(setPricesSpy).toHaveBeenCalledWith(1);
     expect(tableRenderRowsSpy).toHaveBeenCalled();
   });
@@ -73,15 +77,18 @@ describe('LessonAttendeeListComponent', () => {
     const student = { id: 1, name: 'test student' };
     const setPricesSpy = spyOn(component, 'setPrices');
     const tableRenderRowsSpy = spyOn(component.table, 'renderRows');
-    expect(component.attendees.length).toBe(0);
+    expect(component.lessonAttendees.length).toBe(0);
 
     component.addAttendee({
-        student: student,
-        hasAttended: false,
-        hasPaid: false,
-        price: 0
+      id: 1,
+      lessonId: 0,
+      studentId: student.id,
+      student: student,
+      hasAttended: false,
+      hasPaid: false,
+      price: 0
     });
-    expect(component.attendees.length).toBe(1);
+    expect(component.lessonAttendees.length).toBe(1);
     expect(setPricesSpy).toHaveBeenCalledWith(0);
     expect(tableRenderRowsSpy).toHaveBeenCalled();
   });
@@ -90,7 +97,10 @@ describe('LessonAttendeeListComponent', () => {
     const student = { id: 1, name: 'test student' };
     const setPricesSpy = spyOn(component, 'setPrices');
 
-    component.attendees.push({
+    component.lessonAttendees.push({
+      id: 1,
+      lessonId: 0,
+      studentId: student.id,
       student: student,
       hasAttended: false,
       hasPaid: false,
@@ -98,12 +108,15 @@ describe('LessonAttendeeListComponent', () => {
     });
 
     component.addAttendee({
-        student: student,
-        hasAttended: false,
-        hasPaid: false,
-        price: 0
+      id: 1,
+      lessonId: 0,
+      studentId: student.id,
+      student: student,
+      hasAttended: false,
+      hasPaid: false,
+      price: 0
     });
-    expect(component.attendees.length).toBe(1);
+    expect(component.lessonAttendees.length).toBe(1);
     expect(setPricesSpy).not.toHaveBeenCalled();
   });
 
@@ -115,7 +128,10 @@ describe('LessonAttendeeListComponent', () => {
 
   it('setPrices should set price to a new attendee',
   inject([LessonRateService], (lessonRateService: LessonRateService) => {
-    component.attendees.push({
+    component.lessonAttendees.push({
+      id: 1,
+      lessonId: 0,
+      studentId: 1,
       student: { id: 1, name: 'test student' },
       hasAttended: false,
       hasPaid: false,
@@ -123,12 +139,15 @@ describe('LessonAttendeeListComponent', () => {
     });
     component.setPrices(0);
     expect(lessonRateService.getPrice$).toHaveBeenCalledTimes(2);
-    expect(component.attendees[0].price).toBe(1);
+    expect(component.lessonAttendees[0].price).toBe(1);
   }));
 
   it('setPrices should update price on an attendee with an unchanged price',
   inject([LessonRateService], (lessonRateService: LessonRateService) => {
-    component.attendees.push({
+    component.lessonAttendees.push({
+      id: 1,
+      lessonId: 0,
+      studentId: 1,
       student: { id: 1, name: 'test student' },
       hasAttended: false,
       hasPaid: false,
@@ -136,12 +155,15 @@ describe('LessonAttendeeListComponent', () => {
     });
     component.setPrices(2);
     expect(lessonRateService.getPrice$).toHaveBeenCalledTimes(2);
-    expect(component.attendees[0].price).toBe(1);
+    expect(component.lessonAttendees[0].price).toBe(1);
   }));
 
   it('setPrices should not update price on an attendee with a changed price',
   inject([LessonRateService], (lessonRateService: LessonRateService) => {
-    component.attendees.push({
+    component.lessonAttendees.push({
+      id: 1,
+      lessonId: 0,
+      studentId: 1,
       student: { id: 1, name: 'test student' },
       hasAttended: false,
       hasPaid: false,
@@ -149,14 +171,17 @@ describe('LessonAttendeeListComponent', () => {
     });
     component.setPrices(2);
     expect(lessonRateService.getPrice$).toHaveBeenCalledTimes(2);
-    expect(component.attendees[0].price).toBe(3);
+    expect(component.lessonAttendees[0].price).toBe(3);
   }));
 
   it('should handle service getPrice$ errors',
   async(inject([LessonRateService, NotificationService], (service: LessonRateService, notificationService: NotificationService) => {
     const erroringService = service as any;
     erroringService.getPrice$.and.callFake(() => throwError('service error'));
-    component.attendees.push({
+    component.lessonAttendees.push({
+      id: 1,
+      lessonId: 0,
+      studentId: 1,
       student: { id: 1, name: 'test student' },
       hasAttended: false,
       hasPaid: false,

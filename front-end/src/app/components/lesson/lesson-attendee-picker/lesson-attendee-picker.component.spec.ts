@@ -101,6 +101,7 @@ describe('LessonAttendeePickerComponent', () => {
     component.selectedStudent.setValue(students[0]);
     component.attendeePick.subscribe((attendee: LessonAttendee) => {
       expect(attendee).toEqual(Object.assign(new LessonAttendee, {
+        studentId: students[0].id,
         student: students[0],
         hasAttended: false,
         hasPaid: false,
