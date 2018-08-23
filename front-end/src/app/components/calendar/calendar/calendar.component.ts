@@ -138,14 +138,19 @@ export class CalendarComponent implements OnInit {
     if (!isSameDay(newStart, newEnd)) {
       return;
     }
-    event.start = newStart;
-    event.end = newEnd;
+
     event.meta.date = newStart;
     event.meta.startTime = format(newStart, 'HH:mm');
     event.meta.endTime = format(newEnd, 'HH:mm');
-    event.title = this.lessonTitleFormatter.day(event, ''); // TODO: Figure out why UI only updates using title formatter when title changes
-    this.sortEvents();
-    this.refresh.next(parse(format(newStart, 'YYYY-MM-DD')));
+    this.saveLesson(event.meta).subscribe(() => {
+      this.isLoading = false;
+      event.start = newStart;
+      event.end = newEnd;
+      // TODO: Figure out why UI only updates using title formatter when title changes
+      event.title = this.lessonTitleFormatter.day(event, '');
+      this.sortEvents();
+      this.refresh.next(parse(format(newStart, 'YYYY-MM-DD')));
+    }, this.handleSaveLessonError);
   }
 
   changeViewDate(newDate) {
@@ -192,6 +197,8 @@ export class CalendarComponent implements OnInit {
   repeatLesson(event: CalendarEvent) {
     const dialogRef = this.dialog.open(LessonRepeaterComponent);
     dialogRef.afterClosed().subscribe(({repeatCount, repeatInterval}) => {
+      const savedLesson$ = new Subject<number>();
+      let savedCount = 0;
       for (let index = 0; index < repeatCount; index++) {
         const lessonToRepeat = Object.assign({}, event.meta);
         lessonToRepeat.id = 0;
@@ -207,10 +214,16 @@ export class CalendarComponent implements OnInit {
           this.isLoading = false;
           const repeatEvent = this.initEvent(lessonToRepeat);
           this.events.push(repeatEvent);
-          this.sortEvents();
-          this.refresh.next(event.start);
+          savedLesson$.next(++savedCount);
         }, this.handleSaveLessonError);
       }
+
+      savedLesson$.subscribe((count: number) => {
+        if (count === repeatCount) {
+          this.sortEvents();
+          this.refresh.next(event.start);
+        }
+      });
     });
   }
 

@@ -24,6 +24,22 @@ namespace Tesli.Services
 
         public override Lesson GetById(int id) => base.repository.GetById(id, propertiesToInclude);
 
+        public override int Insert(Lesson lesson)
+        {
+            var lessonToInsert = this.GetById(lesson.Id);
+            if (lessonToInsert != null)
+            {
+                throw new ArgumentException($"{EntityName} with Id {lesson.Id} already exists", nameof(lesson));
+            }
+            lessonToInsert = new Lesson();
+            Mapper.Map(lesson, lessonToInsert);
+            this.unitOfWork.Start();
+            lessonToInsert.LessonAttendees = UpsertLessonAttendees(lesson);
+            this.lessonRepository.Insert(lessonToInsert);
+            this.unitOfWork.End();
+            return lesson.Id;
+        }
+        
         public override void Update(int id, Lesson lesson)
         {
             var existingLesson = this.GetById(id);
