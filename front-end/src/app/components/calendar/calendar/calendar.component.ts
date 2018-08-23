@@ -68,6 +68,7 @@ export class CalendarComponent implements OnInit {
         this.events = lessons
           .sort((a, b) => parse(a.date) > parse(b.date) ? 1 : -1)
           .map((lesson) => this.initEvent(lesson));
+        this.refresh.next(new Date());
       });
   }
 
@@ -91,8 +92,8 @@ export class CalendarComponent implements OnInit {
         label: 'Repeat',
         onClick: (evt) => { this.repeatLesson(evt.event); }
       }, {
-        icon: 'cancel',
-        label: 'Cancel',
+        icon: lesson.status === 'active' ? 'cancel' : 'restore',
+        label: lesson.status === 'active' ? 'Cancel' : 'Restore',
         onClick: (evt) => { this.toggleLessonStatus(evt.event); }
       }]
     };
@@ -184,7 +185,7 @@ export class CalendarComponent implements OnInit {
         }
         this.sortEvents();
         this.refresh.next(lesson.date);
-      });
+      }, this.handleSaveLessonError);
     });
   }
 
@@ -197,15 +198,19 @@ export class CalendarComponent implements OnInit {
         lessonToRepeat.date = addDays(lessonToRepeat.date, (index + 1) * repeatInterval);
         lessonToRepeat.lessonAttendees = lessonToRepeat.lessonAttendees.map(originalAttendee => {
           const newAttendee = Object.assign({}, originalAttendee);
+          newAttendee.id = 0;
           newAttendee.hasAttended = false;
           newAttendee.hasPaid = false;
           return newAttendee;
         });
-        const repeatEvent = this.initEvent(lessonToRepeat);
-        this.events.push(repeatEvent);
+        this.saveLesson(lessonToRepeat).subscribe(() => {
+          this.isLoading = false;
+          const repeatEvent = this.initEvent(lessonToRepeat);
+          this.events.push(repeatEvent);
+          this.sortEvents();
+          this.refresh.next(event.start);
+        }, this.handleSaveLessonError);
       }
-      this.sortEvents();
-      this.refresh.next(event.start);
     });
   }
 
@@ -214,17 +219,20 @@ export class CalendarComponent implements OnInit {
     const CANCEL_ACTION = 2;
     const action = event.actions[CANCEL_ACTION];
 
-    if (lesson.status === 'active') {
-      action.icon = 'restore';
-      action.label = 'Restore';
-      lesson.status = 'cancelled';
-    } else {
-      action.icon = 'cancel';
-      action.label = 'Cancel';
-      lesson.status = 'active';
-    }
-    event.title = this.lessonTitleFormatter.day(event, '');
-    this.refresh.next(lesson.date);
+    lesson.status = lesson.status === 'active' ? 'cancelled' : 'active';
+
+    this.saveLesson(lesson).subscribe(() => {
+      this.isLoading = false;
+      if (lesson.status === 'cancelled') {
+        action.icon = 'restore';
+        action.label = 'Restore';
+      } else {
+        action.icon = 'cancel';
+        action.label = 'Cancel';
+      }
+      event.title = this.lessonTitleFormatter.day(event, '');
+      this.refresh.next(lesson.date);
+    }, this.handleSaveLessonError);
   }
 
   saveLesson(lesson: Lesson): Observable<Lesson> {
@@ -234,18 +242,18 @@ export class CalendarComponent implements OnInit {
       this.lessonService.addLesson(lesson);
     serviceAction.pipe(
       tap(() => this.isLoading = false),
-      catchError((error) => {
-        this.isLoading = false;
-        this.notificationService.notification$.next({
-          message: 'Unable to save lesson',
-          action: 'Retry',
-          config: { duration: 5000 },
-          callback: () => this.saveLesson(lesson)
-        });
-        return throwError(error);
-      })
+      catchError((error) => throwError(error))
     );
     return serviceAction;
+  }
+
+  handleSaveLessonError() {
+    this.isLoading = false;
+    this.notificationService.notification$.next({
+      message: 'Unable to save lesson',
+      action: 'Close',
+      config: { duration: 5000 }
+    });
   }
 
   sortEvents() {

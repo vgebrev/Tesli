@@ -21,7 +21,12 @@ namespace Tesli.Model.Sqlite.Repositories
 
         public virtual IEnumerable<TEntity> GetAll() => this.dbSet;
 
+        public virtual IEnumerable<TEntity> GetAll(string navigationPropertyPath) => this.dbSet.Include(navigationPropertyPath);
+
         public virtual TEntity GetById(int id) => this.dbSet.SingleOrDefault(e => e.Id == id);
+
+        public virtual TEntity GetById(int id, string navigationPropertyPath) => 
+            this.dbSet.Include(navigationPropertyPath).SingleOrDefault(e => e.Id == id);
 
         public virtual void Insert(TEntity entity) => this.dbSet.Add(entity);
 

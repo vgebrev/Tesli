@@ -7,7 +7,9 @@ namespace Tesli.Model.Repositories
     public interface IRepository<TEntity> where TEntity : class, IEntity
     {
         IEnumerable<TEntity> GetAll();
+        IEnumerable<TEntity> GetAll(string navigationPropertyPath);
         TEntity GetById(int id);
+        TEntity GetById(int id, string navigationPropertyPath);
         void Insert(TEntity entity);
         void Update(TEntity entity);
         void Delete(int id);

@@ -9,9 +9,9 @@ namespace Tesli.Services
 {
     public class CrudService<TEntity> : ICrudService<TEntity> where TEntity: class, IEntity
     {
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IRepository<TEntity> repository;
-        private readonly IMapper mapper;
+        protected readonly IUnitOfWork unitOfWork;
+        protected readonly IRepository<TEntity> repository;
+        protected readonly IMapper mapper;
 
         public CrudService(IUnitOfWork unitOfWork, IMapper mapper) 
         {
@@ -20,24 +20,26 @@ namespace Tesli.Services
             this.mapper = mapper;
         }
 
-        public IEnumerable<TEntity> GetAll() => this.repository.GetAll();
+        public virtual IEnumerable<TEntity> GetAll() => this.repository.GetAll();
 
-        public TEntity GetById(int id) => this.repository.GetById(id);
+        public virtual TEntity GetById(int id) => this.repository.GetById(id);
 
-        public int Insert(TEntity entity)
+        public virtual int Insert(TEntity entity)
         {
-            var existingEntity = this.GetById(entity.Id);
-            if (existingEntity != null)
+            var entityToInsert = this.GetById(entity.Id);
+            if (entityToInsert != null)
             {
                 throw new ArgumentException($"{EntityName} with Id {entity.Id} already exists", nameof(entity));
             }
+            entityToInsert = (TEntity)Activator.CreateInstance(typeof(TEntity));
+            Mapper.Map(entity, entityToInsert);
             this.unitOfWork.Start();
-            this.repository.Insert(entity);
+            this.repository.Insert(entityToInsert);
             this.unitOfWork.End();
             return entity.Id;
         }
 
-        public void Update(int id, TEntity entity)
+        public virtual void Update(int id, TEntity entity)
         {
             var entityToUpdate = this.GetById(id);
             if (entityToUpdate == null) 
@@ -50,7 +52,7 @@ namespace Tesli.Services
             this.unitOfWork.End();
         }
 
-        public void Delete(int id)
+        public virtual void Delete(int id)
         {
             var entityToDelete = this.GetById(id);
             if (entityToDelete == null) 
@@ -63,6 +65,6 @@ namespace Tesli.Services
             this.unitOfWork.End();
         }
 
-        private string EntityName => typeof(TEntity).Name;
+        protected string EntityName => typeof(TEntity).Name;
     }
 }

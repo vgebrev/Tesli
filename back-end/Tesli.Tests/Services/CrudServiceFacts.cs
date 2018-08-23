@@ -59,12 +59,18 @@ namespace Tesli.Tests.Model.Sqlite.Repositories
         [Fact]
         public void InsertCallsRepositoryInsertWithinAUnitOfWorkAndReturnsId()
         {
-            var entity = new MockEntity { Id = this.fixture.MockEntities.Count + 1 };
+            var entity = new MockEntity 
+                {
+                    Id = this.fixture.MockEntities.Count + 1, 
+                    StringProperty = "copied to service insert argument" 
+                };
     
             var result = this.service.Insert(entity);
 
             this.unitOfWorkMock.Verify(unitOfWork => unitOfWork.Start(), Times.Once());
-            this.repositoryMock.Verify(repository => repository.Insert(entity), Times.Once());
+            this.repositoryMock.Verify(repository => repository.Insert(
+                It.Is<MockEntity>((e => e.Id == 0 && e.StringProperty == entity.StringProperty)
+                )), Times.Once());
             this.unitOfWorkMock.Verify(unitOfWork => unitOfWork.End(), Times.Once());
             Assert.Equal(entity.Id, result);
         }

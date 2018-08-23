@@ -9,7 +9,7 @@ namespace Tesli.Api.Controllers
     [Route("api/[controller]")]
     public class LessonController : CrudController<Lesson>
     {
-        public LessonController(ICrudService<Lesson> service, ILogger<LessonController> logger) : base(service, logger) 
+        public LessonController(ILessonService service, ILogger<LessonController> logger) : base(service, logger) 
         { }
     }
 }

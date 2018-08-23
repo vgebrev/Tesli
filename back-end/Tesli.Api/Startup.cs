@@ -37,7 +37,8 @@ namespace Tesli.Api
                     options.UseSqlite(Configuration.GetConnectionString("TesliDataContext")))
                 .AddScoped(typeof(ICrudService<>), typeof(CrudService<>))
                 .AddScoped(typeof(IRepository<>), typeof(Repository<>))
-                .AddScoped<IUnitOfWork, UnitOfWork>();
+                .AddScoped<IUnitOfWork, UnitOfWork>()
+                .AddScoped<ILessonService, LessonService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

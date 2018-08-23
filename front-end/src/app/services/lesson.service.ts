@@ -25,7 +25,7 @@ export class LessonService {
   }
 
   updateLesson(lesson: Lesson): Observable<Lesson> {
-    return this.http.put<Lesson>(this.lessonsUrl, lesson, httpOptions).pipe(
+    return this.http.put<Lesson>(`${this.lessonsUrl}/${lesson.id}`, lesson, httpOptions).pipe(
       catchError((error) => throwError(error))
     );
   }

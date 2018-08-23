@@ -6,7 +6,6 @@ namespace Tesli.Model.Entities
     {
         public int Id { get; set; }
         public int StudentId { get; set; }
-        [JsonIgnore]
         public virtual Student Student { get; set; }
         public int LessonId { get; set; }
         [JsonIgnore]
