@@ -45,9 +45,11 @@ describe('CalendarComponent', () => {
     const dialogSpy = jasmine.createSpyObj('MatDialog', ['open']);
     dialogSpy.open.and.callFake(() => dialogRefMock);
 
-    const lessonServiceSpy = jasmine.createSpyObj<LessonService>(['getLessons', 'addLesson']);
+    const lessonServiceSpy = jasmine.createSpyObj<LessonService>(['getLessons', 'addLesson', 'updateLesson']);
     lessonServiceSpy.getLessons.and.callFake(() => of(lessons));
     lessonServiceSpy.addLesson.and.callFake(() => of({}));
+    lessonServiceSpy.updateLesson.and.callFake(() => of({}));
+
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
@@ -103,7 +105,8 @@ describe('CalendarComponent', () => {
     expect(refreshed).toBeFalsy();
   });
 
-  it('should update event and refresh if changeEventTimes is called with new start and end on the same day', () => {
+  it('should update event and refresh if changeEventTimes is called with new start and end on the same day',
+  inject([LessonService], (lessonService) => {
     const calendarEvent = component.events[0];
     const newStart =  parse(format(new Date(), 'YYYY-MM-DD'));
     const newEnd = addHours(newStart, 1);
@@ -115,7 +118,8 @@ describe('CalendarComponent', () => {
     expect(calendarEvent.start).toEqual(newStart);
     expect(calendarEvent.end).toEqual(newEnd);
     expect(refreshed).toBeTruthy();
-  });
+    expect(lessonService.updateLesson).toHaveBeenCalledWith(calendarEvent.meta);
+  }));
 
   it('should not toggle activeDayIsOpen when selectDay is called with a new month', () => {
     const viewDate = new Date();
