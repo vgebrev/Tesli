@@ -31,7 +31,7 @@ namespace model.sqlite.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Lesson");
+                    b.ToTable("Lessons");
                 });
 
             modelBuilder.Entity("Tesli.Model.Entities.LessonAttendee", b =>
@@ -55,7 +55,7 @@ namespace model.sqlite.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.ToTable("LessonAttendee");
+                    b.ToTable("LessonAttendees");
                 });
 
             modelBuilder.Entity("Tesli.Model.Entities.LessonRate", b =>

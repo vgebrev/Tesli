@@ -8,7 +8,7 @@ namespace model.sqlite.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Lesson",
+                name: "Lessons",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -20,11 +20,11 @@ namespace model.sqlite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Lesson", x => x.Id);
+                    table.PrimaryKey("PK_Lessons", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "LessonAttendee",
+                name: "LessonAttendees",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -37,15 +37,15 @@ namespace model.sqlite.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LessonAttendee", x => x.Id);
+                    table.PrimaryKey("PK_LessonAttendees", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_LessonAttendee_Lesson_LessonId",
+                        name: "FK_LessonAttendees_Lessons_LessonId",
                         column: x => x.LessonId,
-                        principalTable: "Lesson",
+                        principalTable: "Lessons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_LessonAttendee_Students_StudentId",
+                        name: "FK_LessonAttendees_Students_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Students",
                         principalColumn: "Id",
@@ -53,23 +53,23 @@ namespace model.sqlite.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_LessonAttendee_LessonId",
-                table: "LessonAttendee",
+                name: "IX_LessonAttendees_LessonId",
+                table: "LessonAttendees",
                 column: "LessonId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_LessonAttendee_StudentId",
-                table: "LessonAttendee",
+                name: "IX_LessonAttendees_StudentId",
+                table: "LessonAttendees",
                 column: "StudentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "LessonAttendee");
+                name: "LessonAttendees");
 
             migrationBuilder.DropTable(
-                name: "Lesson");
+                name: "Lessons");
         }
     }
 }

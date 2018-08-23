@@ -11,5 +11,7 @@ namespace Tesli.Model.Sqlite
         { }
         public DbSet<Student> Students { get; set; }
         public DbSet<LessonRate> LessonRates { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<LessonAttendee> LessonAttendees { get; set;}
     }
 }
