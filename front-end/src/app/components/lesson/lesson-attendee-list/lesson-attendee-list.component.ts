@@ -25,9 +25,11 @@ export class LessonAttendeeListComponent implements OnInit {
   removeAttendee(attendee: LessonAttendee) {
     const attendeeCount = this.lessonAttendees.length;
     const attendeeIndex = this.lessonAttendees.findIndex(a => a.student.id === attendee.student.id);
-    if (attendeeIndex >= 0) {
-      this.lessonAttendees.splice(attendeeIndex, 1);
+    if (attendeeIndex < 0) {
+      return;
     }
+
+    this.lessonAttendees.splice(attendeeIndex, 1);
     this.setPrices(attendeeCount);
     this.table.renderRows();
   }

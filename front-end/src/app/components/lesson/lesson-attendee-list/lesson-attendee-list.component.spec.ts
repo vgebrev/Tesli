@@ -73,6 +73,30 @@ describe('LessonAttendeeListComponent', () => {
     expect(tableRenderRowsSpy).toHaveBeenCalled();
   });
 
+  it('removeAttendee should not remove attendee if student is not in list', () => {
+    const attendee: LessonAttendee = {
+      id: 1,
+      lessonId: 0,
+      studentId: 1,
+      student: { id: 1, name: 'test student' },
+      hasAttended: false,
+      hasPaid: false,
+      price: 0
+    };
+    const setPricesSpy = spyOn(component, 'setPrices');
+    const tableRenderRowsSpy = spyOn(component.table, 'renderRows');
+    component.lessonAttendees.push(attendee);
+
+    const nonListAttendee = Object.assign({}, attendee);
+    nonListAttendee.student = Object.assign({}, attendee.student);
+    nonListAttendee.student.id = 2;
+    component.removeAttendee(nonListAttendee);
+
+    expect(component.lessonAttendees.length).toBe(1);
+    expect(setPricesSpy).not.toHaveBeenCalled();
+    expect(tableRenderRowsSpy).not.toHaveBeenCalled();
+  });
+
   it('addAttendee should add new attendee, set prices and render table rows', () => {
     const student = { id: 1, name: 'test student' };
     const setPricesSpy = spyOn(component, 'setPrices');
