@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, inject } from '@angular/core/testing';
 import { Component, Input } from '@angular/core';
 import { CalendarComponent } from './calendar.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
