@@ -199,6 +199,12 @@ export class CalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(({repeatCount, repeatInterval}) => {
       const savedLesson$ = new Subject<number>();
       let savedCount = 0;
+      savedLesson$.subscribe((count: number) => {
+        if (count === repeatCount) {
+          this.sortEvents();
+          this.refresh.next(event.start);
+        }
+      });
       for (let index = 0; index < repeatCount; index++) {
         const lessonToRepeat = Object.assign({}, event.meta);
         lessonToRepeat.id = 0;
@@ -218,12 +224,7 @@ export class CalendarComponent implements OnInit {
         }, this.handleSaveLessonError);
       }
 
-      savedLesson$.subscribe((count: number) => {
-        if (count === repeatCount) {
-          this.sortEvents();
-          this.refresh.next(event.start);
-        }
-      });
+
     });
   }
 
@@ -253,10 +254,6 @@ export class CalendarComponent implements OnInit {
     const serviceAction = lesson.id ?
       this.lessonService.updateLesson(lesson) :
       this.lessonService.addLesson(lesson);
-    serviceAction.pipe(
-      tap(() => this.isLoading = false),
-      catchError((error) => throwError(error))
-    );
     return serviceAction;
   }
 
