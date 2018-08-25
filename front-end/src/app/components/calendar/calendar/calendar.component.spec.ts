@@ -38,7 +38,7 @@ class MatDialogRefMock {
   }
 }
 
-fdescribe('CalendarComponent', () => {
+describe('CalendarComponent', () => {
   let component: CalendarComponent;
   let fixture: ComponentFixture<CalendarComponent>;
 
