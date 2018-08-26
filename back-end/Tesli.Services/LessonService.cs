@@ -32,7 +32,7 @@ namespace Tesli.Services
                 throw new ArgumentException($"{EntityName} with Id {lesson.Id} already exists", nameof(lesson));
             }
             lessonToInsert = new Lesson();
-            Mapper.Map(lesson, lessonToInsert);
+            mapper.Map(lesson, lessonToInsert);
             this.unitOfWork.Start();
             lessonToInsert.LessonAttendees = UpsertLessonAttendees(lesson);
             this.lessonRepository.Insert(lessonToInsert);

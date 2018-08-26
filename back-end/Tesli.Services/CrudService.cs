@@ -32,7 +32,7 @@ namespace Tesli.Services
                 throw new ArgumentException($"{EntityName} with Id {entity.Id} already exists", nameof(entity));
             }
             entityToInsert = (TEntity)Activator.CreateInstance(typeof(TEntity));
-            Mapper.Map(entity, entityToInsert);
+            mapper.Map(entity, entityToInsert);
             this.unitOfWork.Start();
             this.repository.Insert(entityToInsert);
             this.unitOfWork.End();
