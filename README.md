@@ -10,7 +10,7 @@ The current **version 0.1** is a minimum viable product and has 2 main features 
 
 - **Student Profiles** is where details about learners are stored. These include Name and Contact Information, Schooling Details, and Goals.
 
-- **Calendar** allows users to schedule and manage lessons with learners, keep track of payments, and pricing.
+- **Calendar** allows users to schedule and manage lessons, keep track of attendance, payments, and pricing.
     - Month and day views are available, and lessons can be rescheduled by dragging and dropping them or via a dialog.
     - Lessons can be repeated a number of times at a desired interval of days.
     - Lessons can be cancelled and restored.
@@ -29,7 +29,7 @@ These are future features envisioned for Tesli
     - Users that can log in with their Facebook/Google accounts, allowing for different roles and permissions on the system
 
 - **Tutors**
-    - Keep a tutor database, so that multiple tutors may be managed through the database. 
+    - Keep a tutor database, so that multiple tutors may be managed through the system. 
         - Financial accounts and rates for tutors.
         - Calendar schedules per tutor.
 
@@ -39,11 +39,9 @@ These are future features envisioned for Tesli
 - **Deployment to the Web**
     - Currently the app is deployed to the user's own network/computer. Eventually the aim is to make it public-facing on the Web.
 
-- **Bookings**
-    - Allow learners/guardians to book their own lessons
-
 - **Self-Administration**
-    - Allow multiple tutors/companies to manage their own student databases, schedules and finances.
+    - Allow multiple tutors/companies to manage their own student databases, schedules and finances. 
+    - Allow students/parents/guardians to manage their information, schedules and find tutors.
 
 - **Reports**
     - Various reports on finances, learner progress and lesson analytics
