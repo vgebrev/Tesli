@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,8 +19,12 @@ namespace Tesli.Tests.Infrastructure.Fixtures
                 .AddJsonFile("appsettings.json")
                 .Build();
 
+           ServiceCollectionExtensions.UseStaticRegistration = false;
+
             var serviceCollection = new ServiceCollection();
-            serviceCollection.AddLogging();
+            serviceCollection
+                .AddAutoMapper()
+                .AddLogging();
             this.BootstrapServices(serviceCollection);
 
             this.ServiceProvider = serviceCollection.BuildServiceProvider();
